@@ -53,14 +53,14 @@ export const CREDITS = [
         entries: [
             {
                 title: "Thinking Ambient",
-                author: "Flamy747",
+                author: "flamy747",
                 authorUrl: "https://flamy747.de/",
                 source: "https://flamy747.de/",
                 sourceName: "Website"
             },
             {
                 title: "Menu Ambient",
-                author: "Flamy747",
+                author: "flamy747",
                 authorUrl: "https://flamy747.de/",
                 source: "https://flamy747.de/",
                 sourceName: "Website"
