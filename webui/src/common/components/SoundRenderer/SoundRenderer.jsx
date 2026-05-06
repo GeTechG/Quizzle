@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import Sound from 'react-sound';
+import ReactSound from 'react-sound';
 import {useSoundManager} from '@/common/utils/SoundManager';
+
+const Sound = typeof ReactSound === 'function' ? ReactSound : ReactSound.default;
 
 export const SoundRenderer = () => {
     const soundManager = useSoundManager();

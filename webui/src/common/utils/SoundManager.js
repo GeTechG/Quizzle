@@ -1,4 +1,7 @@
-import Sound from 'react-sound';
+import ReactSound from 'react-sound';
+
+const Sound = typeof ReactSound === 'function' ? ReactSound : ReactSound.default;
+const SoundStatus = Sound.status || { PLAYING: 'PLAYING', STOPPED: 'STOPPED', PAUSED: 'PAUSED' };
 
 import questionAppear from '@/pages/InGameHost/assets/sounds/transitions/question-appear.wav';
 import toResults from '@/pages/InGameHost/assets/sounds/transitions/to-results.wav';
@@ -113,7 +116,7 @@ class SoundManager {
 
         const soundConfig = {
             url: soundUrl,
-            playStatus: Sound.status.PLAYING,
+            playStatus: SoundStatus.PLAYING,
             originalVolume: originalVolume,
             effectiveVolume: effectiveVolume,
             loop: options.loop || false,
@@ -137,7 +140,7 @@ class SoundManager {
     stopSound(soundId) {
         if (this.currentlyPlaying.has(soundId)) {
             const soundConfig = this.currentlyPlaying.get(soundId);
-            soundConfig.playStatus = Sound.status.STOPPED;
+            soundConfig.playStatus = SoundStatus.STOPPED;
             this.currentlyPlaying.delete(soundId);
             this.notifyListeners();
         }
