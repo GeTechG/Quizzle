@@ -52,7 +52,14 @@ export const CREDITS = [
         title: "Musik",
         entries: [
             {
-                title: "Question Ambient",
+                title: "Thinking Ambient",
+                author: "Flamy747",
+                authorUrl: "https://flamy747.de/",
+                source: "https://flamy747.de/",
+                sourceName: "Website"
+            },
+            {
+                title: "Menu Ambient",
                 author: "Flamy747",
                 authorUrl: "https://flamy747.de/",
                 source: "https://flamy747.de/",
