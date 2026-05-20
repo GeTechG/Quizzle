@@ -14,7 +14,7 @@ module.exports.joinRoom = Joi.object({
         Joi.string().pattern(/^[A-Z]{4}$/i)
     ).required(),
     name: Joi.string().required().min(2).max(20)
-        .pattern(/^[a-zA-Z0-9\s\-_]+$/)
+        .pattern(/^[\p{L}\p{N}\s\-_]+$/u)
         .custom((value, helpers) => {
             const trimmed = value.trim().replace(/\s+/g, ' ');
             if (trimmed.length < 2) {

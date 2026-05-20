@@ -104,7 +104,7 @@ export const validationRules = {
         required: true,
         minLength: 2,
         maxLength: 20,
-        allowedChars: /^[a-zA-Z0-9\s\-_]*$/,
+        allowedChars: /^[\p{L}\p{N}\s\-_]*$/u,
         customValidator: (value) => {
             const trimmed = value.trim();
             if (trimmed !== value) {
