@@ -381,6 +381,32 @@ export const InGameClient = () => {
         return score >= 0.9 ? 1 : 0;
     };
 
+    const renderAnswerButtonContent = (answer, index, isSelected) => {
+        const hasContent = answer && typeof answer === 'object' && answer.content;
+
+        if (hasContent && answer.type === "image") {
+            return (
+                <div className="answer-button-image">
+                    <div className="answer-shape-corner">
+                        <AnswerShape index={index} size="1.4rem"/>
+                    </div>
+                    <img src={answer.content} alt={`Answer ${index + 1}`} className="answer-button-image-content"/>
+                </div>
+            );
+        }
+
+        if (hasContent) {
+            return (
+                <div className="answer-button-text">
+                    <AnswerShape index={index} size={isSelected ? "2.2rem" : "1.8rem"}/>
+                    <span className="answer-button-text-content">{answer.content}</span>
+                </div>
+            );
+        }
+
+        return <AnswerShape index={index} size={isSelected ? "5.5rem" : "4.5rem"}/>;
+    };
+
     const renderQuestionTypeContent = (question) => {
         switch (question.type) {
             case QUESTION_TYPES.TRUE_FALSE:
@@ -412,74 +438,43 @@ export const InGameClient = () => {
                 );
                 
             case 'single':
-            case QUESTION_TYPES.MULTIPLE_CHOICE:
-                if (isPracticeMode) {
-                    return (
-                        <div className="ingame-content grid-layout">
-                            {question.answers.map((answer, index) => (
-                                <div key={index} className="ingame-answer" onClick={() => submitAnswer([index])}>
-                                    {answer.type === "image" ? (
-                                        <img src={answer.content} alt={`Answer ${index + 1}`} className="practice-answer-image" />
-                                    ) : (
-                                        <span className="practice-answer-text">{answer.content}</span>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    );
-                }
+            case QUESTION_TYPES.MULTIPLE_CHOICE: {
+                const answerList = Array.isArray(question.answers)
+                    ? question.answers
+                    : Array.from({length: question.answers || 0}, () => null);
                 return (
                     <div className="ingame-content grid-layout">
-                        {Array.from({length: question.answers}, (_, index) => (
+                        {answerList.map((answer, index) => (
                             <div key={index} className="ingame-answer" onClick={() => submitAnswer([index])}>
-                                <AnswerShape index={index} size="4.5rem"/>
+                                {renderAnswerButtonContent(answer, index, false)}
                             </div>
                         ))}
                     </div>
                 );
-                
-            case QUESTION_TYPES.MULTIPLE_CHOICE:
-            case 'multiple':
-                if (isPracticeMode) {
-                    return (
-                        <div className="ingame-content grid-layout">
-                            {question.answers.map((answer, index) => (
-                                <div key={index} 
-                                     className={`ingame-answer ${selection[index] ? 'ingame-answer-selected' : ''}`}
-                                     onClick={() => handleMultipleChoiceSelection(index)}>
-                                    {answer.type === "image" ? (
-                                        <img src={answer.content} alt={`Answer ${index + 1}`} className="practice-answer-image" />
-                                    ) : (
-                                        <span className="practice-answer-text">{answer.content}</span>
-                                    )}
-                                </div>
-                            ))}
-                            <div className="submit-container">
-                                <button onClick={() => submitAnswer(selection.map((value, index) => value ? index : null).filter(value => value !== null))} 
-                                        className={"submit-answers" + (selection.some(value => value) ? " submit-shown" : "")}>
-                                    <FontAwesomeIcon icon={faPaperPlane}/>
-                                </button>
-                            </div>
-                        </div>
-                    );
-                }
+            }
+
+            case 'multiple': {
+                const answerList = Array.isArray(question.answers)
+                    ? question.answers
+                    : Array.from({length: question.answers || 0}, () => null);
                 return (
                     <div className="ingame-content grid-layout">
-                        {Array.from({length: question.answers}, (_, index) => (
-                            <div key={index} 
+                        {answerList.map((answer, index) => (
+                            <div key={index}
                                  className={`ingame-answer ${selection[index] ? 'ingame-answer-selected' : ''}`}
                                  onClick={() => handleMultipleChoiceSelection(index)}>
-                                <AnswerShape index={index} size={selection[index] ? "5.5rem" : "4.5rem"}/>
+                                {renderAnswerButtonContent(answer, index, selection[index])}
                             </div>
                         ))}
                         <div className="submit-container">
-                            <button onClick={() => submitAnswer(selection.map((value, index) => value ? index : null).filter(value => value !== null))} 
+                            <button onClick={() => submitAnswer(selection.map((value, index) => value ? index : null).filter(value => value !== null))}
                                     className={"submit-answers" + (selection.some(value => value) ? " submit-shown" : "")}>
                                 <FontAwesomeIcon icon={faPaperPlane}/>
                             </button>
                         </div>
                     </div>
                 );
+            }
                 
             default:
                 return <div>{t('inGameClient.unknownType', {type: question.type})}</div>;

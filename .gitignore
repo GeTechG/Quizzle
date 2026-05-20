@@ -139,3 +139,4 @@ data/**
 
 # Migrator
 migrator/target
+.claude/settings.local.json

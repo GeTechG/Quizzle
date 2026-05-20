@@ -28,9 +28,22 @@ const buildQuestionPayload = (question, room) => {
             step: config.step || 1
         };
     } else {
-        questionData.answers = Array.isArray(question.answers)
-            ? question.answers.length
-            : question.answers;
+        const historyEntry = room.questionHistory?.[room.questionHistory.length - 1];
+        const fullAnswers = Array.isArray(historyEntry?.answers) ? historyEntry.answers : null;
+        const sourceAnswers = Array.isArray(question.answers) && question.answers.length > 0 && typeof question.answers[0] === 'object' && 'content' in question.answers[0]
+            ? question.answers
+            : fullAnswers;
+
+        if (Array.isArray(sourceAnswers)) {
+            questionData.answers = sourceAnswers.map(a => ({
+                type: a.type || 'text',
+                content: a.content
+            }));
+        } else {
+            questionData.answers = Array.isArray(question.answers)
+                ? question.answers.length
+                : question.answers;
+        }
     }
 
     return questionData;
