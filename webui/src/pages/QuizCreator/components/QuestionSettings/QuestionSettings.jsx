@@ -3,10 +3,13 @@ import SelectBox from "@/common/components/SelectBox";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faClock, faInfinity, faCoins, faSliders} from "@fortawesome/free-solid-svg-icons";
 import {useState, useEffect} from "react";
+import {useTranslation} from "react-i18next";
 import {motion} from "framer-motion";
 import {QUESTION_TYPES, SLIDER_MARGIN_CONFIG} from "@/common/constants/QuestionTypes.js";
 
 export const QuestionSettings = ({question, onChange, onCommit, defaultTimer = 60}) => {
+    const {t} = useTranslation();
+
     const [selectedTimer, setSelectedTimer] = useState(() => {
         if (question.timer === undefined || question.timer === null) return "default";
         if (question.timer === -1) return "unlimited";
@@ -20,37 +23,37 @@ export const QuestionSettings = ({question, onChange, onCommit, defaultTimer = 6
         return question.pointMultiplier;
     });
 
-    const defaultTimerLabel = defaultTimer === -1 ? "Unbegrenzt" : `${defaultTimer}s`;
+    const defaultTimerLabel = defaultTimer === -1 ? t("questionSettings.timers.unlimited") : `${defaultTimer}s`;
 
     const timerOptions = [
         {
             value: "default",
-            label: `Standard (${defaultTimerLabel})`,
-            description: "Aus Quiz-Einstellungen",
+            label: t("questionSettings.timers.default", {value: defaultTimerLabel}),
+            description: t("questionSettings.timers.defaultDesc"),
             icon: faClock
         },
         {
             value: "30",
-            label: "30 Sekunden",
-            description: "Schnelle Fragen",
+            label: t("questionSettings.timers.sec30"),
+            description: t("questionSettings.timers.sec30Desc"),
             icon: faClock
         },
         {
             value: "60",
-            label: "60 Sekunden",
-            description: "Eine Minute pro Frage",
+            label: t("questionSettings.timers.sec60"),
+            description: t("questionSettings.timers.sec60Desc"),
             icon: faClock
         },
         {
             value: "120",
-            label: "2 Minuten",
-            description: "Mehr Zeit zum Nachdenken",
+            label: t("questionSettings.timers.sec120"),
+            description: t("questionSettings.timers.sec120Desc"),
             icon: faClock
         },
         {
             value: "unlimited",
-            label: "Unbegrenzt",
-            description: "Kein Zeitlimit",
+            label: t("questionSettings.timers.unlimited"),
+            description: t("questionSettings.timers.unlimitedDesc"),
             icon: faInfinity
         }
     ];
@@ -58,20 +61,20 @@ export const QuestionSettings = ({question, onChange, onCommit, defaultTimer = 6
     const pointMultiplierOptions = [
         {
             value: "standard",
-            label: "Standard",
-            description: "Normale Punkteverteilung",
+            label: t("questionSettings.points.standard"),
+            description: t("questionSettings.points.standardDesc"),
             icon: faCoins
         },
         {
             value: "none",
-            label: "Keine Punkte",
-            description: "Für diese Frage gibt es keine Punkte",
+            label: t("questionSettings.points.none"),
+            description: t("questionSettings.points.noneDesc"),
             icon: faCoins
         },
         {
             value: "double",
-            label: "Doppelte Punkte",
-            description: "Diese Frage bringt doppelte Punkte",
+            label: t("questionSettings.points.double"),
+            description: t("questionSettings.points.doubleDesc"),
             icon: faCoins
         }
     ];
@@ -148,35 +151,35 @@ export const QuestionSettings = ({question, onChange, onCommit, defaultTimer = 6
             transition={{duration: 0.25, delay: 0.2, ease: "easeOut"}}
         >
             <div className="settings-header">
-                <h3>Fragen-Einstellungen</h3>
+                <h3>{t("questionSettings.title")}</h3>
             </div>
 
             <div className="setting-group">
                 <div className="setting-label">
                     <FontAwesomeIcon icon={faClock}/>
-                    <span>Zeitlimit</span>
+                    <span>{t("questionSettings.timerLabel")}</span>
                 </div>
 
-                <SelectBox value={selectedTimer} onChange={handleTimerChange} options={timerOptions} placeholder="Timer auswählen..."/>
+                <SelectBox value={selectedTimer} onChange={handleTimerChange} options={timerOptions} placeholder={t("questionSettings.timerPlaceholder")}/>
             </div>
 
             <div className="setting-group">
                 <div className="setting-label">
                     <FontAwesomeIcon icon={faCoins}/>
-                    <span>Punkteverteilung</span>
+                    <span>{t("questionSettings.pointsLabel")}</span>
                 </div>
 
-                <SelectBox value={selectedPointMultiplier} onChange={handlePointMultiplierChange} options={pointMultiplierOptions} placeholder="Punkteverteilung auswählen..."/>
+                <SelectBox value={selectedPointMultiplier} onChange={handlePointMultiplierChange} options={pointMultiplierOptions} placeholder={t("questionSettings.pointsPlaceholder")}/>
             </div>
 
             {isSliderType && (
                 <div className="setting-group">
                     <div className="setting-label">
                         <FontAwesomeIcon icon={faSliders}/>
-                        <span>Antwort-Marge</span>
+                        <span>{t("questionSettings.marginLabel")}</span>
                     </div>
 
-                    <SelectBox value={currentAnswerMargin} onChange={handleAnswerMarginChange} options={answerMarginOptions} placeholder="Antwort-Marge auswählen..."/>
+                    <SelectBox value={currentAnswerMargin} onChange={handleAnswerMarginChange} options={answerMarginOptions} placeholder={t("questionSettings.marginPlaceholder")}/>
                 </div>
             )}
         </motion.div>

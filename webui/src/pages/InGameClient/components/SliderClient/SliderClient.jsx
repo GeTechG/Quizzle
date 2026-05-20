@@ -2,8 +2,10 @@ import "./styles.sass";
 import {useState, useEffect, useRef} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPaperPlane, faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {useTranslation} from "react-i18next";
 
 export const SliderClient = ({question, onSubmit}) => {
+    const {t} = useTranslation();
     const config = question.sliderConfig || {min: 0, max: 100, step: 1};
     const midPoint = Math.round((config.min + config.max) / 2 / config.step) * config.step;
     const [value, setValue] = useState(midPoint);
@@ -95,7 +97,7 @@ export const SliderClient = ({question, onSubmit}) => {
                 className={`submit-slider-answer ${!submitted ? 'submit-shown' : ''}`}
             >
                 <FontAwesomeIcon icon={faPaperPlane} />
-                <span>Antwort senden</span>
+                <span>{t('slider.submit')}</span>
             </button>
         </div>
     );

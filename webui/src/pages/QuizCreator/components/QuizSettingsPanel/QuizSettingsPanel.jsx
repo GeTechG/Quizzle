@@ -8,10 +8,12 @@ import {
     faAlignLeft,
     faSignal,
 } from "@fortawesome/free-solid-svg-icons";
+import {useTranslation} from "react-i18next";
 import {motion} from "framer-motion";
 import {DEFAULT_QUIZ_SETTINGS} from "@/common/constants/QuizSettings.js";
 
 export const QuizSettingsPanel = ({settings, onChange}) => {
+    const {t} = useTranslation();
     const s = {...DEFAULT_QUIZ_SETTINGS, ...settings};
 
     const update = (key, value) => {
@@ -19,23 +21,23 @@ export const QuizSettingsPanel = ({settings, onChange}) => {
     };
 
     const difficultyOptions = [
-        {value: "none", label: "Keine Angabe", description: "Keine Schwierigkeit angegeben", icon: faSignal},
-        {value: "easy", label: "Einfach", description: "Für Einsteiger", icon: faSignal},
-        {value: "medium", label: "Mittel", description: "Fortgeschrittene Fragen", icon: faSignal},
-        {value: "hard", label: "Schwer", description: "Anspruchsvolle Fragen", icon: faSignal},
+        {value: "none", label: t("quizSettings.difficulties.none"), description: t("quizSettings.difficulties.noneDesc"), icon: faSignal},
+        {value: "easy", label: t("quizSettings.difficulties.easy"), description: t("quizSettings.difficulties.easyDesc"), icon: faSignal},
+        {value: "medium", label: t("quizSettings.difficulties.medium"), description: t("quizSettings.difficulties.mediumDesc"), icon: faSignal},
+        {value: "hard", label: t("quizSettings.difficulties.hard"), description: t("quizSettings.difficulties.hardDesc"), icon: faSignal},
     ];
 
     const timerOptions = [
-        {value: "15", label: "15 Sekunden", description: "Sehr schnelle Fragen", icon: faClock},
-        {value: "30", label: "30 Sekunden", description: "Schnelle Fragen", icon: faClock},
-        {value: "60", label: "60 Sekunden", description: "Eine Minute pro Frage", icon: faClock},
-        {value: "120", label: "2 Minuten", description: "Mehr Zeit zum Nachdenken", icon: faClock},
-        {value: "-1", label: "Unbegrenzt", description: "Kein Zeitlimit", icon: faClock},
+        {value: "15", label: t("quizSettings.timers.sec15"), description: t("quizSettings.timers.sec15Desc"), icon: faClock},
+        {value: "30", label: t("quizSettings.timers.sec30"), description: t("quizSettings.timers.sec30Desc"), icon: faClock},
+        {value: "60", label: t("quizSettings.timers.sec60"), description: t("quizSettings.timers.sec60Desc"), icon: faClock},
+        {value: "120", label: t("quizSettings.timers.sec120"), description: t("quizSettings.timers.sec120Desc"), icon: faClock},
+        {value: "-1", label: t("quizSettings.timers.unlimited"), description: t("quizSettings.timers.unlimitedDesc"), icon: faClock},
     ];
 
     const scoringOptions = [
-        {value: "time-based", label: "Zeitbasiert", description: "Schnellere Antworten = mehr Punkte", icon: faCoins},
-        {value: "flat", label: "Gleichmäßig", description: "Feste Punkte pro richtiger Antwort", icon: faCoins},
+        {value: "time-based", label: t("quizSettings.scoringOptions.timeBased"), description: t("quizSettings.scoringOptions.timeBasedDesc"), icon: faCoins},
+        {value: "flat", label: t("quizSettings.scoringOptions.flat"), description: t("quizSettings.scoringOptions.flatDesc"), icon: faCoins},
     ];
 
     return (
@@ -46,20 +48,20 @@ export const QuizSettingsPanel = ({settings, onChange}) => {
             transition={{duration: 0.25, delay: 0.1, ease: "easeOut"}}
         >
             <div className="settings-header">
-                <h3>Quiz-Einstellungen</h3>
+                <h3>{t("quizSettings.title")}</h3>
             </div>
 
             <div className="settings-section">
-                <div className="section-title">Über das Quiz</div>
+                <div className="section-title">{t("quizSettings.sectionAboutQuiz")}</div>
 
                 <div className="setting-group">
                     <div className="setting-label">
                         <FontAwesomeIcon icon={faAlignLeft}/>
-                        <span>Beschreibung</span>
+                        <span>{t("quizSettings.descriptionLabel")}</span>
                     </div>
                     <textarea
                         className="settings-textarea"
-                        placeholder="Worum geht es in diesem Quiz?"
+                        placeholder={t("quizSettings.descriptionPlaceholder")}
                         value={s.description}
                         onChange={(e) => update("description", e.target.value)}
                         maxLength={300}
@@ -71,69 +73,69 @@ export const QuizSettingsPanel = ({settings, onChange}) => {
                 <div className="setting-group">
                     <div className="setting-label">
                         <FontAwesomeIcon icon={faSignal}/>
-                        <span>Schwierigkeit</span>
+                        <span>{t("quizSettings.difficultyLabel")}</span>
                     </div>
                     <SelectBox
                         value={s.difficulty || "none"}
                         onChange={(v) => update("difficulty", v === "none" ? null : v)}
                         options={difficultyOptions}
-                        placeholder="Schwierigkeit auswählen..."
+                        placeholder={t("quizSettings.difficultyPlaceholder")}
                     />
                 </div>
             </div>
 
             <div className="settings-section">
-                <div className="section-title">Spielablauf</div>
+                <div className="section-title">{t("quizSettings.sectionGameplay")}</div>
 
                 <div className="setting-group">
                     <div className="setting-label">
                         <FontAwesomeIcon icon={faShuffle}/>
-                        <span>Fragen mischen</span>
+                        <span>{t("quizSettings.shuffleQuestions")}</span>
                     </div>
                     <div className="toggle-row" onClick={() => update("shuffleQuestions", !s.shuffleQuestions)}>
                         <div className={`toggle ${s.shuffleQuestions ? "active" : ""}`}>
                             <div className="toggle-knob"/>
                         </div>
-                        <span className="toggle-text">{s.shuffleQuestions ? "Ein" : "Aus"}</span>
+                        <span className="toggle-text">{s.shuffleQuestions ? t("common.on") : t("common.off")}</span>
                     </div>
                 </div>
 
                 <div className="setting-group">
                     <div className="setting-label">
                         <FontAwesomeIcon icon={faShuffle}/>
-                        <span>Antworten mischen</span>
+                        <span>{t("quizSettings.shuffleAnswers")}</span>
                     </div>
                     <div className="toggle-row" onClick={() => update("shuffleAnswers", !s.shuffleAnswers)}>
                         <div className={`toggle ${s.shuffleAnswers ? "active" : ""}`}>
                             <div className="toggle-knob"/>
                         </div>
-                        <span className="toggle-text">{s.shuffleAnswers ? "Ein" : "Aus"}</span>
+                        <span className="toggle-text">{s.shuffleAnswers ? t("common.on") : t("common.off")}</span>
                     </div>
                 </div>
 
                 <div className="setting-group">
                     <div className="setting-label">
                         <FontAwesomeIcon icon={faClock}/>
-                        <span>Standard-Zeitlimit</span>
+                        <span>{t("quizSettings.defaultTimerLabel")}</span>
                     </div>
                     <SelectBox
                         value={String(s.defaultTimer)}
                         onChange={(v) => update("defaultTimer", parseInt(v))}
                         options={timerOptions}
-                        placeholder="Zeitlimit auswählen..."
+                        placeholder={t("quizSettings.defaultTimerPlaceholder")}
                     />
                 </div>
 
                 <div className="setting-group">
                     <div className="setting-label">
                         <FontAwesomeIcon icon={faCoins}/>
-                        <span>Punktevergabe</span>
+                        <span>{t("quizSettings.scoringLabel")}</span>
                     </div>
                     <SelectBox
                         value={s.scoringMode}
                         onChange={(v) => update("scoringMode", v)}
                         options={scoringOptions}
-                        placeholder="Punktevergabe auswählen..."
+                        placeholder={t("quizSettings.scoringPlaceholder")}
                     />
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import "./styles.sass";
 import {motion} from "framer-motion";
+import {useTranslation} from "react-i18next";
 import {getCharacterEmoji} from "@/common/data/characters";
 
 const ORDER = [1, 0, 2];
@@ -34,6 +35,7 @@ const PentagonMedal = ({rank, colors}) => (
 );
 
 export const Podium = ({scoreboard, analytics, totalQuestions}) => {
+    const {t} = useTranslation();
     const sorted = [...scoreboard].sort((a, b) => b.points - a.points).slice(0, 3);
 
     const findAnalytics = (player) => {
@@ -90,7 +92,7 @@ export const Podium = ({scoreboard, analytics, totalQuestions}) => {
                                 </div>
                                 {stats && (
                                     <div className="podium-accuracy">
-                                        {stats.correctAnswers} von {totalQuestions || stats.totalAnswered} richtig
+                                        {t("podium.correctOf", {correct: stats.correctAnswers, total: totalQuestions || stats.totalAnswered})}
                                     </div>
                                 )}
                             </motion.div>

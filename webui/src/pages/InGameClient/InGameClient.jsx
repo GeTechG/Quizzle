@@ -16,8 +16,10 @@ import {generateUuid} from "@/common/utils/UuidUtil.js";
 import {QUESTION_TYPES, SLIDER_MARGIN_CONFIG} from "@/common/constants/QuestionTypes.js";
 import {useSoundManager} from "@/common/utils/SoundManager.js";
 import toast from "react-hot-toast";
+import {useTranslation} from "react-i18next";
 
 export const InGameClient = () => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const {username, roomCode, practiceUserData} = useContext(QuizContext);
     const {practiceCode} = useParams();
@@ -53,7 +55,7 @@ export const InGameClient = () => {
             setIsPracticeMode(true);
 
             if (!practiceUserData || !practiceUserData.name) {
-                toast.error('Bitte wähle zuerst einen Namen und Charakter.');
+                toast.error(t('inGameClient.errors.nameRequired'));
                 navigate(`/?code=${practiceCode}`);
                 return;
             }
@@ -153,7 +155,7 @@ export const InGameClient = () => {
 
         const hostDisconnected = () => {
             clearCurrentSession();
-            toast.error("Der Host hat das Spiel verlassen.", {
+            toast.error(t('inGameClient.errors.hostLeft'), {
                 duration: 3000
             });
             setTimeout(() => navigate("/"), 1000);
@@ -161,7 +163,7 @@ export const InGameClient = () => {
 
         const kickedFromRoom = () => {
             clearCurrentSession();
-            toast.error("Du wurdest aus dem Raum entfernt.", {
+            toast.error(t('inGameClient.errors.kicked'), {
                 duration: 3000
             });
             setTimeout(() => navigate("/"), 1000);
@@ -182,7 +184,7 @@ export const InGameClient = () => {
         const handleReconnection = (success, error, gameState) => {
             if (success) {
                 setIsReconnecting(false);
-                toast.success("Erfolgreich wieder verbunden!", { duration: 3000 });
+                toast.success(t('inGameClient.reconnected'), { duration: 3000 });
                 
                 if (gameState) {
                     if (gameState.playerPoints !== undefined) {
@@ -200,17 +202,17 @@ export const InGameClient = () => {
                     
                     clearCurrentSession();
                     
-                    let message = "Sitzung abgelaufen. Zurück zur Startseite...";
+                    let message = t('inGameClient.errors.sessionExpired');
                     if (error === 'Kicked from room') {
-                        message = "Du wurdest aus dem Raum entfernt. Zurück zur Startseite...";
+                        message = t('inGameClient.errors.kickedReturn');
                     } else if (error === 'Host disconnected') {
-                        message = "Der Host hat das Spiel verlassen. Zurück zur Startseite...";
+                        message = t('inGameClient.errors.hostLeftReturn');
                     }
                     
                     toast.error(message, { duration: 2000 });
                     setTimeout(() => navigate("/"), 500);
                 } else {
-                    toast.error("Verbindung unterbrochen. Versuche wieder zu verbinden...", { duration: 2000 });
+                    toast.error(t('inGameClient.errors.disconnectedRetry'), { duration: 2000 });
                 }
             }
         };
@@ -268,11 +270,11 @@ export const InGameClient = () => {
         } catch (error) {
             console.error('Error loading practice quiz:', error);
             if (error.message && error.message.includes('410')) {
-                toast.error('Dieses Übungsquiz ist abgelaufen.');
+                toast.error(t('inGameClient.errors.practiceExpired'));
             } else if (error.message && error.message.includes('404')) {
-                toast.error('Übungsquiz nicht gefunden.');
+                toast.error(t('inGameClient.errors.practiceNotFound'));
             } else {
-                toast.error('Fehler beim Laden des Übungsquiz.');
+                toast.error(t('inGameClient.errors.practiceLoad'));
             }
             navigate('/');
         }
@@ -315,7 +317,7 @@ export const InGameClient = () => {
             }
         } catch (error) {
             console.error('Error submitting practice answer:', error);
-            toast.error('Fehler beim Senden der Antwort.');
+            toast.error(t('inGameClient.errors.submitAnswerPeriod'));
         }
     };
 
@@ -480,7 +482,7 @@ export const InGameClient = () => {
                 );
                 
             default:
-                return <div>Unbekannter Fragetyp: {question.type}</div>;
+                return <div>{t('inGameClient.unknownType', {type: question.type})}</div>;
         }
     };
 
@@ -517,13 +519,13 @@ export const InGameClient = () => {
         }
 
         if (!answersReady) {
-            toast.error("Antworten sind noch nicht bereit!");
+            toast.error(t('inGameClient.errors.answersNotReady'));
             return;
         }
 
         socket.emit("SUBMIT_ANSWER", {answers}, (response) => {
             if (!response.success) {
-                toast.error(response.error || "Fehler beim Senden der Antwort");
+                toast.error(response.error || t('inGameClient.errors.submitAnswer'));
                 return;
             }
             setCurrentQuestion(null);
@@ -639,7 +641,7 @@ export const InGameClient = () => {
                         icon={isConnected ? faWifi : faExclamationTriangle} 
                         className={`connection-icon ${isReconnecting ? 'reconnecting' : 'disconnected'}`}
                     />
-                    <span>{isReconnecting ? 'Verbinde wieder...' : 'Verbindung verloren'}</span>
+                    <span>{isReconnecting ? t('inGameClient.reconnecting') : t('inGameClient.connectionLost')}</span>
                 </div>
             )}
             
@@ -651,7 +653,7 @@ export const InGameClient = () => {
                                 <div className="progress-bar">
                                     <div className="progress-fill" style={{width: `${((currentQuestionIndex + 1) / practiceQuiz.questions.length) * 100}%`}}></div>
                                 </div>
-                                <span>Frage {currentQuestionIndex + 1} von {practiceQuiz.questions.length}</span>
+                                <span>{t('inGameClient.questionOf', {current: currentQuestionIndex + 1, total: practiceQuiz.questions.length})}</span>
                             </div>
                         )}
                         <h2>{getCurrentQuestion().title}</h2>
@@ -691,7 +693,7 @@ export const InGameClient = () => {
                         practiceQuestionResult?.isLastQuestion ? (
                             <>
                                 <FontAwesomeIcon icon={faCheck} className="ingame-icon-correct"/>
-                                <h2>Quiz abgeschlossen! 🎉</h2>
+                                <h2>{t('inGameClient.completed')}</h2>
                                 <div className="practice-final-score">
                                     <span className="score">{practiceQuestionResult.finalResults.score}</span>
                                     <span className="total">/ {practiceQuestionResult.finalResults.total}</span>
@@ -700,7 +702,7 @@ export const InGameClient = () => {
                                     </div>
                                 </div>
                                 <button className="practice-next-button" onClick={() => navigate('/')}>
-                                    Zurück zur Startseite
+                                    {t('inGameClient.backToStart')}
                                 </button>
                             </>
                         ) : (
@@ -716,8 +718,8 @@ export const InGameClient = () => {
                                     }
                                 />
                                 <h2>
-                                    {practiceQuestionResult?.result === 'correct' ? "Richtig!" :
-                                     practiceQuestionResult?.result === 'partial' ? "Teilweise richtig!" : "Weiter so!"}
+                                    {practiceQuestionResult?.result === 'correct' ? t('inGameClient.correct') :
+                                     practiceQuestionResult?.result === 'partial' ? t('inGameClient.partiallyCorrect') : t('inGameClient.keepGoing')}
                                 </h2>
                                 <ClientAnswerReview
                                     questionType={getPracticeQuestion()?.type}
@@ -726,7 +728,7 @@ export const InGameClient = () => {
                                     practiceQuestion={getPracticeQuestion()}
                                 />
                                 <button className="practice-next-button" onClick={nextPracticeQuestion}>
-                                    Nächste Frage
+                                    {t('inGameClient.nextQuestion')}
                                 </button>
                             </>
                         )
@@ -735,7 +737,7 @@ export const InGameClient = () => {
                             const status = getCorrectStatus(selection, answers);
                             const statusClass = status === 1 ? 'result-correct' : status === 0 ? 'result-partial' : 'result-wrong';
                             const statusIcon = status === 1 ? faCheck : status === 0 ? faMinus : faX;
-                            const statusTitle = status === 1 ? 'Richtig!' : status === 0 ? 'Fast richtig!' : 'Nicht ganz!';
+                            const statusTitle = status === 1 ? t('inGameClient.correct') : status === 0 ? t('inGameClient.almostRight') : t('inGameClient.notQuite');
                             const pointsColorClass = status === 1 ? 'points-correct' : status === 0 ? 'points-partial' : 'points-wrong';
                             return (
                                 <div className="result-reveal">
@@ -763,7 +765,7 @@ export const InGameClient = () => {
                                             <div className="streak-card-header">
                                                 <div className="streak-card-title">
                                                     <span className="streak-number">{streak}</span>
-                                                    <span className="streak-label">Richtige in Folge</span>
+                                                    <span className="streak-label">{t('inGameClient.streakLabel')}</span>
                                                 </div>
                                                 <div className="streak-badge">
                                                     <FontAwesomeIcon icon={faFire}/>
@@ -782,12 +784,12 @@ export const InGameClient = () => {
                                         <div className="result-card rank-card">
                                             <div className="rank-badge">{rank}.</div>
                                             <div className="rank-info">
-                                                <span className="rank-main">Platz {rank} von {totalPlayers}</span>
+                                                <span className="rank-main">{t('inGameClient.rankOf', {rank, total: totalPlayers})}</span>
                                                 <span className="rank-sub">
                                                     {playerAhead && playerAhead.gap >= 0
-                                                        ? `${playerAhead.gap} Punkte bis zum nächsten Platz`
+                                                        ? t('inGameClient.pointsToNext', {gap: playerAhead.gap})
                                                         : rank === 1
-                                                            ? 'Du führst!'
+                                                            ? t('inGameClient.leading')
                                                             : ''}
                                                 </span>
                                             </div>

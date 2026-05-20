@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useId} from 'react';
+import {useTranslation} from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import Button from '../Button';
 import './styles.sass';
@@ -10,11 +11,14 @@ const Dialog = ({
                     children,
                     onConfirm,
                     onCancel,
-                    confirmText = "OK",
-                    cancelText = "Abbrechen",
+                    confirmText,
+                    cancelText,
                     showCancelButton = true,
                     className = ""
                 }) => {
+    const {t} = useTranslation();
+    const resolvedConfirmText = confirmText === undefined ? t('dialog.ok') : confirmText;
+    const resolvedCancelText = cancelText === undefined ? t('dialog.cancel') : cancelText;
     const dialogRef = useRef(null);
     const previousFocusRef = useRef(null);
     const titleId = useId();
@@ -110,20 +114,20 @@ const Dialog = ({
                             {children}
                         </div>
 
-                        {(showCancelButton || confirmText) && (
+                        {(showCancelButton || resolvedConfirmText) && (
                             <div className="dialog-actions">
                                 {showCancelButton && (
                                     <Button
                                         onClick={handleCancel}
                                         type="secondary compact"
-                                        text={cancelText}
+                                        text={resolvedCancelText}
                                     />
                                 )}
-                                {confirmText && (
+                                {resolvedConfirmText && (
                                     <Button
                                         onClick={handleConfirm}
                                         type="primary compact"
-                                        text={confirmText}
+                                        text={resolvedConfirmText}
                                     />
                                 )}
                             </div>

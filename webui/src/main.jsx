@@ -10,6 +10,7 @@ import "@fontsource/inter/600.css";
 import "@fontsource/inter/700.css";
 import "@fontsource/inter/900.css";
 import "@/common/styles/default.sass";
+import "@/common/i18n";
 import Home from "@/pages/Home";
 import QuizCreator from "@/pages/QuizCreator";
 import Host from "@/pages/Host";

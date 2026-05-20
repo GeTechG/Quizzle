@@ -1,4 +1,5 @@
 import {useState, useRef, useCallback} from "react";
+import {useTranslation} from "react-i18next";
 import {generateUuid} from "@/common/utils/UuidUtil.js";
 import toast from "react-hot-toast";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -6,6 +7,7 @@ import {faWandMagicSparkles} from "@fortawesome/free-solid-svg-icons";
 import {imageCache} from "@/common/utils/ImageCacheUtil.js";
 
 export const useAIGeneration = ({setQuestions, setActiveQuestion, setTitle, setDescription}) => {
+    const {t} = useTranslation();
     const [generating, setGenerating] = useState(false);
     const abortRef = useRef(null);
 
@@ -30,7 +32,7 @@ export const useAIGeneration = ({setQuestions, setActiveQuestion, setTitle, setD
 
         const controller = new AbortController();
         abortRef.current = controller;
-        let stage = 'Warte auf KI...';
+        let stage = t('ai.toasts.waitingAI');
         let firstQuestionHandled = false;
 
         const isEmptyQuestion = (q) => !q || (!q.title?.trim() && (!q.answers || q.answers.length === 0));
@@ -45,7 +47,7 @@ export const useAIGeneration = ({setQuestions, setActiveQuestion, setTitle, setD
                         padding: '0.2rem 0.6rem', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 600,
                         color: '#EC5555', whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif'
                     }}
-                >Stopp
+                >{t('ai.stop')}
                 </button>
             </div>
         );
@@ -77,7 +79,7 @@ export const useAIGeneration = ({setQuestions, setActiveQuestion, setTitle, setD
 
             if (!response.ok) {
                 const err = await response.json().catch(() => ({}));
-                throw new Error(err.message || "Fehler bei der Generierung.");
+                throw new Error(err.message || t('ai.toasts.errorGeneration'));
             }
 
             const reader = response.body.getReader();
@@ -85,7 +87,7 @@ export const useAIGeneration = ({setQuestions, setActiveQuestion, setTitle, setD
             let buffer = '';
             let count = 0;
 
-            updateToast(generateMetadata ? "KI erstellt Titel & Beschreibung..." : "KI generiert Fragen...", 0);
+            updateToast(generateMetadata ? t('ai.toasts.creatingMetadata') : t('ai.toasts.generatingQuestions'), 0);
 
             while (true) {
                 const {done: readerDone, value} = await reader.read();
@@ -104,9 +106,9 @@ export const useAIGeneration = ({setQuestions, setActiveQuestion, setTitle, setD
 
                         if (event.type === 'status') {
                             if (event.stage === 'metadata') {
-                                updateToast("KI erstellt Titel & Beschreibung...", count);
+                                updateToast(t('ai.toasts.creatingMetadata'), count);
                             } else if (event.stage === 'questions') {
-                                updateToast("KI generiert Fragen...", count);
+                                updateToast(t('ai.toasts.generatingQuestions'), count);
                             }
                         } else if (event.type === 'metadata') {
                             const {title: metaTitle, description: metaDesc} = event.data || {};
@@ -132,7 +134,7 @@ export const useAIGeneration = ({setQuestions, setActiveQuestion, setTitle, setD
 
                             setActiveQuestion(newQuestion.uuid);
                             count++;
-                            updateToast("KI generiert Fragen...", count);
+                            updateToast(t('ai.toasts.generatingQuestions'), count);
                         } else if (event.type === 'image') {
                             const {uuid, b64_image} = event;
                             if (uuid && b64_image) {
@@ -160,10 +162,10 @@ export const useAIGeneration = ({setQuestions, setActiveQuestion, setTitle, setD
                 }
             }
 
-            toast.success(`${count} Frage${count !== 1 ? 'n' : ''} generiert!`, {id: toastId, duration: 4000});
+            toast.success(count === 1 ? t('ai.toasts.generatedOne', {count}) : t('ai.toasts.generatedOther', {count}), {id: toastId, duration: 4000});
         } catch (e) {
             if (e.name !== 'AbortError') {
-                toast.error(e.message || "Fehler bei der KI-Generierung.", {id: toastId, duration: 4000});
+                toast.error(e.message || t('ai.toasts.generationFailed'), {id: toastId, duration: 4000});
             } else {
                 toast.dismiss(toastId);
             }
@@ -171,7 +173,7 @@ export const useAIGeneration = ({setQuestions, setActiveQuestion, setTitle, setD
 
         setGenerating(false);
         abortRef.current = null;
-    }, [generating, stop, setQuestions, setActiveQuestion, setTitle, setDescription]);
+    }, [generating, stop, setQuestions, setActiveQuestion, setTitle, setDescription, t]);
 
     return {generating, generate, stop};
 };

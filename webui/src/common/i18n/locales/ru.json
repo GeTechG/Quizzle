@@ -1,0 +1,824 @@
+{
+  "common": {
+    "or": "или",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "back": "Назад",
+    "next": "Далее",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "close": "Закрыть",
+    "confirm": "Подтвердить",
+    "yes": "Да",
+    "no": "Нет",
+    "loading": "Загрузка...",
+    "true": "Верно",
+    "false": "Неверно",
+    "on": "Вкл",
+    "off": "Выкл",
+    "ok": "OK",
+    "reset": "Сбросить",
+    "upload": "Загрузить",
+    "create": "Создать"
+  },
+  "root": {
+    "skipToContent": "Перейти к содержимому"
+  },
+  "home": {
+    "imprint": "Правовая информация",
+    "privacy": "Конфиденциальность",
+    "credits": "Авторы",
+    "viewResults": "Посмотреть результаты",
+    "createQuiz": "Создать квиз",
+    "hostRoom": "Создать комнату",
+    "admin": "Админ",
+    "signIn": "Войти",
+    "signOut": "Выйти",
+    "signedOut": "Вы вышли.",
+    "errors": {
+      "practiceNotFound": "Тренировочный квиз не найден",
+      "practiceCheckFailed": "Ошибка при проверке тренировочного квиза",
+      "roomNotFound": "Комната не найдена",
+      "connection": "Ошибка соединения",
+      "invalidCode": "Неверный код",
+      "joinFailed": "Не удалось подключиться"
+    }
+  },
+  "codeInput": {
+    "enterCode": "Введите код",
+    "scanCode": "Сканировать код"
+  },
+  "codeWrapper": {
+    "ariaGroup": "Введите код квиза",
+    "ariaChar": "Символ {{n}} из 4"
+  },
+  "character": {
+    "ariaLabel": "Персонаж: {{name}}. Нажмите чтобы изменить",
+    "namePlaceholder": "Твоё имя",
+    "joining": "Подключение...",
+    "startQuiz": "Начать квиз",
+    "join": "Подключиться",
+    "chooseTitle": "Выбери своего персонажа",
+    "chooseAria": "Выбор персонажа"
+  },
+  "results": {
+    "errors": {
+      "authRequired": "Требуется авторизация",
+      "loadFailed": "Не удалось загрузить результаты"
+    }
+  },
+  "login": {
+    "usernameRequired": "Имя пользователя обязательно",
+    "passwordRequired": "Пароль обязателен",
+    "success": "Вход выполнен.",
+    "failed": "Ошибка входа.",
+    "title": "Вход",
+    "confirm": "Войти",
+    "text": "Войдите со своей <strong>учётной записью</strong>.",
+    "usernamePlaceholder": "Имя пользователя",
+    "passwordPlaceholder": "Пароль"
+  },
+  "host": {
+    "roomLocked": "Комната закрыта",
+    "roomUnlocked": "Комната открыта",
+    "joinHint": "Подключайтесь через <site>{{site}}</site> с кодом:",
+    "start": "Начать",
+    "waitingForPlayers": "Ожидание игроков...",
+    "kickAria": "Удалить {{name}}",
+    "kickHint": "Кликни чтобы удалить"
+  },
+  "inGameHost": {
+    "errors": {
+      "skip": "Не удалось пропустить вопрос",
+      "show": "Не удалось показать вопрос"
+    },
+    "playerLeft": "{{name}} покинул игру",
+    "skipQuestion": "Пропустить вопрос",
+    "answers": "Ответов",
+    "playersSlider": "Игроки двигают ползунок...",
+    "playersTyping": "Игроки вводят ответы...",
+    "playersSorting": "Игроки сортируют ответы..."
+  },
+  "ending": {
+    "tabs": {
+      "results": "Результаты",
+      "analytics": "Аналитика"
+    },
+    "viewSwitchAria": "Переключить вид",
+    "downloadExcel": "Скачать в Excel",
+    "home": "На главную",
+    "exported": "Аналитика выгружена: {{filename}}",
+    "noAnalyticsHint": "Данных аналитики нет. Убедитесь, что квиз завершился корректно.",
+    "errors": {
+      "noAnalytics": "Нет данных аналитики для экспорта",
+      "exportFailed": "Ошибка при экспорте данных"
+    }
+  },
+  "inGameClient": {
+    "errors": {
+      "nameRequired": "Сначала выбери имя и персонажа.",
+      "hostLeft": "Ведущий покинул игру.",
+      "kicked": "Тебя удалили из комнаты.",
+      "sessionExpired": "Сессия истекла. Возврат на главную...",
+      "kickedReturn": "Тебя удалили из комнаты. Возврат на главную...",
+      "hostLeftReturn": "Ведущий покинул игру. Возврат на главную...",
+      "disconnectedRetry": "Соединение потеряно. Переподключаюсь...",
+      "practiceExpired": "Этот тренировочный квиз истёк.",
+      "practiceNotFound": "Тренировочный квиз не найден.",
+      "practiceLoad": "Не удалось загрузить тренировочный квиз.",
+      "submitAnswerPeriod": "Не удалось отправить ответ.",
+      "submitAnswer": "Не удалось отправить ответ",
+      "answersNotReady": "Ответы ещё не готовы!"
+    },
+    "reconnected": "Соединение восстановлено!",
+    "reconnecting": "Переподключение...",
+    "connectionLost": "Соединение потеряно",
+    "questionOf": "Вопрос {{current}} из {{total}}",
+    "completed": "Квиз завершён! 🎉",
+    "backToStart": "На главную",
+    "correct": "Верно!",
+    "partiallyCorrect": "Частично верно!",
+    "keepGoing": "Так держать!",
+    "almostRight": "Почти!",
+    "notQuite": "Не совсем!",
+    "nextQuestion": "Следующий вопрос",
+    "streakLabel": "Подряд правильных",
+    "rankOf": "Место {{rank}} из {{total}}",
+    "pointsToNext": "{{gap}} очков до следующего места",
+    "leading": "Ты лидируешь!",
+    "unknownType": "Неизвестный тип вопроса: {{type}}"
+  },
+  "answerResults": {
+    "showScoreboard": "Показать таблицу",
+    "correctAnswer": "Правильный ответ: {{value}}",
+    "correctAnswers": "Правильные ответы",
+    "correctOrder": "Правильный порядок",
+    "answersHeader": "Ответы"
+  },
+  "scoreboard": {
+    "title": "Таблица",
+    "finalScore": "Итог",
+    "placesUp_one": "На {{count}} место выше",
+    "placesUp_few": "На {{count}} места выше",
+    "placesUp_many": "На {{count}} мест выше",
+    "placesUp_other": "На {{count}} мест выше"
+  },
+  "review": {
+    "answerN": "Ответ {{n}}",
+    "yourAnswer": "Твой ответ",
+    "noAnswer": "Ответ не отправлен",
+    "correctAnswerLabel_one": "Правильный ответ",
+    "correctAnswerLabel_few": "Правильные ответы",
+    "correctAnswerLabel_many": "Правильных ответов",
+    "correctAnswerLabel_other": "Правильные ответы",
+    "correctValue": "Правильное значение",
+    "deviation": "Отклонение",
+    "noOrder": "Порядок не указан",
+    "submittedAriaLabel": "Твой отправленный ответ"
+  },
+  "sequence": {
+    "waitingQuestion": "Ожидание вопроса...",
+    "loading": "Загрузка задания на сортировку...",
+    "needsAnswers": "Вопросам с сортировкой нужны варианты ответов.",
+    "usePracticeMode": "Используй тренировочный режим для вопросов с сортировкой.",
+    "noAnswers": "Нет доступных ответов",
+    "hintTap": "Нажимай ответы в правильном порядке",
+    "hintDrag": "Перетащи ответы в правильном порядке",
+    "answerN": "Ответ {{n}}"
+  },
+  "textInput": {
+    "placeholder": "Введи свой ответ...",
+    "ariaInput": "Введите ответ",
+    "ariaSubmit": "Отправить ответ"
+  },
+  "trueFalse": {
+    "ariaGroup": "Верно или неверно"
+  },
+  "slider": {
+    "submit": "Отправить ответ"
+  },
+  "doublePoints": {
+    "title": "Двойные очки!",
+    "subtitle": "Этот вопрос приносит двойные очки!"
+  },
+  "quizCreator": {
+    "titlePlaceholder": "Введите название квиза",
+    "untitledQuestion": "Без названия",
+    "questionTitlePlaceholder": "Введите текст вопроса",
+    "answerN": "Ответ {{n}}",
+    "addNewAnswer": "Добавить новый ответ...",
+    "tooltips": {
+      "undo": "Отменить (Ctrl+Z)",
+      "redo": "Повторить (Ctrl+Shift+Z)",
+      "settings": "Настройки квиза",
+      "importFile": "Импортировать квиз из файла",
+      "downloadFile": "Скачать квиз в файл",
+      "loginRequired": "Требуется авторизация",
+      "uploadLive": "Загрузить как живой квиз",
+      "publishPractice": "Опубликовать как тренировочный квиз",
+      "resetQuiz": "Сбросить квиз"
+    },
+    "toasts": {
+      "imported": "Квиз успешно импортирован!",
+      "invalidFile": "Неверный формат файла.",
+      "titleRequired": "Название квиза не может быть пустым.",
+      "practiceCreated": "Тренировочный квиз успешно создан!",
+      "practiceCode": "Код тренировки: {{code}}",
+      "practiceFailed": "Не удалось создать тренировочный квиз.",
+      "quizTooLargeServer": "Квиз превышает ёмкость хранилища сервера. Скачайте его локально.",
+      "uploaded": "Квиз успешно загружен.",
+      "quizId": "ID квиза: {{id}}",
+      "uploadFailed": "Не удалось загрузить квиз.",
+      "localStorageFull": "Квиз превышает локальную ёмкость хранилища. Загрузите его, чтобы не потерять при уходе со страницы."
+    },
+    "text": {
+      "header": "Правильные ответы",
+      "hint": "Регистр игнорируется",
+      "addMin": "Добавь хотя бы один принимаемый ответ"
+    },
+    "sequence": {
+      "header": "Ответы",
+      "hint": "Расставь ответы в правильном порядке",
+      "addMin": "Добавь хотя бы два ответа"
+    },
+    "slider": {
+      "correctValue": "Правильный ответ",
+      "min": "Мин.",
+      "max": "Макс."
+    },
+    "trueFalse": {
+      "true": "Верно",
+      "false": "Неверно"
+    },
+    "duplicateAria": "Дублировать вопрос",
+    "deleteAria": "Удалить вопрос"
+  },
+  "quizSettings": {
+    "title": "Настройки квиза",
+    "sectionAboutQuiz": "О квизе",
+    "sectionGameplay": "Игровой процесс",
+    "descriptionLabel": "Описание",
+    "descriptionPlaceholder": "О чём этот квиз?",
+    "difficultyLabel": "Сложность",
+    "difficultyPlaceholder": "Выберите сложность...",
+    "shuffleQuestions": "Перемешивать вопросы",
+    "shuffleAnswers": "Перемешивать ответы",
+    "defaultTimerLabel": "Лимит времени по умолчанию",
+    "defaultTimerPlaceholder": "Выберите лимит времени...",
+    "scoringLabel": "Начисление очков",
+    "scoringPlaceholder": "Выберите начисление очков...",
+    "difficulties": {
+      "none": "Не указано",
+      "noneDesc": "Сложность не задана",
+      "easy": "Лёгкая",
+      "easyDesc": "Для начинающих",
+      "medium": "Средняя",
+      "mediumDesc": "Вопросы для продвинутых",
+      "hard": "Сложная",
+      "hardDesc": "Серьёзные вопросы"
+    },
+    "timers": {
+      "sec15": "15 секунд",
+      "sec15Desc": "Очень быстрые вопросы",
+      "sec30": "30 секунд",
+      "sec30Desc": "Быстрые вопросы",
+      "sec60": "60 секунд",
+      "sec60Desc": "Минута на вопрос",
+      "sec120": "2 минуты",
+      "sec120Desc": "Больше времени на раздумья",
+      "unlimited": "Без ограничения",
+      "unlimitedDesc": "Нет лимита времени"
+    },
+    "scoringOptions": {
+      "timeBased": "По времени",
+      "timeBasedDesc": "Быстрее ответ — больше очков",
+      "flat": "Равномерно",
+      "flatDesc": "Фиксированные очки за правильный ответ"
+    }
+  },
+  "questionSettings": {
+    "title": "Настройки вопроса",
+    "timerLabel": "Лимит времени",
+    "timerPlaceholder": "Выберите таймер...",
+    "pointsLabel": "Начисление очков",
+    "pointsPlaceholder": "Выберите начисление очков...",
+    "marginLabel": "Допуск ответа",
+    "marginPlaceholder": "Выберите допуск ответа...",
+    "timers": {
+      "default": "По умолчанию ({{value}})",
+      "defaultDesc": "Из настроек квиза",
+      "sec30": "30 секунд",
+      "sec30Desc": "Быстрые вопросы",
+      "sec60": "60 секунд",
+      "sec60Desc": "Минута на вопрос",
+      "sec120": "2 минуты",
+      "sec120Desc": "Больше времени на раздумья",
+      "unlimited": "Без ограничения",
+      "unlimitedDesc": "Нет лимита времени"
+    },
+    "points": {
+      "standard": "Стандартно",
+      "standardDesc": "Обычное начисление очков",
+      "none": "Без очков",
+      "noneDesc": "За этот вопрос очков нет",
+      "double": "Двойные очки",
+      "doubleDesc": "Этот вопрос приносит двойные очки"
+    }
+  },
+  "quizLoader": {
+    "dropHere": "Перетащи файл сюда",
+    "idPlaceholder": "ID квиза (например, JWTIOI)",
+    "uploadFile": "Загрузить файл",
+    "loaded": "Квиз успешно загружен!",
+    "notFound": "ID квиза не найден. Убедись, что ввёл правильный ID и квиз запущен на инстансе {{name}}.",
+    "invalidFile": "Неверный формат файла."
+  },
+  "admin": {
+    "logout": "Выйти",
+    "you": "Ты",
+    "tabs": {
+      "ai": "ИИ-конфигурация",
+      "media": "Медиа",
+      "branding": "Брендинг",
+      "users": "Пользователи"
+    },
+    "aiTitle": "ИИ-конфигурация",
+    "aiDescription": "Настрой ИИ-провайдера для автоматической генерации квизов.",
+    "provider": "Провайдер",
+    "providerPlaceholder": "Выберите провайдера...",
+    "apiKey": "API-ключ",
+    "model": "Модель",
+    "modelLoading": "Загрузка моделей...",
+    "modelPlaceholder": "Выберите модель...",
+    "baseUrl": "Базовый URL",
+    "save": "Сохранить",
+    "mediaTitle": "Медиа",
+    "mediaDescription": "Настрой API-ключи для поиска изображений в редакторе квизов. Оба сервиса бесплатные.",
+    "unsplashLabel": "Unsplash Access Key",
+    "unsplashHint": "Создай приложение на <a>unsplash.com/developers</a> и скопируй \"Access Key\".",
+    "unsplashPlaceholder": "например, ab12cd34ef56gh78ij90...",
+    "giphyLabel": "Giphy API Key",
+    "giphyHint": "Создай приложение на <a>developers.giphy.com</a> и скопируй \"API Key\".",
+    "giphyPlaceholder": "например, aBcDeFgHiJkLmNoPqRsT...",
+    "brandingTitle": "Брендинг",
+    "brandingDescription": "Настрой внешний вид своей инстанции Quizzle.",
+    "logoLabel": "Логотип",
+    "bannerLabel": "Баннер",
+    "selectImage": "Выбрать изображение",
+    "uploadBtn": "Загрузить",
+    "resetBtn": "Сбросить",
+    "nameLabel": "Название",
+    "primaryColorLabel": "Основной цвет",
+    "imprintLabel": "URL правовой информации",
+    "privacyLabel": "URL конфиденциальности",
+    "imageAria": {
+      "logo": "Логотип",
+      "banner": "Баннер"
+    },
+    "usersTitle": "Управление пользователями",
+    "usersDescription": "Управление учётными записями и правами доступа.",
+    "newUser": "Новый пользователь",
+    "toggleRole": "Сменить роль",
+    "resetPassword": "Сбросить пароль",
+    "deleteUser": "Удалить",
+    "roleAdmin": "Администратор",
+    "roleTeacher": "Учитель",
+    "newUserDialog": {
+      "title": "Создать пользователя",
+      "confirmText": "Создать",
+      "usernamePlaceholder": "Имя пользователя",
+      "passwordPlaceholder": "Пароль",
+      "allFieldsRequired": "Все поля обязательны."
+    },
+    "passwordDialog": {
+      "title": "Сбросить пароль",
+      "confirmText": "Сбросить",
+      "newPasswordPlaceholder": "Новый пароль (мин. 6 символов)"
+    },
+    "providers": {
+      "disabled": "Отключено"
+    },
+    "toasts": {
+      "settingsLoadFail": "Не удалось загрузить настройки.",
+      "usersLoadFail": "Не удалось загрузить пользователей.",
+      "aiSaved": "Настройки ИИ сохранены.",
+      "saveFail": "Не удалось сохранить.",
+      "mediaSaved": "Настройки медиа сохранены.",
+      "brandingSaved": "Брендинг сохранён. Изменения вступят в силу после перезапуска.",
+      "imageTooLarge": "Изображение слишком большое (макс. 5 МБ).",
+      "imageUploaded": "{{type}} загружен.",
+      "uploadFail": "Не удалось загрузить.",
+      "imageReset": "{{type}} сброшен.",
+      "resetFail": "Не удалось сбросить.",
+      "userCreated": "Пользователь \"{{name}}\" создан.",
+      "userCreateFail": "Не удалось создать пользователя.",
+      "deleteConfirm": "Действительно удалить пользователя \"{{name}}\"?",
+      "userDeleted": "Пользователь \"{{name}}\" удалён.",
+      "deleteFail": "Не удалось удалить.",
+      "roleUpdated": "Роль обновлена.",
+      "roleUpdateFail": "Не удалось обновить роль.",
+      "passwordMinLength": "Пароль должен быть минимум 6 символов.",
+      "passwordReset": "Пароль сброшен.",
+      "passwordResetFail": "Не удалось сбросить пароль."
+    }
+  },
+  "credits": {
+    "back": "Назад",
+    "title": "Авторы и благодарности",
+    "subtitle": "Quizzle не был бы возможен без замечательной работы многих художников и проектов с открытым исходным кодом. Спасибо!",
+    "by": "от",
+    "source": "Источник"
+  },
+  "practiceResults": {
+    "loading": "Загрузка результатов...",
+    "notFound": "Результаты не найдены",
+    "returnHome": "На главную",
+    "codeLabel": "Код",
+    "resultsTitle": "Результаты тренировочного квиза",
+    "stats": {
+      "attempts": "Попыток",
+      "average": "Среднее",
+      "best": "Лучший результат",
+      "daysLeft": "{{count}} дней осталось"
+    },
+    "tabs": {
+      "analytics": "Аналитика",
+      "details": "Детали"
+    },
+    "groupedByStudent": "По ученикам",
+    "studentLabels": {
+      "attempts": "Попыток:",
+      "best": "Лучший:",
+      "average": "Среднее:"
+    },
+    "selectAttempt": "Выбери попытку:",
+    "attemptN": "Попытка {{n}}",
+    "loadingQuestions": "Загрузка вопросов...",
+    "questionN": "Вопрос {{n}}:",
+    "detailFor": "Детали: {{name}}",
+    "answerLabels": {
+      "answer": "Ответ:",
+      "correct": "Правильно:",
+      "margin": "Допуск:",
+      "yourOrder": "Твой порядок:",
+      "correctOrder": "Правильный порядок:"
+    },
+    "excelExport": "Скачать в Excel",
+    "toasts": {
+      "authRequired": "Требуется авторизация.",
+      "notFound": "Тренировочный квиз не найден.",
+      "loadFailed": "Не удалось загрузить результаты.",
+      "noDataExport": "Нет данных для экспорта",
+      "exportFailed": "Ошибка при экспорте данных",
+      "exported": "Аналитика выгружена: {{filename}}"
+    }
+  },
+  "podium": {
+    "correctOf": "{{correct}} из {{total}} правильно"
+  },
+  "setupWizard": {
+    "welcomeTitle": "Добро пожаловать в Quizzle!",
+    "welcomeDescription": "Настрой свой Quizzle за несколько шагов. Сначала создай <strong>аккаунт администратора</strong>, чтобы управлять всеми настройками.",
+    "startSetup": "Начать настройку",
+    "usernameTitle": "Выбери имя пользователя",
+    "usernameDescription": "Выбери имя пользователя для аккаунта администратора.",
+    "usernamePlaceholder": "Имя пользователя",
+    "passwordTitle": "Задай пароль",
+    "passwordDescription": "Выбери надёжный пароль для <strong>{{name}}</strong>.",
+    "passwordPlaceholder": "Пароль",
+    "confirmPasswordPlaceholder": "Подтверди пароль",
+    "finish": "Завершить",
+    "errors": {
+      "usernameRequired": "Имя пользователя обязательно",
+      "minChars3": "Минимум 3 символа",
+      "maxChars32": "Максимум 32 символа",
+      "invalidChars": "Только буквы, цифры, точки, дефисы и подчёркивания",
+      "passwordRequired": "Пароль обязателен",
+      "minChars6": "Минимум 6 символов",
+      "mismatch": "Пароли не совпадают",
+      "confirmRequired": "Подтверди пароль"
+    },
+    "toasts": {
+      "completed": "Настройка завершена! Добро пожаловать в Quizzle.",
+      "failed": "Настройка не удалась"
+    }
+  },
+  "backgroundChooser": {
+    "changeBackground": "Сменить фон",
+    "chooseBackground": "Выбери фон"
+  },
+  "mediaDialog": {
+    "title": "Вставить медиа",
+    "ariaTitle": "Вставить медиа",
+    "ariaClose": "Закрыть диалог",
+    "tabs": {
+      "images": "Изображения",
+      "gifs": "GIF",
+      "upload": "Загрузить"
+    },
+    "searchPlaceholder": "Поиск...",
+    "noResults": "Ничего не найдено.",
+    "popularImages": "Популярные изображения",
+    "popularGifs": "Популярные GIF",
+    "resultsLabel": "Результаты",
+    "dropHereOrClick": "Перетащи файл сюда или нажми",
+    "fileTypes": "PNG, JPG, GIF, WebP",
+    "errors": {
+      "search": "Ошибка поиска.",
+      "loading": "Не удалось загрузить медиа.",
+      "onlyImages": "Разрешены только изображения."
+    },
+    "imagesBy": "от",
+    "gifsBy": "от"
+  },
+  "soundControl": {
+    "soundOn": "Выключить звук",
+    "soundOff": "Включить звук",
+    "volumeLabel": "Громкость"
+  },
+  "analytics": {
+    "tabs": {
+      "overview": "Обзор",
+      "students": "Ученики",
+      "questions": "Вопросы"
+    },
+    "tabsAriaLabel": "Вкладки аналитики",
+    "classOverview": {
+      "participants": "Участников",
+      "questions": "Вопросов",
+      "accuracy": "Ср. точность",
+      "points": "Ср. очки",
+      "difficultyDist": "Распределение сложности",
+      "easyTitle": "{{count}} лёгких",
+      "mediumTitle": "{{count}} средних",
+      "hardTitle": "{{count}} сложных",
+      "easy": "Лёгкие",
+      "medium": "Средние",
+      "hard": "Сложные"
+    },
+    "questionAnalytics": {
+      "questionN": "Вопрос {{n}}",
+      "correct": "{{count}} правильно",
+      "partial": "{{count}} частично",
+      "incorrect": "{{count}} неверно"
+    },
+    "difficultyLabels": {
+      "easy": "Лёгкий",
+      "medium": "Средний",
+      "hard": "Сложный",
+      "dash": "—"
+    },
+    "studentSort": {
+      "byAccuracy": "По точности",
+      "byCorrect": "По верным",
+      "byPoints": "По очкам"
+    },
+    "recommendations": {
+      "studentsNeedHelp": "{{count}} ученикам нужна помощь",
+      "hardQuestions": "{{count}} сложных вопросов",
+      "lowPerformance": "Низкая успеваемость класса: {{percent}}%",
+      "reviewRecommended": "Рекомендуется повторение материала",
+      "goodPerformance": "Хорошая успеваемость класса: {{percent}}%",
+      "readyForNewTopics": "Класс готов к новым темам",
+      "studentsHeader": "Ученики:",
+      "questionsHeader": "Вопросы:",
+      "questionN": "Вопрос {{n}}: {{percent}}%",
+      "noIssues": "Проблем не обнаружено",
+      "classDoingWell": "Класс показывает хорошие результаты."
+    }
+  },
+  "ai": {
+    "generateTitle": "Сгенерировать квиз с ИИ",
+    "generateSubtitle": "Выбери источник и позволь ИИ создать квиз",
+    "closeAria": "Закрыть",
+    "removeAria": "Удалить",
+    "tabLabels": {
+      "topic": "Тема",
+      "pdf": "PDF",
+      "url": "URL",
+      "wikipedia": "Wikipedia"
+    },
+    "tabDescriptions": {
+      "topic": "Сгенерировать вопросы по теме",
+      "pdf": "Сгенерировать вопросы из PDF-документа",
+      "url": "Сгенерировать вопросы с веб-сайта",
+      "wikipedia": "Сгенерировать вопросы из статьи Википедии"
+    },
+    "difficulties": {
+      "auto": "Автоматически",
+      "easy": "Лёгкий",
+      "medium": "Средний",
+      "hard": "Сложный"
+    },
+    "topicLabel": "Тема",
+    "topicPlaceholder": "напр. Французская революция, фотосинтез, Римская империя...",
+    "topicHint": "Опиши тему — чем точнее, тем лучше квиз. ({{count}}/400)",
+    "pdfLabel": "PDF-документ",
+    "dropPdfTitle": "Перетащи PDF сюда",
+    "dropPdfSubtitle": "или нажми, чтобы выбрать (макс. 25 МБ)",
+    "urlLabel": "URL сайта",
+    "urlPlaceholder": "https://example.com/article",
+    "urlHint": "Сайт будет прочитан и использован как источник.",
+    "wikiLabel": "Статья Википедии",
+    "wikiPlaceholder": "напр. Альберт Эйнштейн",
+    "wikiHint": "Текст статьи используется как фактологическая база.",
+    "langAria": "Язык",
+    "questionCount": "Количество вопросов",
+    "autoCount": "Авто",
+    "difficulty": "Сложность",
+    "autoTitle": {
+      "heading": "Автоматически создать название и описание",
+      "descActive": "ИИ заполнит название и описание квиза перед генерацией вопросов",
+      "descExisting": "Название или описание уже заданы"
+    },
+    "pleaseWait": "Пожалуйста, подожди...",
+    "generate": "Сгенерировать квиз",
+    "generateAria": "Сгенерировать квиз",
+    "advancedAria": "Расширенные параметры: PDF, URL, Wikipedia",
+    "cancelGeneration": "Отменить генерацию",
+    "generateWithAI": "Сгенерировать квиз с ИИ",
+    "errors": {
+      "url": "Введи URL.",
+      "query": "Введи поисковый запрос.",
+      "pdf": "Выбери PDF-файл.",
+      "pdfTooLarge": "PDF слишком большой (макс 25 МБ).",
+      "pdfOnly": "Выбери PDF-файл.",
+      "noText": "Не получено текстовых данных.",
+      "sourceFailed": "Не удалось загрузить источник."
+    },
+    "topic2": {
+      "placeholder": "Введи тему...",
+      "countPlaceholder": "Кол-во"
+    },
+    "pdfDefault": "PDF-документ",
+    "stop": "Стоп",
+    "toasts": {
+      "waitingAI": "Ожидание ИИ...",
+      "creatingMetadata": "ИИ создаёт название и описание...",
+      "generatingQuestions": "ИИ генерирует вопросы...",
+      "generatedOne": "{{count}} вопрос сгенерирован!",
+      "generatedOther": "{{count}} вопросов сгенерировано!",
+      "errorGeneration": "Ошибка при генерации.",
+      "generationFailed": "Не удалось сгенерировать с ИИ."
+    }
+  },
+  "questionTypes": {
+    "multipleChoice": {
+      "name": "Варианты ответа",
+      "description": "Игроки выбирают из готовых вариантов ответа"
+    },
+    "trueFalse": {
+      "name": "Верно/Неверно",
+      "description": "Игроки выбирают между Верно и Неверно"
+    },
+    "text": {
+      "name": "Ввод текста",
+      "description": "Игроки вводят свой ответ текстом"
+    },
+    "sequence": {
+      "name": "Порядок",
+      "description": "Игроки расставляют ответы в правильном порядке"
+    },
+    "slider": {
+      "name": "Ползунок",
+      "description": "Игроки оценивают значение на ползунке"
+    }
+  },
+  "sliderMargin": {
+    "none": {
+      "label": "Нет",
+      "description": "Принимать только точный ответ"
+    },
+    "low": {
+      "label": "Низкий",
+      "description": "Низкий допуск ошибки"
+    },
+    "medium": {
+      "label": "Средний",
+      "description": "Средний допуск ошибки"
+    },
+    "high": {
+      "label": "Высокий",
+      "description": "Высокий допуск ошибки"
+    },
+    "maximum": {
+      "label": "Максимальный",
+      "description": "Чем ближе ответ — тем больше очков"
+    }
+  },
+  "validation": {
+    "required": "Это поле обязательно",
+    "minLength": "Минимум {{count}} символов",
+    "maxLength": "Максимум {{count}} символов",
+    "invalidFormat": "Неверный формат",
+    "invalidChars": "Содержит недопустимые символы",
+    "charsLeft": "{{count}} символов осталось",
+    "playerNoLeadingTrailingSpaces": "Имя не должно начинаться или заканчиваться пробелом",
+    "playerNoMultipleSpaces": "Несколько пробелов подряд запрещены",
+    "titleEmpty": "Название не может быть пустым",
+    "questionEmpty": "Вопрос не может быть пустым",
+    "answerEmpty": "Ответ не может быть пустым"
+  },
+  "dialog": {
+    "ok": "OK",
+    "cancel": "Отмена"
+  },
+  "excelExport": {
+    "title": "Quizzle — экспорт аналитики",
+    "quizInformation": "Информация о квизе",
+    "quizType": "Тип квиза",
+    "liveQuiz": "Живой квиз",
+    "practiceQuiz": "Тренировочный квиз",
+    "quizName": "Название квиза",
+    "exportDate": "Дата экспорта",
+    "exportTime": "Время экспорта",
+    "classOverview": "Обзор класса",
+    "totalStudents": "Всего учеников",
+    "totalQuestions": "Всего вопросов",
+    "averageScore": "Средний балл",
+    "averageAccuracy": "Средняя точность (%)",
+    "questionsNeedingReview": "Вопросов требуют разбора",
+    "studentsNeedingAttention": "Учеников требуют внимания",
+    "participationRate": "Доля участия (%)",
+    "totalAttempts": "Всего попыток",
+    "overviewSheet": "Обзор",
+    "studentName": "Имя ученика",
+    "character": "Персонаж",
+    "totalPoints": "Всего очков",
+    "correctAnswers": "Правильных ответов",
+    "partialCorrectAnswers": "Частично правильных ответов",
+    "incorrectAnswers": "Неправильных ответов",
+    "totalAnswered": "Всего отвечено",
+    "accuracyPct": "Точность (%)",
+    "needsAttention": "Требует внимания",
+    "performanceLevel": "Уровень успеваемости",
+    "attempts": "Попыток",
+    "avgScore": "Средний балл",
+    "studentSheet": "Аналитика учеников",
+    "questionNum": "№ вопроса",
+    "questionTitle": "Текст вопроса",
+    "questionType": "Тип вопроса",
+    "totalResponses": "Всего ответов",
+    "correctCount": "Правильных",
+    "partialCount": "Частичных",
+    "incorrectCount": "Неправильных",
+    "correctPct": "Доля правильных (%)",
+    "difficultyLevel": "Уровень сложности",
+    "needsReview": "Требует разбора",
+    "questionSheet": "Аналитика вопросов",
+    "summary": "Итоговая статистика",
+    "difficultyDistribution": "Распределение сложности вопросов",
+    "easyQuestions": "Лёгких вопросов",
+    "mediumQuestions": "Средних вопросов",
+    "hardQuestions": "Сложных вопросов",
+    "studentPerformanceDist": "Распределение успеваемости учеников",
+    "excellent80": "Отлично (≥80%)",
+    "good60": "Хорошо (60-79%)",
+    "needsImprovement": "Нужно улучшение (<60%)",
+    "topFive": "Топ-5 учеников",
+    "rank": "Место",
+    "name": "Имя",
+    "score": "Очки",
+    "accuracyShort": "Точность (%)",
+    "summarySheet": "Итоги",
+    "yes": "Да",
+    "no": "Нет",
+    "excellent": "Отлично",
+    "good": "Хорошо",
+    "improvementNeeded": "Нужно улучшение",
+    "easy": "Лёгкий",
+    "medium": "Средний",
+    "hard": "Сложный",
+    "unknown": "Неизвестно",
+    "practicePrefix": "ТренировочныйКвиз"
+  },
+  "quizValidation": {
+    "titleEmpty": "Название квиза не может быть пустым.",
+    "minQuestions": "Должен быть хотя бы один вопрос.",
+    "maxQuestions": "Квиз может содержать максимум {{count}} вопросов.",
+    "questionEmpty": "Вопросы не могут быть пустыми.",
+    "questionTooLong": "Вопросы могут быть не длиннее {{count}} символов.",
+    "textAnswerEmpty": "Текстовые ответы не могут быть пустыми.",
+    "trueFalseTwo": "Вопросы Верно/Неверно должны иметь ровно два ответа.",
+    "trueFalseOneCorrect": "Вопросы Верно/Неверно должны иметь хотя бы один правильный ответ.",
+    "mcOneCorrect": "Каждый вопрос с выбором должен иметь хотя бы один правильный ответ.",
+    "mcEmpty": "Варианты ответа не могут быть пустыми.",
+    "mcTooLong": "Варианты ответа могут быть не длиннее {{count}} символов.",
+    "sequenceEmpty": "Ответы в порядке не могут быть пустыми.",
+    "sequenceTooLong": "Ответы в порядке могут быть не длиннее {{count}} символов.",
+    "sliderOneConfig": "Вопросы с ползунком должны иметь ровно одну конфигурацию ответа.",
+    "sliderCorrectValue": "Вопросы с ползунком должны иметь правильное значение.",
+    "sliderMinMax": "Вопросы с ползунком должны иметь минимум и максимум.",
+    "sliderMinLess": "Минимум должен быть меньше максимума.",
+    "sliderInRange": "Правильное значение должно быть между минимумом и максимумом.",
+    "sliderStepPositive": "Шаг должен быть больше 0.",
+    "minTextAnswers": "Текстовые вопросы должны иметь хотя бы один принимаемый ответ.",
+    "minSequenceAnswers": "Вопросы в порядке должны иметь хотя бы два ответа.",
+    "minSliderConfig": "Вопросы с ползунком должны иметь конфигурацию.",
+    "minMCAnswers": "Вопросы с выбором должны иметь хотя бы два ответа.",
+    "maxTextAnswers": "Текстовые вопросы могут иметь максимум {{count}} принимаемых ответов.",
+    "maxSequenceAnswers": "Вопросы в порядке могут иметь максимум {{count}} ответов.",
+    "maxSliderConfig": "Вопросы с ползунком могут иметь только одну конфигурацию.",
+    "maxMCAnswers": "Вопросы с выбором могут иметь максимум {{count}} ответов."
+  }
+}

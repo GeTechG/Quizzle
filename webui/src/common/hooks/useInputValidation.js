@@ -1,4 +1,5 @@
 import {useState, useCallback} from 'react';
+import i18n from '@/common/i18n';
 
 export const useInputValidation = (initialValue = '', validationRules = {}) => {
     const [value, setValue] = useState(initialValue);
@@ -17,7 +18,7 @@ export const useInputValidation = (initialValue = '', validationRules = {}) => {
         } = validationRules;
 
         if (required && (!inputValue || inputValue.trim().length === 0)) {
-            return 'Dieses Feld ist erforderlich';
+            return i18n.t('validation.required');
         }
 
         if (!inputValue || inputValue.trim().length === 0) {
@@ -26,17 +27,17 @@ export const useInputValidation = (initialValue = '', validationRules = {}) => {
 
         const trimmedValue = inputValue.trim();
         if (trimmedValue.length < minLength) {
-            return `Mindestens ${minLength} Zeichen erforderlich`;
+            return i18n.t('validation.minLength', {count: minLength});
         }
         if (trimmedValue.length > maxLength) {
-            return `Maximal ${maxLength} Zeichen erlaubt`;
+            return i18n.t('validation.maxLength', {count: maxLength});
         }
         if (pattern && !pattern.test(inputValue)) {
-            return 'Ungültiges Format';
+            return i18n.t('validation.invalidFormat');
         }
 
         if (allowedChars && !allowedChars.test(inputValue)) {
-            return 'Enthält ungültige Zeichen';
+            return i18n.t('validation.invalidChars');
         }
 
         if (customValidator) {
@@ -49,7 +50,7 @@ export const useInputValidation = (initialValue = '', validationRules = {}) => {
 
     const handleChange = useCallback((newValue) => {
         setValue(newValue);
-        
+
         if (touched) {
             const errorMessage = validateInput(newValue);
             setError(errorMessage);
@@ -57,7 +58,7 @@ export const useInputValidation = (initialValue = '', validationRules = {}) => {
             if (!errorMessage && validationRules.maxLength) {
                 const progress = newValue.length / validationRules.maxLength;
                 if (progress > 0.8 && progress < 1) {
-                    setWarning(`${validationRules.maxLength - newValue.length} Zeichen übrig`);
+                    setWarning(i18n.t('validation.charsLeft', {count: validationRules.maxLength - newValue.length}));
                 } else {
                     setWarning('');
                 }
@@ -107,10 +108,10 @@ export const validationRules = {
         customValidator: (value) => {
             const trimmed = value.trim();
             if (trimmed !== value) {
-                return 'Name darf nicht mit Leerzeichen beginnen oder enden';
+                return i18n.t('validation.playerNoLeadingTrailingSpaces');
             }
             if (/\s{2,}/.test(value)) {
-                return 'Keine mehrfachen Leerzeichen erlaubt';
+                return i18n.t('validation.playerNoMultipleSpaces');
             }
             return null;
         }
@@ -122,7 +123,7 @@ export const validationRules = {
         customValidator: (value) => {
             const trimmed = value.trim();
             if (trimmed.length === 0) {
-                return 'Titel darf nicht leer sein';
+                return i18n.t('validation.titleEmpty');
             }
             return null;
         }
@@ -134,7 +135,7 @@ export const validationRules = {
         customValidator: (value) => {
             const trimmed = value.trim();
             if (trimmed.length === 0) {
-                return 'Frage darf nicht leer sein';
+                return i18n.t('validation.questionEmpty');
             }
             return null;
         }
@@ -146,7 +147,7 @@ export const validationRules = {
         customValidator: (value) => {
             const trimmed = value.trim();
             if (trimmed.length === 0) {
-                return 'Antwort darf nicht leer sein';
+                return i18n.t('validation.answerEmpty');
             }
             return null;
         }

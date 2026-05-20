@@ -5,9 +5,11 @@ import Dialog from '@/common/components/Dialog';
 import Input from '@/common/components/Input';
 import {AuthContext} from '@/common/contexts/Auth';
 import toast from 'react-hot-toast';
+import {useTranslation, Trans} from 'react-i18next';
 import './styles.sass';
 
 export const LoginDialog = ({isOpen, onClose, onSuccess}) => {
+    const {t} = useTranslation();
     const {login} = useContext(AuthContext);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -16,11 +18,11 @@ export const LoginDialog = ({isOpen, onClose, onSuccess}) => {
 
     const handleConfirm = async () => {
         if (!username.trim()) {
-            setError('Benutzername ist erforderlich');
+            setError(t('login.usernameRequired'));
             return;
         }
         if (!password) {
-            setError('Passwort ist erforderlich');
+            setError(t('login.passwordRequired'));
             return;
         }
 
@@ -29,13 +31,13 @@ export const LoginDialog = ({isOpen, onClose, onSuccess}) => {
 
         try {
             await login(username.trim(), password);
-            toast.success('Erfolgreich angemeldet.');
+            toast.success(t('login.success'));
             setUsername('');
             setPassword('');
             setError('');
             onSuccess?.();
         } catch (err) {
-            setError(err.message || 'Anmeldung fehlgeschlagen.');
+            setError(err.message || t('login.failed'));
         } finally {
             setLoading(false);
         }
@@ -57,27 +59,27 @@ export const LoginDialog = ({isOpen, onClose, onSuccess}) => {
             title={
                 <div className="login-dialog-title">
                     <FontAwesomeIcon icon={faRightToBracket} className="login-dialog-title-icon"/>
-                    Anmelden
+                    {t('login.title')}
                 </div>
             }
-            confirmText={loading ? "..." : "Anmelden"}
-            cancelText="Abbrechen"
+            confirmText={loading ? "..." : t('login.confirm')}
+            cancelText={t('common.cancel')}
             className="login-dialog"
         >
             <div className="login-dialog-content">
                 <p className="login-dialog-text">
-                    Bitte melde dich mit deinem <strong>Benutzerkonto</strong> an.
+                    <Trans i18nKey="login.text" components={{strong: <strong/>}}/>
                 </p>
                 <div className="login-input-wrapper">
                     <Input
-                        placeholder="Benutzername"
+                        placeholder={t('login.usernamePlaceholder')}
                         value={username}
                         onChange={(e) => {setUsername(e.target.value); setError('');}}
                         onKeyDown={(e) => e.key === 'Enter' && handleConfirm()}
                     />
                     <Input
                         type="password"
-                        placeholder="Passwort"
+                        placeholder={t('login.passwordPlaceholder')}
                         value={password}
                         onChange={(e) => {setPassword(e.target.value); setError('');}}
                         error={error}

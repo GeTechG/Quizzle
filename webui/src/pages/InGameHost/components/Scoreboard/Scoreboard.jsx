@@ -7,8 +7,10 @@ import {LayoutGroup, motion} from "framer-motion";
 import {getCharacterEmoji} from "@/common/data/characters";
 import {useSoundManager} from "@/common/utils/SoundManager.js";
 import AnimatedCounter from "@/pages/InGameHost/components/AnimatedCounter";
+import {useTranslation} from "react-i18next";
 
 export const Scoreboard = ({scoreboard, nextQuestion, isEnd, hideTop3}) => {
+    const {t} = useTranslation();
     const prevRanksRef = useRef({});
     const [animatedPlayers, setAnimatedPlayers] = useState([]);
     const [pointsAnimationPhase, setPointsAnimationPhase] = useState('initial');
@@ -108,12 +110,12 @@ export const Scoreboard = ({scoreboard, nextQuestion, isEnd, hideTop3}) => {
     return (
         <div className="scoreboard">
             <div className="top-area">
-                {!isEnd && <Button onClick={nextQuestion} text="Weiter"
+                {!isEnd && <Button onClick={nextQuestion} text={t('common.next')}
                         padding="1rem 1.5rem" icon={faForward}/>}
-                {isEnd && <Button onClick={goHome} text="Startseite"
+                {isEnd && <Button onClick={goHome} text={t('ending.home')}
                         padding="1rem 1.5rem" icon={faHouse}/>}
             </div>
-            {!hideTop3 && <h1>{isEnd ? "Endstand" : "Scoreboard"}</h1>}
+            {!hideTop3 && <h1>{isEnd ? t('scoreboard.finalScore') : t('scoreboard.title')}</h1>}
 
             <div className="scoreboard-players">
                 <LayoutGroup>
@@ -185,7 +187,7 @@ export const Scoreboard = ({scoreboard, nextQuestion, isEnd, hideTop3}) => {
                                         )}
                                     </h2>
                                     {rising && (
-                                        <span className="rise-indicator" aria-label={`${player.positionChange} Plätze nach oben`}>
+                                        <span className="rise-indicator" aria-label={t('scoreboard.placesUp', {count: player.positionChange})}>
                                             <FontAwesomeIcon icon={faArrowUp} />
                                         </span>
                                     )}

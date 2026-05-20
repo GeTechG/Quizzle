@@ -1,4 +1,5 @@
 import {useState, useRef, useEffect, useLayoutEffect} from "react";
+import {useTranslation} from "react-i18next";
 import {AnimatePresence, motion} from "framer-motion";
 import {createPortal} from "react-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -7,6 +8,7 @@ import Button from "@/common/components/Button";
 import "./styles.sass";
 
 export const AITopicPopover = ({generating, onGenerate, onStop, onOpenAdvanced}) => {
+    const {t} = useTranslation();
     const [showInput, setShowInput] = useState(false);
     const [topic, setTopic] = useState("");
     const [count, setCount] = useState("");
@@ -94,7 +96,7 @@ export const AITopicPopover = ({generating, onGenerate, onStop, onOpenAdvanced})
                             ref={inputRef}
                             className="ai-topic-input"
                             type="text"
-                            placeholder="Thema eingeben..."
+                            placeholder={t("ai.topic2.placeholder")}
                             value={topic}
                             onChange={(e) => setTopic(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
@@ -103,7 +105,7 @@ export const AITopicPopover = ({generating, onGenerate, onStop, onOpenAdvanced})
                         <input
                             className="ai-count-input"
                             type="number"
-                            placeholder="Anz."
+                            placeholder={t("ai.topic2.countPlaceholder")}
                             value={count}
                             onChange={(e) => setCount(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
@@ -115,7 +117,7 @@ export const AITopicPopover = ({generating, onGenerate, onStop, onOpenAdvanced})
                                 onClick={handleAdvanced}
                                 type="secondary compact"
                                 icon={faSliders}
-                                ariaLabel="Erweiterte Optionen: PDF, URL, Wikipedia"
+                                ariaLabel={t("ai.advancedAria")}
                             />
                         )}
                         <Button
@@ -123,7 +125,7 @@ export const AITopicPopover = ({generating, onGenerate, onStop, onOpenAdvanced})
                             type="primary compact"
                             icon={faWandMagicSparkles}
                             disabled={!topic.trim()}
-                            ariaLabel="Quiz generieren"
+                            ariaLabel={t("ai.generateAria")}
                         />
                     </div>
                 </motion.div>
@@ -136,7 +138,7 @@ export const AITopicPopover = ({generating, onGenerate, onStop, onOpenAdvanced})
             <div
                 className={`action-button ai-generate ${generating ? 'generating' : ''}`}
                 onClick={handleButtonClick}
-                title={generating ? "Generierung abbrechen" : "Quiz mit KI generieren"}
+                title={generating ? t("ai.cancelGeneration") : t("ai.generateWithAI")}
             >
                 <FontAwesomeIcon icon={generating ? faSpinner : faWandMagicSparkles} spin={generating}/>
             </div>

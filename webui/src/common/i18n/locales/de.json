@@ -1,0 +1,820 @@
+{
+  "common": {
+    "or": "oder",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "back": "Zurück",
+    "next": "Weiter",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "close": "Schließen",
+    "confirm": "Bestätigen",
+    "yes": "Ja",
+    "no": "Nein",
+    "loading": "Laden...",
+    "true": "Wahr",
+    "false": "Falsch",
+    "on": "Ein",
+    "off": "Aus",
+    "ok": "OK",
+    "reset": "Zurücksetzen",
+    "upload": "Hochladen",
+    "create": "Erstellen"
+  },
+  "root": {
+    "skipToContent": "Zum Inhalt springen"
+  },
+  "home": {
+    "imprint": "Impressum",
+    "privacy": "Datenschutz",
+    "credits": "Credits",
+    "viewResults": "Ergebnisse einsehen",
+    "createQuiz": "Quiz erstellen",
+    "hostRoom": "Raum hosten",
+    "admin": "Admin",
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "signedOut": "Abgemeldet.",
+    "errors": {
+      "practiceNotFound": "Übungsquiz nicht gefunden",
+      "practiceCheckFailed": "Fehler beim Überprüfen des Übungsquiz",
+      "roomNotFound": "Raum nicht gefunden",
+      "connection": "Verbindungsfehler",
+      "invalidCode": "Ungültiger Code",
+      "joinFailed": "Fehler beim Beitreten"
+    }
+  },
+  "codeInput": {
+    "enterCode": "Code eingeben",
+    "scanCode": "Code Scannen"
+  },
+  "codeWrapper": {
+    "ariaGroup": "Quiz-Code eingeben",
+    "ariaChar": "Zeichen {{n}} von 4"
+  },
+  "character": {
+    "ariaLabel": "Charakter: {{name}}. Klicken zum Ändern",
+    "namePlaceholder": "Dein Name",
+    "joining": "Beitreten...",
+    "startQuiz": "Quiz starten",
+    "join": "Beitreten",
+    "chooseTitle": "Wähle deinen Charakter",
+    "chooseAria": "Charakter auswählen"
+  },
+  "results": {
+    "errors": {
+      "authRequired": "Anmeldung erforderlich",
+      "loadFailed": "Fehler beim Laden der Ergebnisse"
+    }
+  },
+  "login": {
+    "usernameRequired": "Benutzername ist erforderlich",
+    "passwordRequired": "Passwort ist erforderlich",
+    "success": "Erfolgreich angemeldet.",
+    "failed": "Anmeldung fehlgeschlagen.",
+    "title": "Anmelden",
+    "confirm": "Anmelden",
+    "text": "Bitte melde dich mit deinem <strong>Benutzerkonto</strong> an.",
+    "usernamePlaceholder": "Benutzername",
+    "passwordPlaceholder": "Passwort"
+  },
+  "host": {
+    "roomLocked": "Raum gesperrt",
+    "roomUnlocked": "Raum entsperrt",
+    "joinHint": "Verbinden über die Webseite <site>{{site}}</site> mit Code:",
+    "start": "Starten",
+    "waitingForPlayers": "Warten auf Mitspieler...",
+    "kickAria": "{{name}} entfernen",
+    "kickHint": "Klicken zum Entfernen"
+  },
+  "inGameHost": {
+    "errors": {
+      "skip": "Fehler beim Überspringen der Frage",
+      "show": "Fehler beim Anzeigen der Frage"
+    },
+    "playerLeft": "{{name}} hat das Spiel verlassen",
+    "skipQuestion": "Frage überspringen",
+    "answers": "Antworten",
+    "playersSlider": "Spieler bewegen den Schieberegler...",
+    "playersTyping": "Spieler geben ihre Antworten ein...",
+    "playersSorting": "Spieler sortieren ihre Antworten..."
+  },
+  "ending": {
+    "tabs": {
+      "results": "Ergebnisse",
+      "analytics": "Analytics"
+    },
+    "viewSwitchAria": "Ansicht wechseln",
+    "downloadExcel": "Als Excel herunterladen",
+    "home": "Startseite",
+    "exported": "Analytics exportiert: {{filename}}",
+    "noAnalyticsHint": "Keine Analytics-Daten verfügbar. Bitte stellen Sie sicher, dass das Quiz ordnungsgemäß beendet wurde.",
+    "errors": {
+      "noAnalytics": "Keine Analytics-Daten zum Exportieren verfügbar",
+      "exportFailed": "Fehler beim Exportieren der Daten"
+    }
+  },
+  "inGameClient": {
+    "errors": {
+      "nameRequired": "Bitte wähle zuerst einen Namen und Charakter.",
+      "hostLeft": "Der Host hat das Spiel verlassen.",
+      "kicked": "Du wurdest aus dem Raum entfernt.",
+      "sessionExpired": "Sitzung abgelaufen. Zurück zur Startseite...",
+      "kickedReturn": "Du wurdest aus dem Raum entfernt. Zurück zur Startseite...",
+      "hostLeftReturn": "Der Host hat das Spiel verlassen. Zurück zur Startseite...",
+      "disconnectedRetry": "Verbindung unterbrochen. Versuche wieder zu verbinden...",
+      "practiceExpired": "Dieses Übungsquiz ist abgelaufen.",
+      "practiceNotFound": "Übungsquiz nicht gefunden.",
+      "practiceLoad": "Fehler beim Laden des Übungsquiz.",
+      "submitAnswerPeriod": "Fehler beim Senden der Antwort.",
+      "submitAnswer": "Fehler beim Senden der Antwort",
+      "answersNotReady": "Antworten sind noch nicht bereit!"
+    },
+    "reconnected": "Erfolgreich wieder verbunden!",
+    "reconnecting": "Verbinde wieder...",
+    "connectionLost": "Verbindung verloren",
+    "questionOf": "Frage {{current}} von {{total}}",
+    "completed": "Quiz abgeschlossen! 🎉",
+    "backToStart": "Zurück zur Startseite",
+    "correct": "Richtig!",
+    "partiallyCorrect": "Teilweise richtig!",
+    "keepGoing": "Weiter so!",
+    "almostRight": "Fast richtig!",
+    "notQuite": "Nicht ganz!",
+    "nextQuestion": "Nächste Frage",
+    "streakLabel": "Richtige in Folge",
+    "rankOf": "Platz {{rank}} von {{total}}",
+    "pointsToNext": "{{gap}} Punkte bis zum nächsten Platz",
+    "leading": "Du führst!",
+    "unknownType": "Unbekannter Fragetyp: {{type}}"
+  },
+  "answerResults": {
+    "showScoreboard": "Scoreboard anzeigen",
+    "correctAnswer": "Richtige Antwort: {{value}}",
+    "correctAnswers": "Richtige Antworten",
+    "correctOrder": "Richtige Reihenfolge",
+    "answersHeader": "Antworten"
+  },
+  "scoreboard": {
+    "title": "Scoreboard",
+    "finalScore": "Endstand",
+    "placesUp_one": "{{count}} Platz nach oben",
+    "placesUp_other": "{{count}} Plätze nach oben"
+  },
+  "review": {
+    "answerN": "Antwort {{n}}",
+    "yourAnswer": "Deine Antwort",
+    "noAnswer": "Keine Antwort abgegeben",
+    "correctAnswerLabel_one": "Richtige Antwort",
+    "correctAnswerLabel_other": "Richtige Antworten",
+    "correctValue": "Richtiger Wert",
+    "deviation": "Abweichung",
+    "noOrder": "Keine Reihenfolge abgegeben",
+    "submittedAriaLabel": "Deine abgegebene Antwort"
+  },
+  "sequence": {
+    "waitingQuestion": "Warten auf Frage...",
+    "loading": "Sortieraufgabe wird geladen...",
+    "needsAnswers": "Reihenfolge-Fragen benötigen die Antwortinhalte.",
+    "usePracticeMode": "Bitte verwenden Sie den Übungsmodus für Reihenfolge-Fragen.",
+    "noAnswers": "Keine Antworten verfügbar",
+    "hintTap": "Tippe die Antworten in der richtigen Reihenfolge an",
+    "hintDrag": "Ziehen Sie die Antworten in die richtige Reihenfolge",
+    "answerN": "Antwort {{n}}"
+  },
+  "textInput": {
+    "placeholder": "Geben Sie Ihre Antwort ein...",
+    "ariaInput": "Antwort eingeben",
+    "ariaSubmit": "Antwort absenden"
+  },
+  "trueFalse": {
+    "ariaGroup": "Wahr oder Falsch"
+  },
+  "slider": {
+    "submit": "Antwort senden"
+  },
+  "doublePoints": {
+    "title": "Doppelte Punkte!",
+    "subtitle": "Diese Frage bringt die doppelte Punktzahl!"
+  },
+  "quizCreator": {
+    "titlePlaceholder": "Quiz-Titel eingeben",
+    "untitledQuestion": "Kein Fragentitel",
+    "questionTitlePlaceholder": "Fragentitel eingeben",
+    "answerN": "Antwort {{n}}",
+    "addNewAnswer": "Neue Antwort hinzufügen...",
+    "tooltips": {
+      "undo": "Rückgängig (Strg+Z)",
+      "redo": "Wiederholen (Strg+Shift+Z)",
+      "settings": "Quiz-Einstellungen",
+      "importFile": "Quiz aus Datei importieren",
+      "downloadFile": "Quiz als Datei herunterladen",
+      "loginRequired": "Anmeldung erforderlich",
+      "uploadLive": "Als Live-Quiz hochladen",
+      "publishPractice": "Als Übungsquiz veröffentlichen",
+      "resetQuiz": "Quiz zurücksetzen"
+    },
+    "toasts": {
+      "imported": "Quiz erfolgreich importiert!",
+      "invalidFile": "Ungültiges Dateiformat.",
+      "titleRequired": "Quiz-Titel darf nicht leer sein.",
+      "practiceCreated": "Übungsquiz erfolgreich erstellt!",
+      "practiceCode": "Übungscode: {{code}}",
+      "practiceFailed": "Fehler beim Erstellen des Übungsquiz.",
+      "quizTooLargeServer": "Dein Quiz übersteigt die Speicherkapazität des Servers. Bitte lade es lokal herunter.",
+      "uploaded": "Quiz erfolgreich hochgeladen.",
+      "quizId": "Quiz-ID: {{id}}",
+      "uploadFailed": "Fehler beim Hochladen des Quiz.",
+      "localStorageFull": "Dein Quiz übersteigt die lokale Speicherkapazität. Bitte lade es hoch, um zu verhindern, dass es verloren geht wenn du die Seite verlässt."
+    },
+    "text": {
+      "header": "Richtige Antworten",
+      "hint": "Groß-/Kleinschreibung wird ignoriert",
+      "addMin": "Füge mindestens eine akzeptierte Antwort hinzu"
+    },
+    "sequence": {
+      "header": "Antworten",
+      "hint": "Sortiere die Antworten in die richtige Reihenfolge",
+      "addMin": "Füge mindestens zwei Antworten hinzu"
+    },
+    "slider": {
+      "correctValue": "Richtige Antwort",
+      "min": "Min.",
+      "max": "Max."
+    },
+    "trueFalse": {
+      "true": "Wahr",
+      "false": "Falsch"
+    },
+    "duplicateAria": "Frage duplizieren",
+    "deleteAria": "Frage löschen"
+  },
+  "quizSettings": {
+    "title": "Quiz-Einstellungen",
+    "sectionAboutQuiz": "Über das Quiz",
+    "sectionGameplay": "Spielablauf",
+    "descriptionLabel": "Beschreibung",
+    "descriptionPlaceholder": "Worum geht es in diesem Quiz?",
+    "difficultyLabel": "Schwierigkeit",
+    "difficultyPlaceholder": "Schwierigkeit auswählen...",
+    "shuffleQuestions": "Fragen mischen",
+    "shuffleAnswers": "Antworten mischen",
+    "defaultTimerLabel": "Standard-Zeitlimit",
+    "defaultTimerPlaceholder": "Zeitlimit auswählen...",
+    "scoringLabel": "Punktevergabe",
+    "scoringPlaceholder": "Punktevergabe auswählen...",
+    "difficulties": {
+      "none": "Keine Angabe",
+      "noneDesc": "Keine Schwierigkeit angegeben",
+      "easy": "Einfach",
+      "easyDesc": "Für Einsteiger",
+      "medium": "Mittel",
+      "mediumDesc": "Fortgeschrittene Fragen",
+      "hard": "Schwer",
+      "hardDesc": "Anspruchsvolle Fragen"
+    },
+    "timers": {
+      "sec15": "15 Sekunden",
+      "sec15Desc": "Sehr schnelle Fragen",
+      "sec30": "30 Sekunden",
+      "sec30Desc": "Schnelle Fragen",
+      "sec60": "60 Sekunden",
+      "sec60Desc": "Eine Minute pro Frage",
+      "sec120": "2 Minuten",
+      "sec120Desc": "Mehr Zeit zum Nachdenken",
+      "unlimited": "Unbegrenzt",
+      "unlimitedDesc": "Kein Zeitlimit"
+    },
+    "scoringOptions": {
+      "timeBased": "Zeitbasiert",
+      "timeBasedDesc": "Schnellere Antworten = mehr Punkte",
+      "flat": "Gleichmäßig",
+      "flatDesc": "Feste Punkte pro richtiger Antwort"
+    }
+  },
+  "questionSettings": {
+    "title": "Fragen-Einstellungen",
+    "timerLabel": "Zeitlimit",
+    "timerPlaceholder": "Timer auswählen...",
+    "pointsLabel": "Punkteverteilung",
+    "pointsPlaceholder": "Punkteverteilung auswählen...",
+    "marginLabel": "Antwort-Marge",
+    "marginPlaceholder": "Antwort-Marge auswählen...",
+    "timers": {
+      "default": "Standard ({{value}})",
+      "defaultDesc": "Aus Quiz-Einstellungen",
+      "sec30": "30 Sekunden",
+      "sec30Desc": "Schnelle Fragen",
+      "sec60": "60 Sekunden",
+      "sec60Desc": "Eine Minute pro Frage",
+      "sec120": "2 Minuten",
+      "sec120Desc": "Mehr Zeit zum Nachdenken",
+      "unlimited": "Unbegrenzt",
+      "unlimitedDesc": "Kein Zeitlimit"
+    },
+    "points": {
+      "standard": "Standard",
+      "standardDesc": "Normale Punkteverteilung",
+      "none": "Keine Punkte",
+      "noneDesc": "Für diese Frage gibt es keine Punkte",
+      "double": "Doppelte Punkte",
+      "doubleDesc": "Diese Frage bringt doppelte Punkte"
+    }
+  },
+  "quizLoader": {
+    "dropHere": "Datei hier ablegen",
+    "idPlaceholder": "Quiz-ID (z. B. JWTIOI)",
+    "uploadFile": "Datei hochladen",
+    "loaded": "Quiz erfolgreich geladen!",
+    "notFound": "Quiz-ID nicht gefunden. Versichere dich, dass du die richtige ID eingegeben hast und das Quiz auf der Instanz von {{name}} läuft.",
+    "invalidFile": "Ungültiges Dateiformat."
+  },
+  "admin": {
+    "logout": "Abmelden",
+    "you": "Du",
+    "tabs": {
+      "ai": "KI-Konfiguration",
+      "media": "Medien",
+      "branding": "Branding",
+      "users": "Benutzerverwaltung"
+    },
+    "aiTitle": "KI-Konfiguration",
+    "aiDescription": "Konfiguriere den KI-Anbieter für die automatische Quiz-Generierung.",
+    "provider": "Anbieter",
+    "providerPlaceholder": "Anbieter wählen...",
+    "apiKey": "API-Schlüssel",
+    "model": "Modell",
+    "modelLoading": "Modelle werden geladen...",
+    "modelPlaceholder": "Modell wählen...",
+    "baseUrl": "Basis-URL",
+    "save": "Speichern",
+    "mediaTitle": "Medien",
+    "mediaDescription": "Konfiguriere API-Schlüssel für die Bildersuche im Quiz-Editor. Beide Dienste sind kostenlos.",
+    "unsplashLabel": "Unsplash Access Key",
+    "unsplashHint": "Erstelle eine App auf <a>unsplash.com/developers</a> und kopiere den \"Access Key\".",
+    "unsplashPlaceholder": "z.B. ab12cd34ef56gh78ij90...",
+    "giphyLabel": "Giphy API Key",
+    "giphyHint": "Erstelle eine App auf <a>developers.giphy.com</a> und kopiere den \"API Key\".",
+    "giphyPlaceholder": "z.B. aBcDeFgHiJkLmNoPqRsT...",
+    "brandingTitle": "Branding",
+    "brandingDescription": "Passe das Erscheinungsbild deiner Quizzle-Instanz an.",
+    "logoLabel": "Logo",
+    "bannerLabel": "Banner",
+    "selectImage": "Bild wählen",
+    "uploadBtn": "Hochladen",
+    "resetBtn": "Zurücksetzen",
+    "nameLabel": "Name",
+    "primaryColorLabel": "Primärfarbe",
+    "imprintLabel": "Impressum-URL",
+    "privacyLabel": "Datenschutz-URL",
+    "imageAria": {
+      "logo": "Logo",
+      "banner": "Banner"
+    },
+    "usersTitle": "Benutzerverwaltung",
+    "usersDescription": "Verwalte Benutzerkonten und Berechtigungen.",
+    "newUser": "Neuer Benutzer",
+    "toggleRole": "Rolle wechseln",
+    "resetPassword": "Passwort zurücksetzen",
+    "deleteUser": "Löschen",
+    "roleAdmin": "Administrator",
+    "roleTeacher": "Lehrkraft",
+    "newUserDialog": {
+      "title": "Neuen Benutzer erstellen",
+      "confirmText": "Erstellen",
+      "usernamePlaceholder": "Benutzername",
+      "passwordPlaceholder": "Passwort",
+      "allFieldsRequired": "Alle Felder sind erforderlich."
+    },
+    "passwordDialog": {
+      "title": "Passwort zurücksetzen",
+      "confirmText": "Zurücksetzen",
+      "newPasswordPlaceholder": "Neues Passwort (min. 6 Zeichen)"
+    },
+    "providers": {
+      "disabled": "Deaktiviert"
+    },
+    "toasts": {
+      "settingsLoadFail": "Einstellungen konnten nicht geladen werden.",
+      "usersLoadFail": "Benutzer konnten nicht geladen werden.",
+      "aiSaved": "KI-Einstellungen gespeichert.",
+      "saveFail": "Fehler beim Speichern.",
+      "mediaSaved": "Medien-Einstellungen gespeichert.",
+      "brandingSaved": "Branding gespeichert. Änderungen werden nach einem Neustart wirksam.",
+      "imageTooLarge": "Bild ist zu groß (max. 5 MB).",
+      "imageUploaded": "{{type}} hochgeladen.",
+      "uploadFail": "Fehler beim Hochladen.",
+      "imageReset": "{{type}} zurückgesetzt.",
+      "resetFail": "Fehler beim Zurücksetzen.",
+      "userCreated": "Benutzer \"{{name}}\" erstellt.",
+      "userCreateFail": "Fehler beim Erstellen.",
+      "deleteConfirm": "Benutzer \"{{name}}\" wirklich löschen?",
+      "userDeleted": "Benutzer \"{{name}}\" gelöscht.",
+      "deleteFail": "Fehler beim Löschen.",
+      "roleUpdated": "Rolle aktualisiert.",
+      "roleUpdateFail": "Fehler beim Aktualisieren.",
+      "passwordMinLength": "Passwort muss mindestens 6 Zeichen lang sein.",
+      "passwordReset": "Passwort zurückgesetzt.",
+      "passwordResetFail": "Fehler beim Zurücksetzen."
+    }
+  },
+  "credits": {
+    "back": "Zurück",
+    "title": "Credits & Attributions",
+    "subtitle": "Quizzle wäre ohne die großartige Arbeit vieler Künstler:innen und Open-Source-Projekte nicht möglich. Vielen Dank!",
+    "by": "von",
+    "source": "Quelle"
+  },
+  "practiceResults": {
+    "loading": "Ergebnisse werden geladen...",
+    "notFound": "Keine Ergebnisse gefunden",
+    "returnHome": "Zurück zur Startseite",
+    "codeLabel": "Code",
+    "resultsTitle": "Übungsquiz Ergebnisse",
+    "stats": {
+      "attempts": "Versuche",
+      "average": "Durchschnitt",
+      "best": "Beste Punktzahl",
+      "daysLeft": "{{count}} Tage Verbleiben"
+    },
+    "tabs": {
+      "analytics": "Analytics",
+      "details": "Details"
+    },
+    "groupedByStudent": "Nach Schülern gruppiert",
+    "studentLabels": {
+      "attempts": "Versuche:",
+      "best": "Beste:",
+      "average": "Durchschnitt:"
+    },
+    "selectAttempt": "Versuch auswählen:",
+    "attemptN": "Versuch {{n}}",
+    "loadingQuestions": "Fragen werden geladen...",
+    "questionN": "Frage {{n}}:",
+    "detailFor": "Detailansicht: {{name}}",
+    "answerLabels": {
+      "answer": "Antwort:",
+      "correct": "Richtig:",
+      "margin": "Marge:",
+      "yourOrder": "Ihre Reihenfolge:",
+      "correctOrder": "Richtige Reihenfolge:"
+    },
+    "excelExport": "Als Excel herunterladen",
+    "toasts": {
+      "authRequired": "Anmeldung erforderlich.",
+      "notFound": "Übungsquiz nicht gefunden.",
+      "loadFailed": "Fehler beim Laden der Ergebnisse.",
+      "noDataExport": "Keine Daten zum Exportieren verfügbar",
+      "exportFailed": "Fehler beim Exportieren der Daten",
+      "exported": "Analytics exportiert: {{filename}}"
+    }
+  },
+  "podium": {
+    "correctOf": "{{correct}} von {{total}} richtig"
+  },
+  "setupWizard": {
+    "welcomeTitle": "Willkommen bei Quizzle!",
+    "welcomeDescription": "Richte dein Quizzle in wenigen Schritten ein. Erstelle zunächst einen <strong>Administrator-Account</strong>, um alle Einstellungen zu verwalten.",
+    "startSetup": "Einrichtung starten",
+    "usernameTitle": "Benutzername wählen",
+    "usernameDescription": "Wähle einen Benutzernamen für den Administrator-Account.",
+    "usernamePlaceholder": "Benutzername",
+    "passwordTitle": "Passwort festlegen",
+    "passwordDescription": "Wähle ein sicheres Passwort für <strong>{{name}}</strong>.",
+    "passwordPlaceholder": "Passwort",
+    "confirmPasswordPlaceholder": "Passwort bestätigen",
+    "finish": "Abschließen",
+    "errors": {
+      "usernameRequired": "Benutzername ist erforderlich",
+      "minChars3": "Mindestens 3 Zeichen",
+      "maxChars32": "Maximal 32 Zeichen",
+      "invalidChars": "Nur Buchstaben, Zahlen, Punkte, Bindestriche und Unterstriche",
+      "passwordRequired": "Passwort ist erforderlich",
+      "minChars6": "Mindestens 6 Zeichen",
+      "mismatch": "Passwörter stimmen nicht überein",
+      "confirmRequired": "Bitte Passwort bestätigen"
+    },
+    "toasts": {
+      "completed": "Setup abgeschlossen! Willkommen bei Quizzle.",
+      "failed": "Setup fehlgeschlagen"
+    }
+  },
+  "backgroundChooser": {
+    "changeBackground": "Hintergrund ändern",
+    "chooseBackground": "Hintergrund wählen"
+  },
+  "mediaDialog": {
+    "title": "Medien einfügen",
+    "ariaTitle": "Medien einfügen",
+    "ariaClose": "Dialog schließen",
+    "tabs": {
+      "images": "Bilder",
+      "gifs": "GIFs",
+      "upload": "Hochladen"
+    },
+    "searchPlaceholder": "Suche...",
+    "noResults": "Keine Ergebnisse gefunden.",
+    "popularImages": "Beliebte Bilder",
+    "popularGifs": "Beliebte GIFs",
+    "resultsLabel": "Ergebnisse",
+    "dropHereOrClick": "Datei hierher ziehen oder klicken",
+    "fileTypes": "PNG, JPG, GIF, WebP",
+    "errors": {
+      "search": "Fehler bei der Suche.",
+      "loading": "Fehler beim Laden des Mediums.",
+      "onlyImages": "Nur Bilddateien sind erlaubt."
+    },
+    "imagesBy": "von",
+    "gifsBy": "von"
+  },
+  "soundControl": {
+    "soundOn": "Ton ausschalten",
+    "soundOff": "Ton einschalten",
+    "volumeLabel": "Lautstärke"
+  },
+  "analytics": {
+    "tabs": {
+      "overview": "Übersicht",
+      "students": "Schüler",
+      "questions": "Fragen"
+    },
+    "tabsAriaLabel": "Analytics Tabs",
+    "classOverview": {
+      "participants": "Teilnehmer",
+      "questions": "Fragen",
+      "accuracy": "Ø Genauigkeit",
+      "points": "Ø Punkte",
+      "difficultyDist": "Schwierigkeitsverteilung",
+      "easyTitle": "{{count}} einfach",
+      "mediumTitle": "{{count}} mittel",
+      "hardTitle": "{{count}} schwer",
+      "easy": "Einfach",
+      "medium": "Mittel",
+      "hard": "Schwer"
+    },
+    "questionAnalytics": {
+      "questionN": "Frage {{n}}",
+      "correct": "{{count}} richtig",
+      "partial": "{{count}} teilweise",
+      "incorrect": "{{count}} falsch"
+    },
+    "difficultyLabels": {
+      "easy": "Einfach",
+      "medium": "Mittel",
+      "hard": "Schwer",
+      "dash": "—"
+    },
+    "studentSort": {
+      "byAccuracy": "Nach Genauigkeit",
+      "byCorrect": "Nach Richtigen",
+      "byPoints": "Nach Punkten"
+    },
+    "recommendations": {
+      "studentsNeedHelp": "{{count}} Schüler benötigen Hilfe",
+      "hardQuestions": "{{count}} schwere Fragen",
+      "lowPerformance": "Niedrige Klassenleistung: {{percent}}%",
+      "reviewRecommended": "Wiederholung der Inhalte empfohlen",
+      "goodPerformance": "Gute Klassenleistung: {{percent}}%",
+      "readyForNewTopics": "Klasse ist bereit für neue Themen",
+      "studentsHeader": "Schüler:",
+      "questionsHeader": "Fragen:",
+      "questionN": "Frage {{n}}: {{percent}}%",
+      "noIssues": "Keine Probleme erkannt",
+      "classDoingWell": "Die Klasse zeigt gute Leistungen."
+    }
+  },
+  "ai": {
+    "generateTitle": "KI-Quiz generieren",
+    "generateSubtitle": "Wähle eine Quelle und lass die KI ein Quiz erstellen",
+    "closeAria": "Schließen",
+    "removeAria": "Entfernen",
+    "tabLabels": {
+      "topic": "Thema",
+      "pdf": "PDF",
+      "url": "URL",
+      "wikipedia": "Wikipedia"
+    },
+    "tabDescriptions": {
+      "topic": "Fragen aus einem Thema generieren",
+      "pdf": "Fragen aus einem PDF-Dokument",
+      "url": "Fragen aus einer Website",
+      "wikipedia": "Fragen aus einem Wikipedia-Artikel"
+    },
+    "difficulties": {
+      "auto": "Automatisch",
+      "easy": "Einfach",
+      "medium": "Mittel",
+      "hard": "Schwer"
+    },
+    "topicLabel": "Thema",
+    "topicPlaceholder": "z.B. Die Französische Revolution, Photosynthese, Römische Kaiserzeit...",
+    "topicHint": "Beschreibe das Thema – je genauer, desto besser das Quiz. ({{count}}/400)",
+    "pdfLabel": "PDF-Dokument",
+    "dropPdfTitle": "PDF hier ablegen",
+    "dropPdfSubtitle": "oder klicken zum Auswählen (max. 25 MB)",
+    "urlLabel": "Website-URL",
+    "urlPlaceholder": "https://example.com/artikel",
+    "urlHint": "Die Website wird gelesen und als Quelle verwendet.",
+    "wikiLabel": "Wikipedia-Artikel",
+    "wikiPlaceholder": "z.B. Albert Einstein",
+    "wikiHint": "Der Artikeltext wird als Faktenbasis verwendet.",
+    "langAria": "Sprache",
+    "questionCount": "Anzahl Fragen",
+    "autoCount": "Auto",
+    "difficulty": "Schwierigkeit",
+    "autoTitle": {
+      "heading": "Titel & Beschreibung automatisch erstellen",
+      "descActive": "Die KI füllt Quiz-Titel und Beschreibung aus, bevor die Fragen erstellt werden",
+      "descExisting": "Titel oder Beschreibung sind bereits gesetzt"
+    },
+    "pleaseWait": "Bitte warten...",
+    "generate": "Quiz generieren",
+    "generateAria": "Quiz generieren",
+    "advancedAria": "Erweiterte Optionen: PDF, URL, Wikipedia",
+    "cancelGeneration": "Generierung abbrechen",
+    "generateWithAI": "Quiz mit KI generieren",
+    "errors": {
+      "url": "Bitte gib eine URL ein.",
+      "query": "Bitte gib einen Suchbegriff ein.",
+      "pdf": "Bitte wähle eine PDF-Datei aus.",
+      "pdfTooLarge": "PDF ist zu groß (max 25 MB).",
+      "pdfOnly": "Bitte wähle eine PDF-Datei aus.",
+      "noText": "Keine Textdaten erhalten.",
+      "sourceFailed": "Quelle konnte nicht geladen werden."
+    },
+    "topic2": {
+      "placeholder": "Thema eingeben...",
+      "countPlaceholder": "Anz."
+    },
+    "pdfDefault": "PDF-Dokument",
+    "stop": "Stopp",
+    "toasts": {
+      "waitingAI": "Warte auf KI...",
+      "creatingMetadata": "KI erstellt Titel & Beschreibung...",
+      "generatingQuestions": "KI generiert Fragen...",
+      "generatedOne": "{{count}} Frage generiert!",
+      "generatedOther": "{{count}} Fragen generiert!",
+      "errorGeneration": "Fehler bei der Generierung.",
+      "generationFailed": "Fehler bei der KI-Generierung."
+    }
+  },
+  "questionTypes": {
+    "multipleChoice": {
+      "name": "Auswahlmöglichkeiten",
+      "description": "Spieler wählen aus vorgegebenen Antwortmöglichkeiten"
+    },
+    "trueFalse": {
+      "name": "Wahr/Falsch",
+      "description": "Spieler wählen zwischen Wahr und Falsch"
+    },
+    "text": {
+      "name": "Text Eingabe",
+      "description": "Spieler geben ihre Antwort als Text ein"
+    },
+    "sequence": {
+      "name": "Reihenfolge",
+      "description": "Spieler sortieren Antworten in die richtige Reihenfolge"
+    },
+    "slider": {
+      "name": "Schieberegler",
+      "description": "Spieler schätzen einen Wert auf einem Schieberegler"
+    }
+  },
+  "sliderMargin": {
+    "none": {
+      "label": "Keine",
+      "description": "Nur die exakte Antwort akzeptieren"
+    },
+    "low": {
+      "label": "Niedrig",
+      "description": "Niedrige Fehlertoleranz"
+    },
+    "medium": {
+      "label": "Mittel",
+      "description": "Mittlere Fehlertoleranz"
+    },
+    "high": {
+      "label": "Hoch",
+      "description": "Hohe Fehlertoleranz"
+    },
+    "maximum": {
+      "label": "Maximal",
+      "description": "Nächste Antwort erhält mehr Punkte"
+    }
+  },
+  "validation": {
+    "required": "Dieses Feld ist erforderlich",
+    "minLength": "Mindestens {{count}} Zeichen erforderlich",
+    "maxLength": "Maximal {{count}} Zeichen erlaubt",
+    "invalidFormat": "Ungültiges Format",
+    "invalidChars": "Enthält ungültige Zeichen",
+    "charsLeft": "{{count}} Zeichen übrig",
+    "playerNoLeadingTrailingSpaces": "Name darf nicht mit Leerzeichen beginnen oder enden",
+    "playerNoMultipleSpaces": "Keine mehrfachen Leerzeichen erlaubt",
+    "titleEmpty": "Titel darf nicht leer sein",
+    "questionEmpty": "Frage darf nicht leer sein",
+    "answerEmpty": "Antwort darf nicht leer sein"
+  },
+  "dialog": {
+    "ok": "OK",
+    "cancel": "Abbrechen"
+  },
+  "excelExport": {
+    "title": "Quizzle Analytics Export",
+    "quizInformation": "Quiz Informationen",
+    "quizType": "Quiz Typ",
+    "liveQuiz": "Live Quiz",
+    "practiceQuiz": "Übungsquiz",
+    "quizName": "Quiz Name",
+    "exportDate": "Export Datum",
+    "exportTime": "Export Zeit",
+    "classOverview": "Klassen Übersicht",
+    "totalStudents": "Gesamte Schüler",
+    "totalQuestions": "Gesamte Fragen",
+    "averageScore": "Durchschnittliche Punktzahl",
+    "averageAccuracy": "Durchschnittliche Genauigkeit (%)",
+    "questionsNeedingReview": "Fragen die Überprüfung benötigen",
+    "studentsNeedingAttention": "Schüler die Aufmerksamkeit benötigen",
+    "participationRate": "Teilnahmerate (%)",
+    "totalAttempts": "Gesamte Versuche",
+    "overviewSheet": "Übersicht",
+    "studentName": "Schüler Name",
+    "character": "Charakter",
+    "totalPoints": "Gesamte Punkte",
+    "correctAnswers": "Richtige Antworten",
+    "partialCorrectAnswers": "Teilweise richtige Antworten",
+    "incorrectAnswers": "Falsche Antworten",
+    "totalAnswered": "Gesamte beantwortet",
+    "accuracyPct": "Genauigkeit (%)",
+    "needsAttention": "Benötigt Aufmerksamkeit",
+    "performanceLevel": "Leistungsniveau",
+    "attempts": "Versuche",
+    "avgScore": "Durchschnittliche Punktzahl",
+    "studentSheet": "Schüler Analytics",
+    "questionNum": "Frage Nr.",
+    "questionTitle": "Frage Titel",
+    "questionType": "Frage Typ",
+    "totalResponses": "Gesamte Antworten",
+    "correctCount": "Richtige Anzahl",
+    "partialCount": "Teilweise richtige Anzahl",
+    "incorrectCount": "Falsche Anzahl",
+    "correctPct": "Richtige Prozent (%)",
+    "difficultyLevel": "Schwierigkeitsgrad",
+    "needsReview": "Benötigt Überprüfung",
+    "questionSheet": "Fragen Analytics",
+    "summary": "Zusammenfassung Statistiken",
+    "difficultyDistribution": "Fragen Schwierigkeitsverteilung",
+    "easyQuestions": "Einfache Fragen",
+    "mediumQuestions": "Mittlere Fragen",
+    "hardQuestions": "Schwere Fragen",
+    "studentPerformanceDist": "Schüler Leistungsverteilung",
+    "excellent80": "Ausgezeichnet (≥80%)",
+    "good60": "Gut (60-79%)",
+    "needsImprovement": "Verbesserung nötig (<60%)",
+    "topFive": "Top 5 Schüler",
+    "rank": "Rang",
+    "name": "Name",
+    "score": "Punktzahl",
+    "accuracyShort": "Genauigkeit (%)",
+    "summarySheet": "Zusammenfassung",
+    "yes": "Ja",
+    "no": "Nein",
+    "excellent": "Ausgezeichnet",
+    "good": "Gut",
+    "improvementNeeded": "Verbesserung nötig",
+    "easy": "Einfach",
+    "medium": "Mittel",
+    "hard": "Schwer",
+    "unknown": "Unbekannt",
+    "practicePrefix": "Übungsquiz"
+  },
+  "quizValidation": {
+    "titleEmpty": "Quiz-Titel darf nicht leer sein.",
+    "minQuestions": "Es muss mindestens eine Frage vorhanden sein.",
+    "maxQuestions": "Quiz darf maximal {{count}} Fragen enthalten.",
+    "questionEmpty": "Fragen dürfen nicht leer sein.",
+    "questionTooLong": "Fragen dürfen maximal {{count}} Zeichen lang sein.",
+    "textAnswerEmpty": "Text-Antworten dürfen nicht leer sein.",
+    "trueFalseTwo": "Wahr/Falsch-Fragen müssen genau zwei Antworten haben.",
+    "trueFalseOneCorrect": "Wahr/Falsch-Fragen müssen mindestens eine richtige Antwort haben.",
+    "mcOneCorrect": "Jede Multiple-Choice-Frage muss mindestens eine richtige Antwort haben.",
+    "mcEmpty": "Multiple-Choice-Antworten dürfen nicht leer sein.",
+    "mcTooLong": "Multiple-Choice-Antworten dürfen maximal {{count}} Zeichen lang sein.",
+    "sequenceEmpty": "Reihenfolge-Antworten dürfen nicht leer sein.",
+    "sequenceTooLong": "Reihenfolge-Antworten dürfen maximal {{count}} Zeichen lang sein.",
+    "sliderOneConfig": "Schieberegler-Fragen müssen genau eine Antwort-Konfiguration haben.",
+    "sliderCorrectValue": "Schieberegler-Fragen müssen einen korrekten Wert haben.",
+    "sliderMinMax": "Schieberegler-Fragen müssen einen Min- und Max-Wert haben.",
+    "sliderMinLess": "Der Minimalwert muss kleiner als der Maximalwert sein.",
+    "sliderInRange": "Der korrekte Wert muss zwischen Min und Max liegen.",
+    "sliderStepPositive": "Der Schrittwert muss größer als 0 sein.",
+    "minTextAnswers": "Text-Fragen müssen mindestens eine akzeptierte Antwort haben.",
+    "minSequenceAnswers": "Reihenfolge-Fragen müssen mindestens zwei Antworten haben.",
+    "minSliderConfig": "Schieberegler-Fragen müssen eine Konfiguration haben.",
+    "minMCAnswers": "Multiple-Choice-Fragen müssen mindestens zwei Antworten haben.",
+    "maxTextAnswers": "Text-Fragen dürfen maximal {{count}} akzeptierte Antworten haben.",
+    "maxSequenceAnswers": "Reihenfolge-Fragen dürfen maximal {{count}} Antworten haben.",
+    "maxSliderConfig": "Schieberegler-Fragen dürfen nur eine Konfiguration haben.",
+    "maxMCAnswers": "Multiple-Choice-Fragen dürfen maximal {{count}} Antworten haben."
+  }
+}

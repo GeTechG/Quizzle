@@ -7,8 +7,10 @@ import {useEffect} from "react";
 import {QUESTION_TYPES} from "@/common/constants/QuestionTypes.js";
 import {getAnswerColor, getAnswerGradient} from "@/common/utils/AnswerColorUtil.js";
 import AnswerShape from "@/common/components/AnswerShape";
+import {useTranslation} from "react-i18next";
 
 export const AnswerResults = ({question, answerData, showScoreboard}) => {
+    const {t} = useTranslation();
     const soundManager = useSoundManager();
 
     useEffect(() => {
@@ -44,11 +46,11 @@ export const AnswerResults = ({question, answerData, showScoreboard}) => {
         return (
             <div className="answer-results">
                 <div className="top-area">
-                    <Button onClick={showScoreboard} text="Scoreboard anzeigen"
+                    <Button onClick={showScoreboard} text={t('answerResults.showScoreboard')}
                             padding="1rem 1.5rem" icon={faForward}/>
                 </div>
 
-                <h1>Richtige Antwort: {correctValue}</h1>
+                <h1>{t('answerResults.correctAnswer', {value: correctValue})}</h1>
 
                 <div className="slider-results">
                     <div className="slider-results-track">
@@ -90,11 +92,11 @@ export const AnswerResults = ({question, answerData, showScoreboard}) => {
         return (
             <div className="answer-results">
                 <div className="top-area">
-                    <Button onClick={showScoreboard} text="Scoreboard anzeigen"
+                    <Button onClick={showScoreboard} text={t('answerResults.showScoreboard')}
                             padding="1rem 1.5rem" icon={faForward}/>
                 </div>
 
-                <h1>Richtige Antworten</h1>
+                <h1>{t('answerResults.correctAnswers')}</h1>
 
                 <div className="correct-answers">
                     {answerData.answers.map((answer, index) => (
@@ -117,11 +119,11 @@ export const AnswerResults = ({question, answerData, showScoreboard}) => {
         return (
             <div className="answer-results">
                 <div className="top-area">
-                    <Button onClick={showScoreboard} text="Scoreboard anzeigen"
+                    <Button onClick={showScoreboard} text={t('answerResults.showScoreboard')}
                             padding="1rem 1.5rem" icon={faForward}/>
                 </div>
 
-                <h1>Richtige Reihenfolge</h1>
+                <h1>{t('answerResults.correctOrder')}</h1>
 
                 <div className="sequence-correct-order">
                     {answerData.answers.map((answer, index) => (
@@ -146,11 +148,11 @@ export const AnswerResults = ({question, answerData, showScoreboard}) => {
     return (
         <div className="answer-results">
             <div className="top-area">
-                <Button onClick={showScoreboard} text="Scoreboard anzeigen"
+                <Button onClick={showScoreboard} text={t('answerResults.showScoreboard')}
                         padding="1rem 1.5rem" icon={faForward}/>
             </div>
 
-            <h1>Antworten</h1>
+            <h1>{t('answerResults.answersHeader')}</h1>
 
             <motion.div
                 className="vote-bars-section"

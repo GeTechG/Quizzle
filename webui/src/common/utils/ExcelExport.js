@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx';
+import i18n from '../i18n';
 
 const autoSizeColumns = (worksheet, data) => {
     const colWidths = [];
@@ -17,62 +18,65 @@ const autoSizeColumns = (worksheet, data) => {
     worksheet['!cols'] = colWidths.map(width => ({width}));
 };
 
+const localeForDates = () => i18n.language === 'ru' ? 'ru-RU' : i18n.language === 'en' ? 'en-US' : 'de-DE';
+
 const exportAnalyticsToExcel = (analyticsData, quizData = null, isLiveQuiz = false, quizName = 'Quiz') => {
+    const t = (key) => i18n.t(`excelExport.${key}`);
     const {classAnalytics, questionAnalytics, studentAnalytics} = analyticsData;
 
     const workbook = XLSX.utils.book_new();
 
     const overviewData = [
-        ['Quizzle Analytics Export'],
+        [t('title')],
         [''],
-        ['Quiz Informationen'],
-        ['Quiz Typ', isLiveQuiz ? 'Live Quiz' : 'Übungsquiz'],
-        ['Quiz Name', quizName],
-        ['Export Datum', new Date().toLocaleDateString('de-DE')],
-        ['Export Zeit', new Date().toLocaleTimeString('de-DE')],
+        [t('quizInformation')],
+        [t('quizType'), isLiveQuiz ? t('liveQuiz') : t('practiceQuiz')],
+        [t('quizName'), quizName],
+        [t('exportDate'), new Date().toLocaleDateString(localeForDates())],
+        [t('exportTime'), new Date().toLocaleTimeString(localeForDates())],
         [''],
-        ['Klassen Übersicht'],
-        ['Gesamte Schüler', classAnalytics.totalStudents],
-        ['Gesamte Fragen', classAnalytics.totalQuestions],
-        ['Durchschnittliche Punktzahl', classAnalytics.averageScore],
-        ['Durchschnittliche Genauigkeit (%)', classAnalytics.averageAccuracy],
-        ['Fragen die Überprüfung benötigen', classAnalytics.questionsNeedingReview],
-        ['Schüler die Aufmerksamkeit benötigen', classAnalytics.studentsNeedingAttention],
-        ['Teilnahmerate (%)', classAnalytics.participationRate || 100]
+        [t('classOverview')],
+        [t('totalStudents'), classAnalytics.totalStudents],
+        [t('totalQuestions'), classAnalytics.totalQuestions],
+        [t('averageScore'), classAnalytics.averageScore],
+        [t('averageAccuracy'), classAnalytics.averageAccuracy],
+        [t('questionsNeedingReview'), classAnalytics.questionsNeedingReview],
+        [t('studentsNeedingAttention'), classAnalytics.studentsNeedingAttention],
+        [t('participationRate'), classAnalytics.participationRate || 100]
     ];
 
     if (isLiveQuiz) {
-        overviewData.push(['Gesamte Versuche', classAnalytics.totalAttempts || 'N/A']);
+        overviewData.push([t('totalAttempts'), classAnalytics.totalAttempts || 'N/A']);
     } else {
-        overviewData.push(['Gesamte Versuche', classAnalytics.totalAttempts]);
+        overviewData.push([t('totalAttempts'), classAnalytics.totalAttempts]);
     }
 
     const overviewSheet = XLSX.utils.aoa_to_sheet(overviewData);
     autoSizeColumns(overviewSheet, overviewData);
-    XLSX.utils.book_append_sheet(workbook, overviewSheet, 'Übersicht');
+    XLSX.utils.book_append_sheet(workbook, overviewSheet, t('overviewSheet'));
 
     const studentHeaders = [
-        'Schüler Name',
-        'Charakter',
-        'Gesamte Punkte',
-        'Richtige Antworten',
-        'Teilweise richtige Antworten',
-        'Falsche Antworten',
-        'Gesamte beantwortet',
-        'Genauigkeit (%)',
-        'Benötigt Aufmerksamkeit',
-        'Leistungsniveau'
+        t('studentName'),
+        t('character'),
+        t('totalPoints'),
+        t('correctAnswers'),
+        t('partialCorrectAnswers'),
+        t('incorrectAnswers'),
+        t('totalAnswered'),
+        t('accuracyPct'),
+        t('needsAttention'),
+        t('performanceLevel')
     ];
 
     if (!isLiveQuiz) {
-        studentHeaders.splice(8, 0, 'Versuche', 'Durchschnittliche Punktzahl');
+        studentHeaders.splice(8, 0, t('attempts'), t('avgScore'));
     }
 
     const studentData = [studentHeaders];
 
     studentAnalytics.forEach(student => {
-        const performanceLevel = student.accuracy >= 80 ? 'Ausgezeichnet' :
-            student.accuracy >= 60 ? 'Gut' : 'Verbesserung nötig';
+        const performanceLevel = student.accuracy >= 80 ? t('excellent') :
+            student.accuracy >= 60 ? t('good') : t('improvementNeeded');
 
         const row = [
             student.name,
@@ -83,7 +87,7 @@ const exportAnalyticsToExcel = (analyticsData, quizData = null, isLiveQuiz = fal
             student.incorrectAnswers,
             student.totalAnswered,
             student.accuracy,
-            student.needsAttention ? 'Ja' : 'Nein',
+            student.needsAttention ? t('yes') : t('no'),
             performanceLevel
         ];
 
@@ -96,27 +100,27 @@ const exportAnalyticsToExcel = (analyticsData, quizData = null, isLiveQuiz = fal
 
     const studentSheet = XLSX.utils.aoa_to_sheet(studentData);
     autoSizeColumns(studentSheet, studentData);
-    XLSX.utils.book_append_sheet(workbook, studentSheet, 'Schüler Analytics');
+    XLSX.utils.book_append_sheet(workbook, studentSheet, t('studentSheet'));
 
     const questionHeaders = [
-        'Frage Nr.',
-        'Frage Titel',
-        'Frage Typ',
-        'Gesamte Antworten',
-        'Richtige Anzahl',
-        'Teilweise richtige Anzahl',
-        'Falsche Anzahl',
-        'Richtige Prozent (%)',
-        'Schwierigkeitsgrad',
-        'Benötigt Überprüfung'
+        t('questionNum'),
+        t('questionTitle'),
+        t('questionType'),
+        t('totalResponses'),
+        t('correctCount'),
+        t('partialCount'),
+        t('incorrectCount'),
+        t('correctPct'),
+        t('difficultyLevel'),
+        t('needsReview')
     ];
 
     const questionData = [questionHeaders];
 
     questionAnalytics.forEach(question => {
-        const difficultyGerman = question.difficulty === 'easy' ? 'Einfach' :
-            question.difficulty === 'medium' ? 'Mittel' :
-                question.difficulty === 'hard' ? 'Schwer' : 'Unbekannt';
+        const difficultyLabel = question.difficulty === 'easy' ? t('easy') :
+            question.difficulty === 'medium' ? t('medium') :
+                question.difficulty === 'hard' ? t('hard') : t('unknown');
 
         questionData.push([
             question.questionIndex + 1,
@@ -127,30 +131,30 @@ const exportAnalyticsToExcel = (analyticsData, quizData = null, isLiveQuiz = fal
             question.partialCount || 0,
             question.incorrectCount,
             question.correctPercentage,
-            difficultyGerman,
-            question.needsReview ? 'Ja' : 'Nein'
+            difficultyLabel,
+            question.needsReview ? t('yes') : t('no')
         ]);
     });
 
     const questionSheet = XLSX.utils.aoa_to_sheet(questionData);
     autoSizeColumns(questionSheet, questionData);
-    XLSX.utils.book_append_sheet(workbook, questionSheet, 'Fragen Analytics');
+    XLSX.utils.book_append_sheet(workbook, questionSheet, t('questionSheet'));
 
     const summaryData = [
-        ['Zusammenfassung Statistiken'],
+        [t('summary')],
         [''],
-        ['Fragen Schwierigkeitsverteilung'],
-        ['Einfache Fragen', questionAnalytics.filter(q => q.difficulty === 'easy').length],
-        ['Mittlere Fragen', questionAnalytics.filter(q => q.difficulty === 'medium').length],
-        ['Schwere Fragen', questionAnalytics.filter(q => q.difficulty === 'hard').length],
+        [t('difficultyDistribution')],
+        [t('easyQuestions'), questionAnalytics.filter(q => q.difficulty === 'easy').length],
+        [t('mediumQuestions'), questionAnalytics.filter(q => q.difficulty === 'medium').length],
+        [t('hardQuestions'), questionAnalytics.filter(q => q.difficulty === 'hard').length],
         [''],
-        ['Schüler Leistungsverteilung'],
-        ['Ausgezeichnet (≥80%)', studentAnalytics.filter(s => s.accuracy >= 80).length],
-        ['Gut (60-79%)', studentAnalytics.filter(s => s.accuracy >= 60 && s.accuracy < 80).length],
-        ['Verbesserung nötig (<60%)', studentAnalytics.filter(s => s.accuracy < 60).length],
+        [t('studentPerformanceDist')],
+        [t('excellent80'), studentAnalytics.filter(s => s.accuracy >= 80).length],
+        [t('good60'), studentAnalytics.filter(s => s.accuracy >= 60 && s.accuracy < 80).length],
+        [t('needsImprovement'), studentAnalytics.filter(s => s.accuracy < 60).length],
         [''],
-        ['Top 5 Schüler'],
-        ['Rang', 'Name', 'Punktzahl', 'Genauigkeit (%)']
+        [t('topFive')],
+        [t('rank'), t('name'), t('score'), t('accuracyShort')]
     ];
 
     const sortedStudents = [...studentAnalytics]
@@ -168,7 +172,7 @@ const exportAnalyticsToExcel = (analyticsData, quizData = null, isLiveQuiz = fal
 
     const summarySheet = XLSX.utils.aoa_to_sheet(summaryData);
     autoSizeColumns(summarySheet, summaryData);
-    XLSX.utils.book_append_sheet(workbook, summarySheet, 'Zusammenfassung');
+    XLSX.utils.book_append_sheet(workbook, summarySheet, t('summarySheet'));
 
     const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
     const filename = `${quizName}_Analytics_${timestamp}.xlsx`;
@@ -180,7 +184,7 @@ const exportAnalyticsToExcel = (analyticsData, quizData = null, isLiveQuiz = fal
 
 export const exportPracticeResultsToExcel = (results, practiceCode) => {
     const analyticsData = results.analytics;
-    const quizName = `Übungsquiz_${practiceCode}`;
+    const quizName = `${i18n.t('excelExport.practicePrefix')}_${practiceCode}`;
 
     return exportAnalyticsToExcel(analyticsData, results.quiz, false, quizName);
 };

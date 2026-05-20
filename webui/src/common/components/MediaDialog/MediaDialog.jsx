@@ -1,5 +1,6 @@
 import "./styles.sass";
 import {useState, useEffect, useCallback, useRef} from "react";
+import {useTranslation} from "react-i18next";
 import {createPortal} from "react-dom";
 import {motion, AnimatePresence} from "framer-motion";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -13,13 +14,13 @@ import {
     faExclamationTriangle
 } from "@fortawesome/free-solid-svg-icons";
 
-const ALL_TABS = [
-    {id: "images", label: "Bilder", icon: faImage, requiresApi: true},
-    {id: "gifs", label: "GIFs", icon: faFilm, requiresApi: true},
-    {id: "upload", label: "Hochladen", icon: faUpload, requiresApi: false},
-];
-
 export const MediaDialog = ({isOpen, onClose, onSelect}) => {
+    const {t} = useTranslation();
+    const ALL_TABS = [
+        {id: "images", label: t("mediaDialog.tabs.images"), icon: faImage, requiresApi: true},
+        {id: "gifs", label: t("mediaDialog.tabs.gifs"), icon: faFilm, requiresApi: true},
+        {id: "upload", label: t("mediaDialog.tabs.upload"), icon: faUpload, requiresApi: false},
+    ];
     const [availableTabs, setAvailableTabs] = useState(null);
     const [activeTab, setActiveTab] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -69,7 +70,7 @@ export const MediaDialog = ({isOpen, onClose, onSelect}) => {
 
             if (!response.ok) {
                 const data = await response.json().catch(() => ({}));
-                throw new Error(data.message || "Fehler bei der Suche.");
+                throw new Error(data.message || t("mediaDialog.errors.search"));
             }
 
             const data = await response.json();
@@ -111,7 +112,7 @@ export const MediaDialog = ({isOpen, onClose, onSelect}) => {
             onSelect(file);
             onClose();
         } catch (err) {
-            setError("Fehler beim Laden des Mediums.");
+            setError(t("mediaDialog.errors.loading"));
         } finally {
             setLoading(false);
         }
@@ -120,7 +121,7 @@ export const MediaDialog = ({isOpen, onClose, onSelect}) => {
     const handleFileUpload = (files) => {
         const file = files[0];
         if (!file || !file.type.startsWith("image/")) {
-            setError("Nur Bilddateien sind erlaubt.");
+            setError(t("mediaDialog.errors.onlyImages"));
             return;
         }
         onSelect(file);
@@ -156,7 +157,7 @@ export const MediaDialog = ({isOpen, onClose, onSelect}) => {
                         className="media-dialog"
                         role="dialog"
                         aria-modal="true"
-                        aria-label="Medien einfügen"
+                        aria-label={t("mediaDialog.ariaTitle")}
                         initial={{opacity: 0, scale: 0.9, y: -20}}
                         animate={{opacity: 1, scale: 1, y: 0}}
                         exit={{opacity: 0, scale: 0.9, y: -20}}
@@ -165,8 +166,8 @@ export const MediaDialog = ({isOpen, onClose, onSelect}) => {
                         onKeyDown={(e) => e.key === 'Escape' && onClose()}
                     >
                         <div className="media-dialog-header">
-                            <h3>Medien einfügen</h3>
-                            <button type="button" className="media-dialog-close" onClick={onClose} aria-label="Dialog schließen">
+                            <h3>{t("mediaDialog.title")}</h3>
+                            <button type="button" className="media-dialog-close" onClick={onClose} aria-label={t("mediaDialog.ariaClose")}>
                                 <FontAwesomeIcon icon={faTimes} aria-hidden="true"/>
                             </button>
                         </div>
@@ -198,7 +199,7 @@ export const MediaDialog = ({isOpen, onClose, onSelect}) => {
                                         <FontAwesomeIcon icon={faSearch} className="search-icon"/>
                                         <input
                                             type="text"
-                                            placeholder="Suche..."
+                                            placeholder={t("mediaDialog.searchPlaceholder")}
                                             value={searchQuery}
                                             onChange={(e) => setSearchQuery(e.target.value)}
                                             autoFocus
@@ -225,8 +226,8 @@ export const MediaDialog = ({isOpen, onClose, onSelect}) => {
                                         onClick={() => fileInputRef.current?.click()}
                                     >
                                         <FontAwesomeIcon icon={faUpload}/>
-                                        <p>Datei hierher ziehen oder klicken</p>
-                                        <span>PNG, JPG, GIF, WebP</span>
+                                        <p>{t("mediaDialog.dropHereOrClick")}</p>
+                                        <span>{t("mediaDialog.fileTypes")}</span>
                                         <input
                                             ref={fileInputRef}
                                             type="file"
@@ -244,7 +245,7 @@ export const MediaDialog = ({isOpen, onClose, onSelect}) => {
                                 )}
 
                                 {isSearchTab && !loading && !error && results.length === 0 && searchQuery.trim() && (
-                                    <div className="media-empty">Keine Ergebnisse gefunden.</div>
+                                    <div className="media-empty">{t("mediaDialog.noResults")}</div>
                                 )}
 
                                 {isSearchTab && !loading && results.length > 0 && (
@@ -272,12 +273,12 @@ export const MediaDialog = ({isOpen, onClose, onSelect}) => {
 
                                 {activeTab === "images" && results.length > 0 && !loading && (
                                     <div className="media-attribution-footer">
-                                        {searchQuery.trim() ? "Ergebnisse" : "Beliebte Bilder"} von <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Unsplash</a>
+                                        {searchQuery.trim() ? t("mediaDialog.resultsLabel") : t("mediaDialog.popularImages")} {t("mediaDialog.imagesBy")} <a href="https://unsplash.com" target="_blank" rel="noopener noreferrer">Unsplash</a>
                                     </div>
                                 )}
                                 {activeTab === "gifs" && results.length > 0 && !loading && (
                                     <div className="media-attribution-footer">
-                                        {searchQuery.trim() ? "Ergebnisse" : "Beliebte GIFs"} von <a href="https://giphy.com" target="_blank" rel="noopener noreferrer">GIPHY</a>
+                                        {searchQuery.trim() ? t("mediaDialog.resultsLabel") : t("mediaDialog.popularGifs")} {t("mediaDialog.gifsBy")} <a href="https://giphy.com" target="_blank" rel="noopener noreferrer">GIPHY</a>
                                     </div>
                                 )}
                             </div>

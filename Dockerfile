@@ -5,8 +5,8 @@ WORKDIR /quizzle
 COPY ./package.json ./package.json
 COPY ./webui/package.json ./webui/package.json
 
-RUN bun install --frozen-lockfile
-RUN cd webui && bun install --frozen-lockfile
+RUN bun install
+RUN cd webui && bun install
 
 COPY ./webui ./webui
 COPY ./server ./server

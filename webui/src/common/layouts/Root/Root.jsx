@@ -6,8 +6,10 @@ import {Toaster} from "react-hot-toast";
 import {socket, getSessionManager, getSessionState} from "@/common/utils/SocketUtil.js";
 import {AuthContext} from "@/common/contexts/Auth";
 import LoginDialog from "@/common/components/LoginDialog";
+import {useTranslation} from "react-i18next";
 
 export const Root = () => {
+    const {t} = useTranslation();
     const [circlePosition, setCirclePosition] = useState(["-25rem 0 0 -25rem", "-8rem 0 0 -8rem"]);
     const navigate = useNavigate();
     const location = useLocation();
@@ -51,7 +53,7 @@ export const Root = () => {
 
     return (
         <>
-            <a href="#main-content" className="skip-to-content">Zum Inhalt springen</a>
+            <a href="#main-content" className="skip-to-content">{t('root.skipToContent')}</a>
             <Background positionCircle={circlePosition} variant={isHostRoute ? 'host' : 'default'}/>
             <Toaster position="bottom-right" toastOptions={{duration: 4000}} />
             <LoginDialog

@@ -1,5 +1,6 @@
 import "./styles.sass";
 import {useState} from "react";
+import {useTranslation} from "react-i18next";
 import {AnimatePresence, motion} from "framer-motion";
 import {faImage} from "@fortawesome/free-solid-svg-icons";
 import {HOST_BACKGROUNDS} from "@/common/data/hostBackgrounds";
@@ -7,6 +8,7 @@ import {useHostBackground} from "@/common/hooks/useHostBackground";
 import Button from "@/common/components/Button";
 
 export const BackgroundChooser = () => {
+    const {t} = useTranslation();
     const [open, setOpen] = useState(false);
     const [currentId, setCurrent] = useHostBackground();
 
@@ -16,7 +18,7 @@ export const BackgroundChooser = () => {
                 icon={faImage}
                 padding="0.5rem 0.8rem"
                 onClick={() => setOpen(o => !o)}
-                ariaLabel="Hintergrund ändern"
+                ariaLabel={t("backgroundChooser.changeBackground")}
             />
 
             <AnimatePresence>
@@ -30,7 +32,7 @@ export const BackgroundChooser = () => {
                             exit={{opacity: 0, y: 20, scale: 0.95}}
                             transition={{duration: 0.2, ease: "easeOut"}}
                         >
-                            <h3>Hintergrund wählen</h3>
+                            <h3>{t("backgroundChooser.chooseBackground")}</h3>
                             <div className="bg-chooser-grid">
                                 {HOST_BACKGROUNDS.map(bg => {
                                     const selected = bg.id === currentId;

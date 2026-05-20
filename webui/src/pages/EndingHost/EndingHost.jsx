@@ -13,8 +13,10 @@ import SoundControl from "@/common/components/SoundControl";
 import {exportLiveQuizToExcel} from "@/common/utils/ExcelExport";
 import {getCharacterEmoji} from "@/common/data/characters";
 import toast from "react-hot-toast";
+import {useTranslation} from "react-i18next";
 
 export const EndingHost = () => {
+    const {t} = useTranslation();
     const {isLoaded, scoreboard} = useContext(QuizContext);
     const navigate = useNavigate();
     const soundManager = useSoundManager();
@@ -48,7 +50,7 @@ export const EndingHost = () => {
 
     const handleExportToExcel = () => {
         if (!analyticsData) {
-            toast.error('Keine Analytics-Daten zum Exportieren verfügbar');
+            toast.error(t('ending.errors.noAnalytics'));
             return;
         }
 
@@ -56,16 +58,16 @@ export const EndingHost = () => {
             const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
             const quizName = `LiveQuiz_${timestamp}`;
             const filename = exportLiveQuizToExcel(analyticsData, quizName);
-            toast.success(`Analytics exportiert: ${filename}`);
+            toast.success(t('ending.exported', {filename}));
         } catch (error) {
             console.error('Error exporting to Excel:', error);
-            toast.error('Fehler beim Exportieren der Daten');
+            toast.error(t('ending.errors.exportFailed'));
         }
     };
 
     const viewTabs = [
-        {id: 'scoreboard', title: 'Ergebnisse', icon: faTrophy},
-        {id: 'analytics', title: 'Analytics', icon: faChartBar}
+        {id: 'scoreboard', title: t('ending.tabs.results'), icon: faTrophy},
+        {id: 'analytics', title: t('ending.tabs.analytics'), icon: faChartBar}
     ];
 
     return (
@@ -75,7 +77,7 @@ export const EndingHost = () => {
                 <SoundControl />
             </div>
 
-            <div className="view-toggle" role="tablist" aria-label="Ansicht wechseln">
+            <div className="view-toggle" role="tablist" aria-label={t('ending.viewSwitchAria')}>
                 {viewTabs.map(tab => (
                     <button
                         key={tab.id}
@@ -93,7 +95,7 @@ export const EndingHost = () => {
             {activeView === 'analytics' && analyticsData && (
                 <div className="export-button-container">
                     <Button
-                        text="Als Excel herunterladen"
+                        text={t('ending.downloadExcel')}
                         icon={faDownload}
                         onClick={handleExportToExcel}
                         type="compact green"
@@ -104,7 +106,7 @@ export const EndingHost = () => {
             {activeView === 'scoreboard' && (
                 <>
                     <div className="ending-home-button">
-                        <Button onClick={() => location.reload()} text="Startseite"
+                        <Button onClick={() => location.reload()} text={t('ending.home')}
                                 padding="1rem 1.5rem" icon={faHouse}/>
                     </div>
                     {(() => {
@@ -145,8 +147,7 @@ export const EndingHost = () => {
 
             {activeView === 'analytics' && !analyticsData && (
                 <div className="no-analytics">
-                    <p>Keine Analytics-Daten verfügbar. Bitte stellen Sie sicher, dass das Quiz ordnungsgemäß beendet
-                        wurde.</p>
+                    <p>{t('ending.noAnalyticsHint')}</p>
                 </div>
             )}
         </div>

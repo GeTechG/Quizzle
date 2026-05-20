@@ -1,4 +1,5 @@
 import {useState, useEffect, useContext} from "react";
+import {useTranslation} from "react-i18next";
 import {useParams, useNavigate} from "react-router-dom";
 import {BrandingContext} from "@/common/contexts/Branding";
 import {motion} from "framer-motion";
@@ -15,6 +16,7 @@ import "./styles.sass";
 import toast from "react-hot-toast";
 
 export const PracticeResults = () => {
+    const {t, i18n} = useTranslation();
     const {code} = useParams();
     const navigate = useNavigate();
     const {titleImg} = useContext(BrandingContext);
@@ -36,11 +38,11 @@ export const PracticeResults = () => {
             setResults(response);
         } catch (error) {
             if (error.message?.includes('401')) {
-                toast.error('Anmeldung erforderlich.');
+                toast.error(t("practiceResults.toasts.authRequired"));
             } else if (error.message?.includes('404')) {
-                toast.error('Übungsquiz nicht gefunden.');
+                toast.error(t("practiceResults.toasts.notFound"));
             } else {
-                toast.error('Fehler beim Laden der Ergebnisse.');
+                toast.error(t("practiceResults.toasts.loadFailed"));
             }
             navigate('/');
         } finally {
@@ -49,7 +51,7 @@ export const PracticeResults = () => {
     };
 
     const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleString('de-DE', {
+        return new Date(dateString).toLocaleString(i18n.language === 'ru' ? 'ru-RU' : i18n.language === 'en' ? 'en-US' : 'de-DE', {
             day: '2-digit',
             month: '2-digit',
             year: 'numeric',
@@ -78,16 +80,16 @@ export const PracticeResults = () => {
 
     const handleExportToExcel = () => {
         if (!results || !analyticsData) {
-            toast.error('Keine Daten zum Exportieren verfügbar');
+            toast.error(t("practiceResults.toasts.noDataExport"));
             return;
         }
 
         try {
             const filename = exportPracticeResultsToExcel(results, code);
-            toast.success(`Analytics exportiert: ${filename}`);
+            toast.success(t("practiceResults.toasts.exported", {filename}));
         } catch (error) {
             console.error('Error exporting to Excel:', error);
-            toast.error('Fehler beim Exportieren der Daten');
+            toast.error(t("practiceResults.toasts.exportFailed"));
         }
     };
 
@@ -197,7 +199,7 @@ export const PracticeResults = () => {
             return (
                 <div className="text-answer">
                     <div className="answer-line">
-                        <span className="answer-label">Antwort:</span>
+                        <span className="answer-label">{t("practiceResults.answerLabels.answer")}</span>
                         <span className={`answer-value ${result === 'correct' ? 'correct' : 'incorrect'}`}>
                             {answer}
                         </span>
@@ -208,7 +210,7 @@ export const PracticeResults = () => {
                     </div>
                     {result !== 'correct' && (
                         <div className="answer-line">
-                            <span className="answer-label">Richtig:</span>
+                            <span className="answer-label">{t("practiceResults.answerLabels.correct")}</span>
                             <span className="answer-value correct">{correctAnswer}</span>
                         </div>
                     )}
@@ -234,7 +236,7 @@ export const PracticeResults = () => {
             return (
                 <div className="slider-answer">
                     <div className="answer-line">
-                        <span className="answer-label">Antwort:</span>
+                        <span className="answer-label">{t("practiceResults.answerLabels.answer")}</span>
                         <span className={`answer-value ${result === 'incorrect' ? 'incorrect' : 'correct'}`}>
                             {Number.isFinite(userValue) ? userValue : '-'}
                         </span>
@@ -245,15 +247,15 @@ export const PracticeResults = () => {
                     </div>
 
                     <div className="answer-line">
-                        <span className="answer-label">Richtig:</span>
+                        <span className="answer-label">{t("practiceResults.answerLabels.correct")}</span>
                         <span className="answer-value correct">{Number.isFinite(correctValue) ? correctValue : '-'}</span>
                     </div>
 
                     {marginKey !== 'none' && Number.isFinite(acceptedMin) && Number.isFinite(acceptedMax) && (
                         <div className="answer-line">
-                            <span className="answer-label">Marge:</span>
+                            <span className="answer-label">{t("practiceResults.answerLabels.margin")}</span>
                             <span className="answer-value">
-                                {acceptedMin.toFixed(2).replace(/\.00$/, '')} bis {acceptedMax.toFixed(2).replace(/\.00$/, '')}
+                                {acceptedMin.toFixed(2).replace(/\.00$/, '')} – {acceptedMax.toFixed(2).replace(/\.00$/, '')}
                             </span>
                         </div>
                     )}
@@ -294,10 +296,10 @@ export const PracticeResults = () => {
             return (
                 <div className="sequence-answer">
                     <div className="answer-line">
-                        <span className="answer-label">Ihre Reihenfolge:</span>
+                        <span className="answer-label">{t("practiceResults.answerLabels.yourOrder")}</span>
                         <div className="sequence-list">
                             {userOrder.map((originalIndex, position) => {
-                                const answerContent = question.answers[originalIndex]?.content || `Antwort ${originalIndex + 1}`;
+                                const answerContent = question.answers[originalIndex]?.content || t("quizCreator.answerN", {n: originalIndex + 1});
                                 const isCorrectPosition = userOrder[position] === position;
                                 return (
                                     <div 
@@ -317,7 +319,7 @@ export const PracticeResults = () => {
                     </div>
                     {result !== 'correct' && (
                         <div className="answer-line">
-                            <span className="answer-label">Richtige Reihenfolge:</span>
+                            <span className="answer-label">{t("practiceResults.answerLabels.correctOrder")}</span>
                             <div className="sequence-list correct-order">
                                 {correctOrder.map((content, position) => (
                                     <div key={position} className="sequence-item correct">
@@ -371,7 +373,7 @@ export const PracticeResults = () => {
             <div className="practice-results-page">
                 <div className="page-header">
                     <img src={titleImg} alt="logo" className="logo"/>
-                    <h1>Ergebnisse werden geladen...</h1>
+                    <h1>{t("practiceResults.loading")}</h1>
                 </div>
             </div>
         );
@@ -382,11 +384,11 @@ export const PracticeResults = () => {
             <div className="practice-results-page">
                 <div className="page-header">
                     <img src={titleImg} alt="logo" className="logo"/>
-                    <h1>Keine Ergebnisse gefunden</h1>
-                    <div className="code-display">Code: <strong>{code}</strong></div>
+                    <h1>{t("practiceResults.notFound")}</h1>
+                    <div className="code-display">{t("practiceResults.codeLabel")}: <strong>{code}</strong></div>
                 </div>
                 <motion.div className="auth-card" initial={{opacity: 0, y: 20}} animate={{opacity: 1, y: 0}}>
-                    <Button text="Zurück zur Startseite" onClick={() => navigate('/')} />
+                    <Button text={t("practiceResults.returnHome")} onClick={() => navigate('/')} />
                 </motion.div>
             </div>
         );
@@ -397,16 +399,16 @@ export const PracticeResults = () => {
     const analyticsData = generatePracticeAnalytics();
 
     const viewTabs = [
-        {id: 'analytics', title: 'Analytics', icon: faChartBar},
-        {id: 'students', title: 'Details', icon: faUser}
+        {id: 'analytics', title: t("practiceResults.tabs.analytics"), icon: faChartBar},
+        {id: 'students', title: t("practiceResults.tabs.details"), icon: faUser}
     ];
 
     return (
         <div className="practice-results-page">
             <div className="page-header">
                 <img src={titleImg} alt="logo" className="logo"/>
-                <h1>Übungsquiz Ergebnisse</h1>
-                <div className="code-display">Code: <strong>{code}</strong></div>
+                <h1>{t("practiceResults.resultsTitle")}</h1>
+                <div className="code-display">{t("practiceResults.codeLabel")}: <strong>{code}</strong></div>
             </div>
 
             <motion.div
@@ -417,21 +419,21 @@ export const PracticeResults = () => {
                 <div className="stats-overview">
                     <div className="stat-card">
                         <div className="stat-number">{results.meta.totalAttempts}</div>
-                        <div className="stat-label">Versuche</div>
+                        <div className="stat-label">{t("practiceResults.stats.attempts")}</div>
                     </div>
                     <div className="stat-card">
                         <div className="stat-number">{results.meta.averageScore.toFixed(1)}</div>
-                        <div className="stat-label">Durchschnitt</div>
+                        <div className="stat-label">{t("practiceResults.stats.average")}</div>
                     </div>
                     <div className="stat-card">
                         <div className="stat-number">{topScore}</div>
-                        <div className="stat-label">Beste Punktzahl</div>
+                        <div className="stat-label">{t("practiceResults.stats.best")}</div>
                     </div>
                     <div className="stat-card">
                         <div className="stat-number">
-                            {formatDuration(results.meta.created, results.meta.expiry)} Tage
+                            {t("practiceResults.stats.daysLeft", {count: formatDuration(results.meta.created, results.meta.expiry)})}
                         </div>
-                        <div className="stat-label">Verbleiben</div>
+                        <div className="stat-label">&nbsp;</div>
                     </div>
                 </div>
 
@@ -461,7 +463,7 @@ export const PracticeResults = () => {
 
                         {activeView === 'students' && (
                             <div className="students-section">
-                                <h3>Nach Schülern gruppiert</h3>
+                                <h3>{t("practiceResults.groupedByStudent")}</h3>
                                 <div className="students-grid">
                                     {Object.entries(results.studentResults).map(([studentName, attempts]) => {
                                         const bestAttempt = attempts.reduce((best, current) =>
@@ -485,16 +487,16 @@ export const PracticeResults = () => {
                                                 </div>
                                                 <div className="student-stats">
                                                     <div className="stat">
-                                                        <span className="label">Versuche:</span>
+                                                        <span className="label">{t("practiceResults.studentLabels.attempts")}</span>
                                                         <span className="value">{totalAttempts}</span>
                                                     </div>
                                                     <div className="stat">
-                                                        <span className="label">Beste:</span>
+                                                        <span className="label">{t("practiceResults.studentLabels.best")}</span>
                                                         <span
                                                             className="value">{bestAttempt.score}/{bestAttempt.total}</span>
                                                     </div>
                                                     <div className="stat">
-                                                        <span className="label">Durchschnitt:</span>
+                                                        <span className="label">{t("practiceResults.studentLabels.average")}</span>
                                                         <span className="value">{avgScore.toFixed(1)}</span>
                                                     </div>
                                                 </div>
@@ -508,15 +510,15 @@ export const PracticeResults = () => {
                 </div>
 
                 <div className="bottom-actions-section">
-                    <Button 
-                        text="Zurück zur Startseite"
+                    <Button
+                        text={t("practiceResults.returnHome")}
                         icon={faHome}
                         onClick={() => navigate('/')}
                         type="compact primary"
                     />
                     {analyticsData && (
                         <Button
-                            text="Als Excel herunterladen"
+                            text={t("practiceResults.excelExport")}
                             icon={faDownload}
                             onClick={handleExportToExcel}
                             type="compact green"
@@ -533,7 +535,7 @@ export const PracticeResults = () => {
                     selectedStudent && (
                         <div className="student-details-title">
                             <FontAwesomeIcon icon={faUser} className="student-details-title-icon"/>
-                            Detailansicht: {selectedStudent.name}
+                            {t("practiceResults.detailFor", {name: selectedStudent.name})}
                         </div>
                     )
                 }
@@ -544,14 +546,14 @@ export const PracticeResults = () => {
                 {selectedStudent && (
                     <div className="student-details-content">
                         <div className="attempts-selector">
-                            <h4>Versuch auswählen:</h4>
+                            <h4>{t("practiceResults.selectAttempt")}</h4>
                             <div className="attempts-list">
                                 {selectedStudent.attempts.map((attempt, index) => {
                                     const percentage = Math.round((attempt.score / attempt.total) * 100);
                                     return (
                                         <div key={index} className="attempt-item">
                                             <div className="attempt-header">
-                                                <strong>Versuch {index + 1}</strong>
+                                                <strong>{t("practiceResults.attemptN", {n: index + 1})}</strong>
                                                 <span className="attempt-score">
                                                     {attempt.score}/{attempt.total} ({percentage}%)
                                                 </span>
@@ -569,7 +571,7 @@ export const PracticeResults = () => {
                                                         <div key={qIndex} className="question-detail">
                                                             <div className="question-header">
                                                                 <span
-                                                                    className="question-number">Frage {qIndex + 1}:</span>
+                                                                    className="question-number">{t("practiceResults.questionN", {n: qIndex + 1})}</span>
                                                                 <FontAwesomeIcon
                                                                     icon={
                                                                         answerData.result === 'correct' ? faCheck :
@@ -593,7 +595,7 @@ export const PracticeResults = () => {
                                                 })}
                                                 {(!results.quiz || !results.quiz.questions) && (
                                                     <div className="loading-questions">
-                                                        Fragen werden geladen...
+                                                        {t("practiceResults.loadingQuestions")}
                                                     </div>
                                                 )}
                                             </div>

@@ -1,9 +1,9 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import './styles.sass';
 
-const DIFFICULTY_LABEL = {easy: 'Einfach', medium: 'Mittel', hard: 'Schwer'};
-
 const QuestionAnalytics = ({analyticsData}) => {
+    const {t} = useTranslation();
     const {questionAnalytics} = analyticsData;
 
     return (
@@ -18,9 +18,9 @@ const QuestionAnalytics = ({analyticsData}) => {
                     return (
                         <div key={index} className="qa-row">
                             <div className="qa-top">
-                                <div className="qa-number">Frage {index + 1}</div>
+                                <div className="qa-number">{t('analytics.questionAnalytics.questionN', {n: index + 1})}</div>
                                 <div className={`qa-difficulty ${q.difficulty}`}>
-                                    {DIFFICULTY_LABEL[q.difficulty] || '—'}
+                                    {t(`analytics.difficultyLabels.${q.difficulty}`, {defaultValue: t('analytics.difficultyLabels.dash')})}
                                 </div>
                                 <div className="qa-percentage">{q.correctPercentage}%</div>
                             </div>
@@ -34,9 +34,9 @@ const QuestionAnalytics = ({analyticsData}) => {
                             </div>
 
                             <div className="qa-counts">
-                                <span className="correct">{q.correctCount} richtig</span>
-                                {q.partialCount > 0 && <span className="partial">{q.partialCount} teilweise</span>}
-                                <span className="incorrect">{q.incorrectCount} falsch</span>
+                                <span className="correct">{t('analytics.questionAnalytics.correct', {count: q.correctCount})}</span>
+                                {q.partialCount > 0 && <span className="partial">{t('analytics.questionAnalytics.partial', {count: q.partialCount})}</span>}
+                                <span className="incorrect">{t('analytics.questionAnalytics.incorrect', {count: q.incorrectCount})}</span>
                             </div>
                         </div>
                     );

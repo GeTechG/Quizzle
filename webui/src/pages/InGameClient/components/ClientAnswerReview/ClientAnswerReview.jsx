@@ -3,8 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faX, faCheckCircle, faToggleOn, faKeyboard, faSort, faSliders} from "@fortawesome/free-solid-svg-icons";
 import AnswerContent from "@/common/components/AnswerContent";
 import {QUESTION_TYPES} from "@/common/constants/QuestionTypes.js";
-
-const TRUE_FALSE_LABELS = ["Wahr", "Falsch"];
+import {useTranslation} from "react-i18next";
 
 const getAnswerColor = (index) => {
     const colors = ["orange", "blue", "green", "red", "purple", "teal"];
@@ -12,6 +11,7 @@ const getAnswerColor = (index) => {
 };
 
 const MultipleChoiceReview = ({selection, revealAnswers, answerLabels, practiceQuestion}) => {
+    const {t} = useTranslation();
     const length = practiceQuestion?.answers?.length
         || selection?.length
         || (Array.isArray(revealAnswers) ? revealAnswers.length : 0)
@@ -37,7 +37,7 @@ const MultipleChoiceReview = ({selection, revealAnswers, answerLabels, practiceQ
                 } else if (label) {
                     content = <span className="review-mc-answer-text">{label}</span>;
                 } else {
-                    content = <span className="review-mc-placeholder">Antwort {index + 1}</span>;
+                    content = <span className="review-mc-placeholder">{t('review.answerN', {n: index + 1})}</span>;
                 }
                 return (
                     <div
@@ -65,6 +65,9 @@ const MultipleChoiceReview = ({selection, revealAnswers, answerLabels, practiceQ
 };
 
 const TrueFalseReview = ({selection, revealAnswers, userSubmittedAnswer}) => {
+    const {t} = useTranslation();
+    const labels = [t('common.true'), t('common.false')];
+
     let chosenIndex = -1;
     if (Array.isArray(selection)) {
         chosenIndex = selection.findIndex(Boolean);
@@ -75,7 +78,7 @@ const TrueFalseReview = ({selection, revealAnswers, userSubmittedAnswer}) => {
 
     return (
         <div className="review-tf-list">
-            {TRUE_FALSE_LABELS.map((label, index) => {
+            {labels.map((label, index) => {
                 const isSelected = index === chosenIndex;
                 const isCorrect = Array.isArray(revealAnswers) ? !!revealAnswers[index] : null;
                 return (
@@ -98,20 +101,21 @@ const TrueFalseReview = ({selection, revealAnswers, userSubmittedAnswer}) => {
 };
 
 const TextReview = ({userSubmittedAnswer, revealAnswers}) => {
+    const {t} = useTranslation();
     const text = typeof userSubmittedAnswer === 'string' ? userSubmittedAnswer : '';
     const correctList = Array.isArray(revealAnswers) ? revealAnswers : [];
 
     return (
         <div className="review-text-wrapper">
             <div className="review-text-box review-text-your">
-                <span className="review-text-label">Deine Antwort</span>
+                <span className="review-text-label">{t('review.yourAnswer')}</span>
                 <span className="review-text-value">
-                    {text ? text : <em>Keine Antwort abgegeben</em>}
+                    {text ? text : <em>{t('review.noAnswer')}</em>}
                 </span>
             </div>
             {correctList.length > 0 && (
                 <div className="review-text-box review-text-correct">
-                    <span className="review-text-label">Richtige Antwort{correctList.length > 1 ? 'en' : ''}</span>
+                    <span className="review-text-label">{t('review.correctAnswerLabel', {count: correctList.length})}</span>
                     <div className="review-text-correct-list">
                         {correctList.map((value, i) => (
                             <span key={i} className="review-text-pill">{value}</span>
@@ -124,6 +128,7 @@ const TextReview = ({userSubmittedAnswer, revealAnswers}) => {
 };
 
 const SliderReview = ({userSubmittedAnswer, sliderAnswerData}) => {
+    const {t} = useTranslation();
     const userValue = Number(userSubmittedAnswer);
     const correctValue = sliderAnswerData ? Number(sliderAnswerData.correctValue) : null;
     const min = sliderAnswerData ? Number(sliderAnswerData.min) : 0;
@@ -145,12 +150,12 @@ const SliderReview = ({userSubmittedAnswer, sliderAnswerData}) => {
         <div className="review-slider-wrapper">
             <div className="review-slider-values">
                 <div className="review-slider-value-box review-slider-your">
-                    <span className="review-slider-label">Deine Antwort</span>
+                    <span className="review-slider-label">{t('review.yourAnswer')}</span>
                     <span className="review-slider-number">{Number.isFinite(userValue) ? userValue : '-'}</span>
                 </div>
                 {correctValue !== null && (
                     <div className="review-slider-value-box review-slider-target">
-                        <span className="review-slider-label">Richtiger Wert</span>
+                        <span className="review-slider-label">{t('review.correctValue')}</span>
                         <span className="review-slider-number">{correctValue}</span>
                     </div>
                 )}
@@ -175,7 +180,7 @@ const SliderReview = ({userSubmittedAnswer, sliderAnswerData}) => {
 
             {distance !== null && distance > 0 && (
                 <div className="review-slider-distance">
-                    Abweichung: <strong>{Number.isInteger(distance) ? distance : distance.toFixed(2)}</strong>
+                    {t('review.deviation')}: <strong>{Number.isInteger(distance) ? distance : distance.toFixed(2)}</strong>
                 </div>
             )}
         </div>
@@ -183,6 +188,7 @@ const SliderReview = ({userSubmittedAnswer, sliderAnswerData}) => {
 };
 
 const SequenceReview = ({userSubmittedAnswer, revealAnswers, practiceQuestion}) => {
+    const {t} = useTranslation();
     const order = Array.isArray(userSubmittedAnswer) ? userSubmittedAnswer : [];
     const answerSource = Array.isArray(practiceQuestion?.answers)
         ? practiceQuestion.answers
@@ -195,7 +201,7 @@ const SequenceReview = ({userSubmittedAnswer, revealAnswers, practiceQuestion}) 
 
     if (order.length === 0) {
         return (
-            <div className="review-sequence-empty">Keine Reihenfolge abgegeben</div>
+            <div className="review-sequence-empty">{t('review.noOrder')}</div>
         );
     }
 
@@ -213,7 +219,7 @@ const SequenceReview = ({userSubmittedAnswer, revealAnswers, practiceQuestion}) 
                         <div className="review-sequence-content">
                             {answer
                                 ? <AnswerContent answer={answer} index={originalIndex} className="review-sequence-answer"/>
-                                : <span>Antwort {originalIndex + 1}</span>}
+                                : <span>{t('review.answerN', {n: originalIndex + 1})}</span>}
                         </div>
                         <div className="review-sequence-status">
                             <FontAwesomeIcon icon={isCorrectSpot ? faCheck : faX}/>
@@ -242,6 +248,7 @@ export const ClientAnswerReview = ({
     sliderAnswerData,
     practiceQuestion
 }) => {
+    const {t} = useTranslation();
     if (!questionType) return null;
 
     const headerIcon = TYPE_ICONS[questionType] || faCheckCircle;
@@ -288,10 +295,10 @@ export const ClientAnswerReview = ({
     }
 
     return (
-        <section className="client-answer-review" aria-label="Deine abgegebene Antwort">
+        <section className="client-answer-review" aria-label={t('review.submittedAriaLabel')}>
             <header className="client-answer-review-header">
                 <FontAwesomeIcon icon={headerIcon}/>
-                <span>Deine Antwort</span>
+                <span>{t('review.yourAnswer')}</span>
             </header>
             <div className="client-answer-review-body">
                 {body}

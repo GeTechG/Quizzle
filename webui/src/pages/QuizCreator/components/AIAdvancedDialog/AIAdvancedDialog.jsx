@@ -1,4 +1,5 @@
 import {useState, useRef, useCallback, useEffect} from "react";
+import {useTranslation} from "react-i18next";
 import {motion, AnimatePresence} from "framer-motion";
 import {createPortal} from "react-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -19,20 +20,6 @@ import {postRequest} from "@/common/utils/RequestUtil.js";
 import toast from "react-hot-toast";
 import "./styles.sass";
 
-const TABS = [
-    {id: "topic", label: "Thema", icon: faPenToSquare, description: "Fragen aus einem Thema generieren"},
-    {id: "pdf", label: "PDF", icon: faFilePdf, description: "Fragen aus einem PDF-Dokument"},
-    {id: "url", label: "URL", icon: faLink, description: "Fragen aus einer Website"},
-    {id: "wikipedia", label: "Wikipedia", icon: faBookOpen, description: "Fragen aus einem Wikipedia-Artikel"}
-];
-
-const DIFFICULTIES = [
-    {value: "none", label: "Automatisch"},
-    {value: "easy", label: "Einfach"},
-    {value: "medium", label: "Mittel"},
-    {value: "hard", label: "Schwer"}
-];
-
 const WIKI_LANGUAGES = [
     {value: "de", label: "Deutsch"},
     {value: "en", label: "English"},
@@ -51,6 +38,7 @@ const fileToBase64 = (file) => new Promise((resolve, reject) => {
 });
 
 export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetadata}) => {
+    const {t} = useTranslation();
     const [activeTab, setActiveTab] = useState("topic");
     const [topic, setTopic] = useState("");
     const [url, setUrl] = useState("");
@@ -63,6 +51,20 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
     const [autoMetadata, setAutoMetadata] = useState(true);
     const [dragActive, setDragActive] = useState(false);
     const fileInputRef = useRef(null);
+
+    const TABS = [
+        {id: "topic", label: t("ai.tabLabels.topic"), icon: faPenToSquare, description: t("ai.tabDescriptions.topic")},
+        {id: "pdf", label: t("ai.tabLabels.pdf"), icon: faFilePdf, description: t("ai.tabDescriptions.pdf")},
+        {id: "url", label: t("ai.tabLabels.url"), icon: faLink, description: t("ai.tabDescriptions.url")},
+        {id: "wikipedia", label: t("ai.tabLabels.wikipedia"), icon: faBookOpen, description: t("ai.tabDescriptions.wikipedia")}
+    ];
+
+    const DIFFICULTIES = [
+        {value: "none", label: t("ai.difficulties.auto")},
+        {value: "easy", label: t("ai.difficulties.easy")},
+        {value: "medium", label: t("ai.difficulties.medium")},
+        {value: "hard", label: t("ai.difficulties.hard")}
+    ];
 
     useEffect(() => {
         if (!isOpen) return;
@@ -88,11 +90,11 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
     const handlePdfSelect = (file) => {
         if (!file) return;
         if (file.type && file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-            toast.error("Bitte wähle eine PDF-Datei aus.");
+            toast.error(t("ai.errors.pdfOnly"));
             return;
         }
         if (file.size > MAX_PDF_SIZE) {
-            toast.error("PDF ist zu groß (max 25 MB).");
+            toast.error(t("ai.errors.pdfTooLarge"));
             return;
         }
         setPdfFile(file);
@@ -118,28 +120,28 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
         try {
             let body;
             if (activeTab === "url") {
-                if (!url.trim()) throw new Error("Bitte gib eine URL ein.");
+                if (!url.trim()) throw new Error(t("ai.errors.url"));
                 body = {type: "url", url: url.trim()};
             } else if (activeTab === "wikipedia") {
-                if (!wikiQuery.trim()) throw new Error("Bitte gib einen Suchbegriff ein.");
+                if (!wikiQuery.trim()) throw new Error(t("ai.errors.query"));
                 body = {type: "wikipedia", query: wikiQuery.trim(), lang: wikiLang};
             } else if (activeTab === "pdf") {
-                if (!pdfFile) throw new Error("Bitte wähle eine PDF-Datei aus.");
+                if (!pdfFile) throw new Error(t("ai.errors.pdf"));
                 const base64 = await fileToBase64(pdfFile);
                 body = {type: "pdf", pdfBase64: base64};
             } else {
                 return null;
             }
             const result = await postRequest("/ai/extract", body);
-            if (!result?.text) throw new Error("Keine Textdaten erhalten.");
+            if (!result?.text) throw new Error(t("ai.errors.noText"));
             return result;
         } catch (e) {
-            toast.error(e.message || "Quelle konnte nicht geladen werden.");
+            toast.error(e.message || t("ai.errors.sourceFailed"));
             return null;
         } finally {
             setExtracting(false);
         }
-    }, [activeTab, url, wikiQuery, wikiLang, pdfFile]);
+    }, [activeTab, url, wikiQuery, wikiLang, pdfFile, t]);
 
     const canSubmit = () => {
         if (extracting) return false;
@@ -160,7 +162,7 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
             const source = await extractSource();
             if (!source) return;
             context = source.text;
-            derivedTopic = source.title || (activeTab === "wikipedia" ? wikiQuery.trim() : (activeTab === "url" ? url.trim() : "PDF-Dokument"));
+            derivedTopic = source.title || (activeTab === "wikipedia" ? wikiQuery.trim() : (activeTab === "url" ? url.trim() : t("ai.pdfDefault")));
             sourceLabel = source.source;
         }
 
@@ -205,10 +207,10 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
                                 <FontAwesomeIcon icon={faWandMagicSparkles}/>
                             </div>
                             <div className="ai-ad-title">
-                                <h2>KI-Quiz generieren</h2>
-                                <p>Wähle eine Quelle und lass die KI ein Quiz erstellen</p>
+                                <h2>{t("ai.generateTitle")}</h2>
+                                <p>{t("ai.generateSubtitle")}</p>
                             </div>
-                            <button className="ai-ad-close" onClick={onClose} aria-label="Schließen">
+                            <button className="ai-ad-close" onClick={onClose} aria-label={t("ai.closeAria")}>
                                 <FontAwesomeIcon icon={faTimes}/>
                             </button>
                         </div>
@@ -230,23 +232,23 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
                         <div className="ai-ad-body">
                             {activeTab === "topic" && (
                                 <div className="ai-ad-section">
-                                    <label className="ai-ad-label">Thema</label>
+                                    <label className="ai-ad-label">{t("ai.topicLabel")}</label>
                                     <textarea
                                         className="ai-ad-textarea"
-                                        placeholder="z.B. Die Französische Revolution, Photosynthese, Römische Kaiserzeit..."
+                                        placeholder={t("ai.topicPlaceholder")}
                                         value={topic}
                                         onChange={(e) => setTopic(e.target.value)}
                                         maxLength={400}
                                         rows={3}
                                         autoFocus
                                     />
-                                    <div className="ai-ad-hint">Beschreibe das Thema – je genauer, desto besser das Quiz. ({topic.length}/400)</div>
+                                    <div className="ai-ad-hint">{t("ai.topicHint", {count: topic.length})}</div>
                                 </div>
                             )}
 
                             {activeTab === "pdf" && (
                                 <div className="ai-ad-section">
-                                    <label className="ai-ad-label">PDF-Dokument</label>
+                                    <label className="ai-ad-label">{t("ai.pdfLabel")}</label>
                                     <div
                                         className={`ai-ad-dropzone ${dragActive ? 'active' : ''} ${pdfFile ? 'has-file' : ''}`}
                                         onDragOver={handleDragOver}
@@ -275,7 +277,7 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
                                                         e.stopPropagation();
                                                         setPdfFile(null);
                                                     }}
-                                                    aria-label="Entfernen"
+                                                    aria-label={t("ai.removeAria")}
                                                 >
                                                     <FontAwesomeIcon icon={faTimes}/>
                                                 </button>
@@ -284,8 +286,8 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
                                             <>
                                                 <FontAwesomeIcon icon={faUpload} className="ai-ad-dropzone-icon"/>
                                                 <div className="ai-ad-dropzone-text">
-                                                    <strong>PDF hier ablegen</strong>
-                                                    <span>oder klicken zum Auswählen (max. 25 MB)</span>
+                                                    <strong>{t("ai.dropPdfTitle")}</strong>
+                                                    <span>{t("ai.dropPdfSubtitle")}</span>
                                                 </div>
                                             </>
                                         )}
@@ -295,27 +297,27 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
 
                             {activeTab === "url" && (
                                 <div className="ai-ad-section">
-                                    <label className="ai-ad-label">Website-URL</label>
+                                    <label className="ai-ad-label">{t("ai.urlLabel")}</label>
                                     <input
                                         className="ai-ad-input"
                                         type="url"
-                                        placeholder="https://example.com/artikel"
+                                        placeholder={t("ai.urlPlaceholder")}
                                         value={url}
                                         onChange={(e) => setUrl(e.target.value)}
                                         autoFocus
                                     />
-                                    <div className="ai-ad-hint">Die Website wird gelesen und als Quelle verwendet.</div>
+                                    <div className="ai-ad-hint">{t("ai.urlHint")}</div>
                                 </div>
                             )}
 
                             {activeTab === "wikipedia" && (
                                 <div className="ai-ad-section">
-                                    <label className="ai-ad-label">Wikipedia-Artikel</label>
+                                    <label className="ai-ad-label">{t("ai.wikiLabel")}</label>
                                     <div className="ai-ad-row">
                                         <input
                                             className="ai-ad-input ai-ad-input-grow"
                                             type="text"
-                                            placeholder="z.B. Albert Einstein"
+                                            placeholder={t("ai.wikiPlaceholder")}
                                             value={wikiQuery}
                                             onChange={(e) => setWikiQuery(e.target.value)}
                                             autoFocus
@@ -325,23 +327,23 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
                                                 value={wikiLang}
                                                 onChange={setWikiLang}
                                                 options={WIKI_LANGUAGES}
-                                                ariaLabel="Sprache"
+                                                ariaLabel={t("ai.langAria")}
                                             />
                                         </div>
                                     </div>
-                                    <div className="ai-ad-hint">Der Artikeltext wird als Faktenbasis verwendet.</div>
+                                    <div className="ai-ad-hint">{t("ai.wikiHint")}</div>
                                 </div>
                             )}
 
                             <div className="ai-ad-options">
                                 <div className="ai-ad-option">
                                     <label className="ai-ad-label-sm">
-                                        <FontAwesomeIcon icon={faHashtag}/> Anzahl Fragen
+                                        <FontAwesomeIcon icon={faHashtag}/> {t("ai.questionCount")}
                                     </label>
                                     <input
                                         className="ai-ad-input ai-ad-input-sm"
                                         type="number"
-                                        placeholder="Auto"
+                                        placeholder={t("ai.autoCount")}
                                         min={1}
                                         max={50}
                                         value={questionCount}
@@ -350,13 +352,13 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
                                 </div>
                                 <div className="ai-ad-option">
                                     <label className="ai-ad-label-sm">
-                                        <FontAwesomeIcon icon={faSignal}/> Schwierigkeit
+                                        <FontAwesomeIcon icon={faSignal}/> {t("ai.difficulty")}
                                     </label>
                                     <SelectBox
                                         value={difficulty}
                                         onChange={setDifficulty}
                                         options={DIFFICULTIES}
-                                        ariaLabel="Schwierigkeit"
+                                        ariaLabel={t("ai.difficulty")}
                                     />
                                 </div>
                             </div>
@@ -370,23 +372,23 @@ export const AIAdvancedDialog = ({isOpen, onClose, onGenerate, hasExistingMetada
                                 />
                                 <span className="ai-ad-toggle-slider"/>
                                 <div className="ai-ad-toggle-label">
-                                    <strong>Titel & Beschreibung automatisch erstellen</strong>
+                                    <strong>{t("ai.autoTitle.heading")}</strong>
                                     <span>
                                         {hasExistingMetadata
-                                            ? "Titel oder Beschreibung sind bereits gesetzt"
-                                            : "Die KI füllt Quiz-Titel und Beschreibung aus, bevor die Fragen erstellt werden"}
+                                            ? t("ai.autoTitle.descExisting")
+                                            : t("ai.autoTitle.descActive")}
                                     </span>
                                 </div>
                             </label>
                         </div>
 
                         <div className="ai-ad-footer">
-                            <Button onClick={onClose} type="secondary compact" text="Abbrechen"/>
+                            <Button onClick={onClose} type="secondary compact" text={t("common.cancel")}/>
                             <Button
                                 onClick={handleSubmit}
                                 type="primary compact"
                                 icon={faWandMagicSparkles}
-                                text={extracting ? "Bitte warten..." : "Quiz generieren"}
+                                text={extracting ? t("ai.pleaseWait") : t("ai.generate")}
                                 disabled={!canSubmit()}
                             />
                         </div>

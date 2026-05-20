@@ -16,8 +16,10 @@ import SoundRenderer from "@/common/components/SoundRenderer";
 import SoundControl from "@/common/components/SoundControl";
 import BackgroundChooser from "@/common/components/BackgroundChooser";
 import toast from "react-hot-toast";
+import {Trans, useTranslation} from "react-i18next";
 
 export const Host = () => {
+    const {t} = useTranslation();
     const navigate = useNavigate();
     const {setCirclePosition} = useOutletContext();
     const {isLoaded, quizRaw, setPlayerCount} = useContext(QuizContext);
@@ -107,7 +109,7 @@ export const Host = () => {
         socket.emit("LOCK_ROOM", {}, (response) => {
             if (response?.success) {
                 setRoomLocked(response.locked);
-                toast.success(response.locked ? "Raum gesperrt" : "Raum entsperrt", {
+                toast.success(response.locked ? t('host.roomLocked') : t('host.roomUnlocked'), {
                     duration: 2000
                 });
             }
@@ -121,7 +123,7 @@ export const Host = () => {
             soundManager.stopSound(lobbyAmbientId);
             setLobbyAmbientId(null);
         }
-        
+
         navigate("/host/ingame");
     }
 
@@ -130,7 +132,7 @@ export const Host = () => {
 
         const ambientId = soundManager.playAmbient('LOBBY');
         setLobbyAmbientId(ambientId);
-        
+
         return () => {
             if (ambientId) {
                 soundManager.stopSound(ambientId);
@@ -158,7 +160,7 @@ export const Host = () => {
                                 onClick={() => setQrShown(!qrShown)}/>
                     </div>
 
-                    <p>Verbinden über die Webseite <span>{location.host.split(":")[0]}</span> mit Code:</p>
+                    <p><Trans i18nKey="host.joinHint" values={{site: location.host.split(":")[0]}} components={{site: <span/>}}/></p>
                     <div className="room-code-container">
                         <h2>{roomCode}</h2>
                         {roomLocked && <div className="lock-indicator">
@@ -169,13 +171,13 @@ export const Host = () => {
                     <Triangle/>
                 </motion.div>
                 <div className="host-actions">
-                    <Button 
-                        icon={roomLocked ? faLockOpen : faLock} 
-                        padding="0.5rem 0.8rem" 
+                    <Button
+                        icon={roomLocked ? faLockOpen : faLock}
+                        padding="0.5rem 0.8rem"
                         onClick={toggleRoomLock}
                         variant={roomLocked ? "secondary" : "primary"}
                     />
-                    <Button text="Starten" icon={faGamepad} padding="0.5rem 1rem" onClick={startGame}
+                    <Button text={t('host.start')} icon={faGamepad} padding="0.5rem 1rem" onClick={startGame}
                             disabled={players.length === 0}/>
                 </div>
             </div>
@@ -183,7 +185,7 @@ export const Host = () => {
 
             <motion.div className="member-info" initial={{opacity: 0, x: -100}} animate={{opacity: 1, x: 0}}>
                 <img src={titleImg} alt="Quiz Logo" className="quiz-logo"/>
-                {players.length === 0 && <h2>Warten auf Mitspieler...</h2>}
+                {players.length === 0 && <h2>{t('host.waitingForPlayers')}</h2>}
 
                 <div className="player-list">
                     {players.map(player => (
@@ -197,8 +199,8 @@ export const Host = () => {
                             role="button"
                             tabIndex={0}
                             onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); kickPlayer(player); } }}
-                            aria-label={`${player.name} entfernen`}
-                            title="Klicken zum Entfernen"
+                            aria-label={t('host.kickAria', {name: player.name})}
+                            title={t('host.kickHint')}
                         >
                             <div className="player-character">{getCharacterEmoji(player.character)}</div>
                             <h3>{player.name}</h3>
@@ -212,7 +214,7 @@ export const Host = () => {
                 <SoundControl />
                 <BackgroundChooser />
             </motion.div>
-            
+
             <SoundRenderer />
         </div>
     );

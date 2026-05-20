@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {useTranslation} from 'react-i18next';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChartPie, faUsers, faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import ClassOverview from '../ClassOverview';
@@ -7,19 +8,20 @@ import QuestionAnalytics from '../QuestionAnalytics';
 import './styles.sass';
 
 const AnalyticsTabs = ({ analyticsData, quizData, isLiveQuiz = false }) => {
+    const {t} = useTranslation();
     const [activeTab, setActiveTab] = useState('overview');
 
     const tabs = [
-        {id: 'overview', title: 'Übersicht', icon: faChartPie, component: ClassOverview},
-        {id: 'students', title: 'Schüler', icon: faUsers, component: StudentAnalytics},
-        {id: 'questions', title: 'Fragen', icon: faQuestionCircle, component: QuestionAnalytics}
+        {id: 'overview', title: t('analytics.tabs.overview'), icon: faChartPie, component: ClassOverview},
+        {id: 'students', title: t('analytics.tabs.students'), icon: faUsers, component: StudentAnalytics},
+        {id: 'questions', title: t('analytics.tabs.questions'), icon: faQuestionCircle, component: QuestionAnalytics}
     ];
 
     const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component;
 
     return (
         <div className="analytics-tabs">
-            <div className="tab-navigation" role="tablist" aria-label="Analytics Tabs">
+            <div className="tab-navigation" role="tablist" aria-label={t('analytics.tabsAriaLabel')}>
                 {tabs.map(tab => (
                     <button
                         key={tab.id}
@@ -38,8 +40,8 @@ const AnalyticsTabs = ({ analyticsData, quizData, isLiveQuiz = false }) => {
 
             <div className="tab-content" role="tabpanel" id={`tabpanel-${activeTab}`} aria-labelledby={`tab-${activeTab}`}>
                 {ActiveComponent && (
-                    <ActiveComponent 
-                        analyticsData={analyticsData} 
+                    <ActiveComponent
+                        analyticsData={analyticsData}
                         quizData={quizData}
                         isLiveQuiz={isLiveQuiz}
                     />

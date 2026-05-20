@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {
     faExclamationTriangle,
@@ -9,6 +10,7 @@ import {
 import './styles.sass';
 
 const RecommendationsTab = ({analyticsData}) => {
+    const {t} = useTranslation();
     const {classAnalytics, questionAnalytics, studentAnalytics} = analyticsData;
 
     const recommendations = [];
@@ -20,7 +22,7 @@ const RecommendationsTab = ({analyticsData}) => {
         recommendations.push({
             type: 'urgent',
             icon: faExclamationTriangle,
-            title: `${strugglingStudents.length} Schüler benötigen Hilfe`,
+            title: t('analytics.recommendations.studentsNeedHelp', {count: strugglingStudents.length}),
             students: strugglingStudents.map(s => `${s.name} (${s.accuracy}%)`)
         });
     }
@@ -29,8 +31,8 @@ const RecommendationsTab = ({analyticsData}) => {
         recommendations.push({
             type: 'warning',
             icon: faQuestionCircle,
-            title: `${hardQuestions.length} schwere Fragen`,
-            questions: hardQuestions.map(q => `Frage ${q.questionIndex + 1}: ${q.correctPercentage}%`)
+            title: t('analytics.recommendations.hardQuestions', {count: hardQuestions.length}),
+            questions: hardQuestions.map(q => t('analytics.recommendations.questionN', {n: q.questionIndex + 1, percent: q.correctPercentage}))
         });
     }
 
@@ -38,15 +40,15 @@ const RecommendationsTab = ({analyticsData}) => {
         recommendations.push({
             type: 'urgent',
             icon: faUsers,
-            title: `Niedrige Klassenleistung: ${classAnalytics.averageAccuracy}%`,
-            action: 'Wiederholung der Inhalte empfohlen'
+            title: t('analytics.recommendations.lowPerformance', {percent: classAnalytics.averageAccuracy}),
+            action: t('analytics.recommendations.reviewRecommended')
         });
     } else if (classAnalytics.averageAccuracy >= 80) {
         recommendations.push({
             type: 'success',
             icon: faCheckCircle,
-            title: `Gute Klassenleistung: ${classAnalytics.averageAccuracy}%`,
-            action: 'Klasse ist bereit für neue Themen'
+            title: t('analytics.recommendations.goodPerformance', {percent: classAnalytics.averageAccuracy}),
+            action: t('analytics.recommendations.readyForNewTopics')
         });
     }
 
@@ -71,7 +73,7 @@ const RecommendationsTab = ({analyticsData}) => {
 
                                 {rec.students && (
                                     <div className="recommendation-details">
-                                        <h4>Schüler:</h4>
+                                        <h4>{t('analytics.recommendations.studentsHeader')}</h4>
                                         <ul>
                                             {rec.students.map((student, i) => (
                                                 <li key={i}>{student}</li>
@@ -82,7 +84,7 @@ const RecommendationsTab = ({analyticsData}) => {
 
                                 {rec.questions && (
                                     <div className="recommendation-details">
-                                        <h4>Fragen:</h4>
+                                        <h4>{t('analytics.recommendations.questionsHeader')}</h4>
                                         <ul>
                                             {rec.questions.map((question, i) => (
                                                 <li key={i}>{question}</li>
@@ -97,8 +99,8 @@ const RecommendationsTab = ({analyticsData}) => {
             ) : (
                 <div className="no-recommendations">
                     <FontAwesomeIcon icon={faCheckCircle}/>
-                    <h3>Keine Probleme erkannt</h3>
-                    <p>Die Klasse zeigt gute Leistungen.</p>
+                    <h3>{t('analytics.recommendations.noIssues')}</h3>
+                    <p>{t('analytics.recommendations.classDoingWell')}</p>
                 </div>
             )}
         </div>

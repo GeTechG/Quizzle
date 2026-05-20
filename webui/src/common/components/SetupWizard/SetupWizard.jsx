@@ -1,4 +1,5 @@
 import {useState, useContext} from 'react';
+import {useTranslation, Trans} from 'react-i18next';
 import {motion, AnimatePresence} from 'framer-motion';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faWandMagicSparkles, faUser, faLock, faCheck, faArrowRight, faArrowLeft} from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +11,7 @@ import toast from 'react-hot-toast';
 import './styles.sass';
 
 export const SetupWizard = ({onComplete}) => {
+    const {t} = useTranslation();
     const {titleImg} = useContext(BrandingContext);
     const [step, setStep] = useState(0);
     const [username, setUsername] = useState('');
@@ -22,19 +24,19 @@ export const SetupWizard = ({onComplete}) => {
 
     const validateUsername = () => {
         if (!username.trim()) {
-            setUsernameError('Benutzername ist erforderlich');
+            setUsernameError(t('setupWizard.errors.usernameRequired'));
             return false;
         }
         if (username.length < 3) {
-            setUsernameError('Mindestens 3 Zeichen');
+            setUsernameError(t('setupWizard.errors.minChars3'));
             return false;
         }
         if (username.length > 32) {
-            setUsernameError('Maximal 32 Zeichen');
+            setUsernameError(t('setupWizard.errors.maxChars32'));
             return false;
         }
         if (!/^[a-zA-Z0-9_.-]+$/.test(username)) {
-            setUsernameError('Nur Buchstaben, Zahlen, Punkte, Bindestriche und Unterstriche');
+            setUsernameError(t('setupWizard.errors.invalidChars'));
             return false;
         }
         setUsernameError('');
@@ -43,17 +45,17 @@ export const SetupWizard = ({onComplete}) => {
 
     const validatePassword = () => {
         if (!password) {
-            setPasswordError('Passwort ist erforderlich');
+            setPasswordError(t('setupWizard.errors.passwordRequired'));
             return false;
         }
         if (password.length < 6) {
-            setPasswordError('Mindestens 6 Zeichen');
+            setPasswordError(t('setupWizard.errors.minChars6'));
             return false;
         }
         setPasswordError('');
 
         if (confirmPassword && password !== confirmPassword) {
-            setConfirmError('Passwörter stimmen nicht überein');
+            setConfirmError(t('setupWizard.errors.mismatch'));
             return false;
         }
         setConfirmError('');
@@ -62,11 +64,11 @@ export const SetupWizard = ({onComplete}) => {
 
     const validateConfirm = () => {
         if (!confirmPassword) {
-            setConfirmError('Bitte Passwort bestätigen');
+            setConfirmError(t('setupWizard.errors.confirmRequired'));
             return false;
         }
         if (password !== confirmPassword) {
-            setConfirmError('Passwörter stimmen nicht überein');
+            setConfirmError(t('setupWizard.errors.mismatch'));
             return false;
         }
         setConfirmError('');
@@ -88,10 +90,10 @@ export const SetupWizard = ({onComplete}) => {
         setLoading(true);
         try {
             await postRequest('/auth/setup', {username: username.trim(), password});
-            toast.success('Setup abgeschlossen! Willkommen bei Quizzle.');
+            toast.success(t('setupWizard.toasts.completed'));
             onComplete();
         } catch (error) {
-            toast.error(error.message || 'Setup fehlgeschlagen');
+            toast.error(error.message || t('setupWizard.toasts.failed'));
         } finally {
             setLoading(false);
         }
@@ -102,12 +104,12 @@ export const SetupWizard = ({onComplete}) => {
             <div className="setup-icon-container">
                 <FontAwesomeIcon icon={faWandMagicSparkles} className="setup-icon"/>
             </div>
-            <h2>Willkommen bei Quizzle!</h2>
+            <h2>{t('setupWizard.welcomeTitle')}</h2>
             <p className="setup-description">
-                Richte dein Quizzle in wenigen Schritten ein. Erstelle zunächst einen <strong>Administrator-Account</strong>, um alle Einstellungen zu verwalten.
+                <Trans i18nKey="setupWizard.welcomeDescription" components={{strong: <strong/>}}/>
             </p>
             <div className="setup-actions">
-                <Button text="Einrichtung starten" icon={faArrowRight} type="primary compact" onClick={nextStep}/>
+                <Button text={t('setupWizard.startSetup')} icon={faArrowRight} type="primary compact" onClick={nextStep}/>
             </div>
         </motion.div>,
 
@@ -115,11 +117,11 @@ export const SetupWizard = ({onComplete}) => {
             <div className="setup-icon-container">
                 <FontAwesomeIcon icon={faUser} className="setup-icon"/>
             </div>
-            <h2>Benutzername wählen</h2>
-            <p className="setup-description">Wähle einen Benutzernamen für den Administrator-Account.</p>
+            <h2>{t('setupWizard.usernameTitle')}</h2>
+            <p className="setup-description">{t('setupWizard.usernameDescription')}</p>
             <div className="setup-input-area">
                 <Input
-                    placeholder="Benutzername"
+                    placeholder={t('setupWizard.usernamePlaceholder')}
                     value={username}
                     onChange={(e) => {setUsername(e.target.value); setUsernameError('');}}
                     error={usernameError}
@@ -127,8 +129,8 @@ export const SetupWizard = ({onComplete}) => {
                 />
             </div>
             <div className="setup-actions">
-                <Button text="Zurück" icon={faArrowLeft} type="secondary compact" onClick={prevStep}/>
-                <Button text="Weiter" icon={faArrowRight} type="primary compact" onClick={nextStep}/>
+                <Button text={t('common.back')} icon={faArrowLeft} type="secondary compact" onClick={prevStep}/>
+                <Button text={t('common.next')} icon={faArrowRight} type="primary compact" onClick={nextStep}/>
             </div>
         </motion.div>,
 
@@ -136,12 +138,14 @@ export const SetupWizard = ({onComplete}) => {
             <div className="setup-icon-container">
                 <FontAwesomeIcon icon={faLock} className="setup-icon"/>
             </div>
-            <h2>Passwort festlegen</h2>
-            <p className="setup-description">Wähle ein sicheres Passwort für <strong>{username}</strong>.</p>
+            <h2>{t('setupWizard.passwordTitle')}</h2>
+            <p className="setup-description">
+                <Trans i18nKey="setupWizard.passwordDescription" values={{name: username}} components={{strong: <strong/>}}/>
+            </p>
             <div className="setup-input-area">
                 <Input
                     type="password"
-                    placeholder="Passwort"
+                    placeholder={t('setupWizard.passwordPlaceholder')}
                     value={password}
                     onChange={(e) => {setPassword(e.target.value); setPasswordError('');}}
                     error={passwordError}
@@ -149,7 +153,7 @@ export const SetupWizard = ({onComplete}) => {
                 />
                 <Input
                     type="password"
-                    placeholder="Passwort bestätigen"
+                    placeholder={t('setupWizard.confirmPasswordPlaceholder')}
                     value={confirmPassword}
                     onChange={(e) => {setConfirmPassword(e.target.value); setConfirmError('');}}
                     error={confirmError}
@@ -157,8 +161,8 @@ export const SetupWizard = ({onComplete}) => {
                 />
             </div>
             <div className="setup-actions">
-                <Button text="Zurück" icon={faArrowLeft} type="secondary compact" onClick={prevStep}/>
-                <Button text="Abschließen" icon={faCheck} type="green compact" onClick={handleSetup} disabled={loading}/>
+                <Button text={t('common.back')} icon={faArrowLeft} type="secondary compact" onClick={prevStep}/>
+                <Button text={t('setupWizard.finish')} icon={faCheck} type="green compact" onClick={handleSetup} disabled={loading}/>
             </div>
         </motion.div>
     ];

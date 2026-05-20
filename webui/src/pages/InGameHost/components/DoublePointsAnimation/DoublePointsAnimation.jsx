@@ -1,9 +1,11 @@
 import {motion, AnimatePresence} from "framer-motion";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBullseye} from "@fortawesome/free-solid-svg-icons";
+import {useTranslation} from "react-i18next";
 import "./styles.sass";
 
 export const DoublePointsAnimation = ({isVisible, onComplete}) => {
+    const {t} = useTranslation();
     return (
         <AnimatePresence>
             {isVisible && (
@@ -31,11 +33,11 @@ export const DoublePointsAnimation = ({isVisible, onComplete}) => {
                         </motion.div>
                         <motion.h1 className="double-points-title" initial={{opacity: 0, y: 20}}
                                    animate={{opacity: 1, y: 0}} transition={{delay: 0.5, duration: 0.6}}>
-                            Doppelte Punkte!
+                            {t('doublePoints.title')}
                         </motion.h1>
                         <motion.p className="double-points-subtitle" initial={{opacity: 0, y: 20}}
                                   animate={{opacity: 1, y: 0}} transition={{delay: 0.8, duration: 0.6}}>
-                            Diese Frage bringt die doppelte Punktzahl!
+                            {t('doublePoints.subtitle')}
                         </motion.p>
                     </motion.div>
                 </motion.div>

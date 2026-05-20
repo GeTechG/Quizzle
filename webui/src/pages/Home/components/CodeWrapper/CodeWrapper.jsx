@@ -1,7 +1,9 @@
 import "./styles.sass";
 import {useEffect, useRef} from "react";
+import {useTranslation} from "react-i18next";
 
 export const CodeWrapper = ({onChange, resetCode, errorClass}) => {
+    const {t} = useTranslation();
 
     const blockInvalidChar = e => ['e', 'E', '+', '-', ".", ","].includes(e.key) && e.preventDefault();
 
@@ -105,7 +107,7 @@ export const CodeWrapper = ({onChange, resetCode, errorClass}) => {
     };
 
     return (
-        <div className={"code-wrapper" + (errorClass ? " " + errorClass : "")} ref={codeWrapper} role="group" aria-label="Quiz-Code eingeben">
+        <div className={"code-wrapper" + (errorClass ? " " + errorClass : "")} ref={codeWrapper} role="group" aria-label={t('codeWrapper.ariaGroup')}>
             {[...Array(4)].map((_, index) =>
                 <input
                     key={index}
@@ -119,7 +121,7 @@ export const CodeWrapper = ({onChange, resetCode, errorClass}) => {
                     onFocus={handleFocus}
                     autoComplete="off"
                     style={{textTransform: 'uppercase'}}
-                    aria-label={`Zeichen ${index + 1} von 4`}
+                    aria-label={t('codeWrapper.ariaChar', {n: index + 1})}
                 />
             )}
         </div>

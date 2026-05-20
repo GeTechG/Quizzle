@@ -1,3 +1,4 @@
+import {useTranslation} from "react-i18next";
 import "./styles.sass";
 import Input from "@/common/components/Input";
 import Button from "@/common/components/Button";
@@ -10,6 +11,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {QUESTION_TYPE_CONFIG, getQuestionTypeIcon, getQuestionTypeName, getDefaultAnswersForType, DEFAULT_QUESTION_TYPE} from "@/common/constants/QuestionTypes.js";
 
 export const QuestionEditor = ({question, onChange, onCommit, deleteQuestion, duplicateQuestion}) => {
+    const {t} = useTranslation();
     const [showTypeSelector, setShowTypeSelector] = useState(false);
     const popoverRef = useRef(null);
     
@@ -48,7 +50,7 @@ export const QuestionEditor = ({question, onChange, onCommit, deleteQuestion, du
     return (
         <motion.div className="question-editor" initial={{x: -300, opacity: 0}} animate={{x: 0, opacity: 1}}>
             <div className="question-action-area">
-                <Input placeholder="Fragentitel eingeben" value={question.title} onChange={(e) => updateTitle(e.target.value)}
+                <Input placeholder={t("quizCreator.questionTitlePlaceholder")} value={question.title} onChange={(e) => updateTitle(e.target.value)}
                           textAlign="center"/>
                 
                 <div className="question-type-selector-container" ref={popoverRef}>
@@ -88,8 +90,8 @@ export const QuestionEditor = ({question, onChange, onCommit, deleteQuestion, du
                     </AnimatePresence>
                 </div>
                 
-                <Button icon={faClone} type="green" onClick={() => duplicateQuestion(question.uuid)} padding="0.8rem 0.8rem"/>
-                <Button icon={faTrash} type="red" onClick={() => deleteQuestion(question.uuid)} padding="0.8rem 0.8rem"/>
+                <Button icon={faClone} type="green" onClick={() => duplicateQuestion(question.uuid)} padding="0.8rem 0.8rem" ariaLabel={t("quizCreator.duplicateAria")}/>
+                <Button icon={faTrash} type="red" onClick={() => deleteQuestion(question.uuid)} padding="0.8rem 0.8rem" ariaLabel={t("quizCreator.deleteAria")}/>
             </div>
 
             <ImagePresenter question={question} onChange={onChange}/>

@@ -7,8 +7,10 @@ import {motion, AnimatePresence} from "framer-motion";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {useInputValidation, validationRules} from "@/common/hooks/useInputValidation";
+import {useTranslation} from "react-i18next";
 
 export const CharacterSelection = ({code, submit, isPracticeMode = false}) => {
+    const {t} = useTranslation();
     const nameValidation = useInputValidation('', validationRules.playerName);
     const [selectedCharacter, setSelectedCharacter] = useState(() => {
         const randomIndex = Math.floor(Math.random() * CHARACTERS.length);
@@ -43,14 +45,14 @@ export const CharacterSelection = ({code, submit, isPracticeMode = false}) => {
                 type="button"
                 className="character-display"
                 onClick={() => setShowModal(true)}
-                aria-label={`Charakter: ${selectedCharacter.name}. Klicken zum Ändern`}
+                aria-label={t('character.ariaLabel', {name: selectedCharacter.name})}
             >
                 <div className="character-emoji">{selectedCharacter.emoji}</div>
                 <span>{selectedCharacter.name}</span>
             </button>
 
             <Input
-                placeholder="Dein Name"
+                placeholder={t('character.namePlaceholder')}
                 value={nameValidation.value}
                 onChange={(e) => nameValidation.setValue(e.target.value)}
                 onBlur={nameValidation.onBlur}
@@ -61,7 +63,7 @@ export const CharacterSelection = ({code, submit, isPracticeMode = false}) => {
             />
 
             <Button
-                text={isSubmitting ? "Beitreten..." : (isPracticeMode ? "Quiz starten" : "Beitreten")}
+                text={isSubmitting ? t('character.joining') : (isPracticeMode ? t('character.startQuiz') : t('character.join'))}
                 padding={"0.7rem 1.5rem"}
                 onClick={submitSelection}
                 disabled={!nameValidation.value.trim() || !!nameValidation.error || isSubmitting}
@@ -84,7 +86,7 @@ export const CharacterSelection = ({code, submit, isPracticeMode = false}) => {
                             onClick={(e) => e.stopPropagation()}
                         >
                             <div className="modal-header">
-                                <h3>Wähle deinen Charakter</h3>
+                                <h3>{t('character.chooseTitle')}</h3>
                                 <button
                                     className="close-button"
                                     onClick={() => setShowModal(false)}
@@ -93,7 +95,7 @@ export const CharacterSelection = ({code, submit, isPracticeMode = false}) => {
                                 </button>
                             </div>
 
-                            <div className="character-grid" role="radiogroup" aria-label="Charakter auswählen">
+                            <div className="character-grid" role="radiogroup" aria-label={t('character.chooseAria')}>
                                 {CHARACTERS.map((character) => (
                                     <button
                                         type="button"

@@ -1,12 +1,13 @@
 import {QUESTION_TYPES, ANSWER_LIMITS, MINIMUM_ANSWERS} from '../constants/QuestionTypes.js';
+import i18n from '../i18n';
 
 export class QuizValidationUtil {
     static LIMITS = {MAX_QUESTIONS: 50, MIN_QUESTIONS: 1, MAX_QUESTION_LENGTH: 200, MAX_ANSWER_LENGTH: 150};
 
     static validateQuiz(questions, title) {
-        if (!title || title.trim() === "") return { isValid: false, error: "Quiz-Titel darf nicht leer sein." };
-        if (questions.length === 0) return { isValid: false, error: "Es muss mindestens eine Frage vorhanden sein." };
-        if (questions.length > this.LIMITS.MAX_QUESTIONS) return { isValid: false, error: `Quiz darf maximal ${this.LIMITS.MAX_QUESTIONS} Fragen enthalten.` };
+        if (!title || title.trim() === "") return { isValid: false, error: i18n.t('quizValidation.titleEmpty') };
+        if (questions.length === 0) return { isValid: false, error: i18n.t('quizValidation.minQuestions') };
+        if (questions.length > this.LIMITS.MAX_QUESTIONS) return { isValid: false, error: i18n.t('quizValidation.maxQuestions', {count: this.LIMITS.MAX_QUESTIONS}) };
 
         for (const question of questions) {
             const questionValidation = this.validateQuestion(question);
@@ -16,8 +17,8 @@ export class QuizValidationUtil {
     }
 
     static validateQuestion(question) {
-        if (!question.title || question.title.trim() === "") return { isValid: false, error: "Fragen dürfen nicht leer sein." };
-        if (question.title.trim().length > this.LIMITS.MAX_QUESTION_LENGTH) return { isValid: false, error: `Fragen dürfen maximal ${this.LIMITS.MAX_QUESTION_LENGTH} Zeichen lang sein.` };
+        if (!question.title || question.title.trim() === "") return { isValid: false, error: i18n.t('quizValidation.questionEmpty') };
+        if (question.title.trim().length > this.LIMITS.MAX_QUESTION_LENGTH) return { isValid: false, error: i18n.t('quizValidation.questionTooLong', {count: this.LIMITS.MAX_QUESTION_LENGTH}) };
         const questionType = question.type || QUESTION_TYPES.MULTIPLE_CHOICE;
         return this.validateAnswers(question.answers || [], questionType);
     }
@@ -40,59 +41,59 @@ export class QuizValidationUtil {
     }
 
     static validateTextAnswers(answers) {
-        if (answers.some(a => !a.content || a.content.trim() === "")) return { isValid: false, error: "Text-Antworten dürfen nicht leer sein." };
+        if (answers.some(a => !a.content || a.content.trim() === "")) return { isValid: false, error: i18n.t('quizValidation.textAnswerEmpty') };
         return { isValid: true };
     }
 
     static validateTrueFalseAnswers(answers) {
-        if (answers.length !== 2) return { isValid: false, error: "Wahr/Falsch-Fragen müssen genau zwei Antworten haben." };
-        if (!answers.some(a => a.is_correct)) return { isValid: false, error: "Wahr/Falsch-Fragen müssen mindestens eine richtige Antwort haben." };
+        if (answers.length !== 2) return { isValid: false, error: i18n.t('quizValidation.trueFalseTwo') };
+        if (!answers.some(a => a.is_correct)) return { isValid: false, error: i18n.t('quizValidation.trueFalseOneCorrect') };
         return { isValid: true };
     }
 
     static validateMultipleChoiceAnswers(answers) {
-        if (answers.filter(a => a.is_correct).length === 0) return { isValid: false, error: "Jede Multiple-Choice-Frage muss mindestens eine richtige Antwort haben." };
-        if (answers.some(a => (!a.content || a.content.trim() === "") && a.imageId === undefined)) return { isValid: false, error: "Multiple-Choice-Antworten dürfen nicht leer sein." };
-        if (answers.some(a => a.content?.trim().length > this.LIMITS.MAX_ANSWER_LENGTH && a.type === QUESTION_TYPES.TEXT)) return { isValid: false, error: `Multiple-Choice-Antworten dürfen maximal ${this.LIMITS.MAX_ANSWER_LENGTH} Zeichen lang sein.` };
+        if (answers.filter(a => a.is_correct).length === 0) return { isValid: false, error: i18n.t('quizValidation.mcOneCorrect') };
+        if (answers.some(a => (!a.content || a.content.trim() === "") && a.imageId === undefined)) return { isValid: false, error: i18n.t('quizValidation.mcEmpty') };
+        if (answers.some(a => a.content?.trim().length > this.LIMITS.MAX_ANSWER_LENGTH && a.type === QUESTION_TYPES.TEXT)) return { isValid: false, error: i18n.t('quizValidation.mcTooLong', {count: this.LIMITS.MAX_ANSWER_LENGTH}) };
         return { isValid: true };
     }
 
     static validateSequenceAnswers(answers) {
-        if (answers.some(a => !a.content || a.content.trim() === "")) return { isValid: false, error: "Reihenfolge-Antworten dürfen nicht leer sein." };
-        if (answers.some(a => a.content?.trim().length > this.LIMITS.MAX_ANSWER_LENGTH)) return { isValid: false, error: `Reihenfolge-Antworten dürfen maximal ${this.LIMITS.MAX_ANSWER_LENGTH} Zeichen lang sein.` };
+        if (answers.some(a => !a.content || a.content.trim() === "")) return { isValid: false, error: i18n.t('quizValidation.sequenceEmpty') };
+        if (answers.some(a => a.content?.trim().length > this.LIMITS.MAX_ANSWER_LENGTH)) return { isValid: false, error: i18n.t('quizValidation.sequenceTooLong', {count: this.LIMITS.MAX_ANSWER_LENGTH}) };
         return { isValid: true };
     }
 
     static validateSliderAnswers(answers) {
-        if (!answers || answers.length !== 1) return { isValid: false, error: "Schieberegler-Fragen müssen genau eine Antwort-Konfiguration haben." };
+        if (!answers || answers.length !== 1) return { isValid: false, error: i18n.t('quizValidation.sliderOneConfig') };
         const config = answers[0];
-        if (config.correctValue === undefined || config.correctValue === null) return { isValid: false, error: "Schieberegler-Fragen müssen einen korrekten Wert haben." };
-        if (config.min === undefined || config.max === undefined) return { isValid: false, error: "Schieberegler-Fragen müssen einen Min- und Max-Wert haben." };
-        if (config.min >= config.max) return { isValid: false, error: "Der Minimalwert muss kleiner als der Maximalwert sein." };
-        if (config.correctValue < config.min || config.correctValue > config.max) return { isValid: false, error: "Der korrekte Wert muss zwischen Min und Max liegen." };
-        if (config.step !== undefined && config.step <= 0) return { isValid: false, error: "Der Schrittwert muss größer als 0 sein." };
+        if (config.correctValue === undefined || config.correctValue === null) return { isValid: false, error: i18n.t('quizValidation.sliderCorrectValue') };
+        if (config.min === undefined || config.max === undefined) return { isValid: false, error: i18n.t('quizValidation.sliderMinMax') };
+        if (config.min >= config.max) return { isValid: false, error: i18n.t('quizValidation.sliderMinLess') };
+        if (config.correctValue < config.min || config.correctValue > config.max) return { isValid: false, error: i18n.t('quizValidation.sliderInRange') };
+        if (config.step !== undefined && config.step <= 0) return { isValid: false, error: i18n.t('quizValidation.sliderStepPositive') };
         return { isValid: true };
     }
 
     static getMinAnswersErrorMessage(questionType, minAnswers) {
         switch (questionType) {
-            case QUESTION_TYPES.TEXT: return "Text-Fragen müssen mindestens eine akzeptierte Antwort haben.";
-            case QUESTION_TYPES.TRUE_FALSE: return "Wahr/Falsch-Fragen müssen genau zwei Antworten haben.";
-            case QUESTION_TYPES.SEQUENCE: return "Reihenfolge-Fragen müssen mindestens zwei Antworten haben.";
-            case QUESTION_TYPES.SLIDER: return "Schieberegler-Fragen müssen eine Konfiguration haben.";
+            case QUESTION_TYPES.TEXT: return i18n.t('quizValidation.minTextAnswers');
+            case QUESTION_TYPES.TRUE_FALSE: return i18n.t('quizValidation.trueFalseTwo');
+            case QUESTION_TYPES.SEQUENCE: return i18n.t('quizValidation.minSequenceAnswers');
+            case QUESTION_TYPES.SLIDER: return i18n.t('quizValidation.minSliderConfig');
             case QUESTION_TYPES.MULTIPLE_CHOICE:
-            default: return "Multiple-Choice-Fragen müssen mindestens zwei Antworten haben.";
+            default: return i18n.t('quizValidation.minMCAnswers');
         }
     }
 
     static getMaxAnswersErrorMessage(questionType, maxAnswers) {
         switch (questionType) {
-            case QUESTION_TYPES.TEXT: return `Text-Fragen dürfen maximal ${maxAnswers} akzeptierte Antworten haben.`;
-            case QUESTION_TYPES.TRUE_FALSE: return "Wahr/Falsch-Fragen müssen genau zwei Antworten haben.";
-            case QUESTION_TYPES.SEQUENCE: return `Reihenfolge-Fragen dürfen maximal ${maxAnswers} Antworten haben.`;
-            case QUESTION_TYPES.SLIDER: return "Schieberegler-Fragen dürfen nur eine Konfiguration haben.";
+            case QUESTION_TYPES.TEXT: return i18n.t('quizValidation.maxTextAnswers', {count: maxAnswers});
+            case QUESTION_TYPES.TRUE_FALSE: return i18n.t('quizValidation.trueFalseTwo');
+            case QUESTION_TYPES.SEQUENCE: return i18n.t('quizValidation.maxSequenceAnswers', {count: maxAnswers});
+            case QUESTION_TYPES.SLIDER: return i18n.t('quizValidation.maxSliderConfig');
             case QUESTION_TYPES.MULTIPLE_CHOICE:
-            default: return `Multiple-Choice-Fragen dürfen maximal ${maxAnswers} Antworten haben.`;
+            default: return i18n.t('quizValidation.maxMCAnswers', {count: maxAnswers});
         }
     }
 
@@ -107,7 +108,7 @@ export class QuizValidationUtil {
             const question = questions[i];
             if (!question.type) return false;
             const questionType = question.type;
-            
+
             if (questionType === QUESTION_TYPES.TEXT) {
                 if (!question.answers || question.answers.length === 0 || question.answers.length > 10) return false;
                 if (question.answers.some(a => !a.content || a.content.trim() === "")) return false;
