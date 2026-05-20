@@ -1,23 +1,25 @@
 FROM oven/bun:1-alpine AS build
 
+RUN apk add --no-cache nodejs yarn
+
 WORKDIR /quizzle
 
 COPY ./package.json ./package.json
 COPY ./webui/package.json ./webui/package.json
 
-RUN bun install
-RUN cd webui && bun install
+RUN yarn install
+RUN cd webui && yarn install
 
 COPY ./webui ./webui
 COPY ./server ./server
 COPY ./content ./content
 
-RUN cd webui && bun run build
+RUN cd webui && NODE_OPTIONS="--max-old-space-size=4096" bun run build
 RUN mv /quizzle/webui/dist /quizzle/dist
 
 FROM oven/bun:1-alpine
 
-RUN apk add --no-cache tzdata
+RUN apk add --no-cache tzdata nodejs yarn
 
 ENV NODE_ENV=production
 ENV TZ=Etc/UTC
@@ -29,7 +31,7 @@ COPY --from=build /quizzle/server /quizzle/server
 COPY --from=build /quizzle/content /quizzle/content
 COPY --from=build /quizzle/package.json /quizzle/package.json
 
-RUN bun install --production --frozen-lockfile
+RUN yarn install --production
 
 VOLUME ["/quizzle/data"]
 

@@ -16,8 +16,8 @@
   },
   "scripts": {
     "start": "bun server/index.js",
-    "dev:server": "bun --watch --ignore=data/** server/index.js",
-    "dev:client": "cd webui && bun run dev",
+    "dev:server": "bun --watch server/index.js",
+    "dev:client": "cd webui && bun run dev --host",
     "dev": "concurrently \"bun run dev:server\" \"bun run dev:client\""
   },
   "author": "Mathias Wagner <germannewsmaker@gmail.com>",
