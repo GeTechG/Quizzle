@@ -11,6 +11,7 @@ import {TextInputClient} from "./components/TextInputClient";
 import {SequenceClient} from "./components/SequenceClient";
 import SliderClient from "./components/SliderClient";
 import ClientAnswerReview from "./components/ClientAnswerReview";
+import CountdownTimer from "@/pages/InGameHost/components/CountdownTimer";
 import {jsonRequest, postRequest} from "@/common/utils/RequestUtil.js";
 import {generateUuid} from "@/common/utils/UuidUtil.js";
 import {QUESTION_TYPES, SLIDER_MARGIN_CONFIG} from "@/common/constants/QuestionTypes.js";
@@ -49,6 +50,8 @@ export const InGameClient = () => {
     const [isReconnecting, setIsReconnecting] = useState(false);
     const [answersReady, setAnswersReady] = useState(false);
     const [clientCountdown, setClientCountdown] = useState(5);
+    const [questionTimer, setQuestionTimer] = useState(0);
+    const [answersReadyAt, setAnswersReadyAt] = useState(null);
 
     useEffect(() => {
         if (practiceCode) {
@@ -92,8 +95,14 @@ export const InGameClient = () => {
             setCurrentQuestion(question);
             setLastQuestionType(question?.type || null);
             setAnswersReady(false);
+            setAnswersReadyAt(null);
             setClientCountdown(5);
             setPointsEarned(0);
+            const timerValue = question?.timer;
+            setQuestionTimer(
+                timerValue === undefined || timerValue === null ? 60 :
+                timerValue === -1 ? 0 : timerValue
+            );
 
             const countdownInterval = setInterval(() => {
                 setClientCountdown(prev => {
@@ -137,6 +146,7 @@ export const InGameClient = () => {
 
         const onAnswersReady = () => {
             setAnswersReady(true);
+            setAnswersReadyAt(Date.now());
         }
 
         const gameEnded = () => {
@@ -630,6 +640,15 @@ export const InGameClient = () => {
 
     return (
         <div className="ingame-client">
+            {!isPracticeMode && currentQuestion && answersReady && questionTimer > 0 && answersReadyAt && (
+                <CountdownTimer
+                    duration={questionTimer}
+                    startedAt={answersReadyAt}
+                    isActive={true}
+                    compact={true}
+                />
+            )}
+
             {!isPracticeMode && (!isConnected || isReconnecting) && (
                 <div className="connection-status">
                     <FontAwesomeIcon 

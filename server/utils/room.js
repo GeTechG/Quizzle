@@ -12,7 +12,8 @@ const getActivePlayers = (room, io) => {
 const buildQuestionPayload = (question, room) => {
     const questionData = {
         type: resolveQuestionType(question.type, question.answers || []),
-        title: question.title
+        title: question.title,
+        timer: question.timer
     };
 
     if (question.type === 'text') {

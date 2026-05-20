@@ -427,7 +427,8 @@ module.exports = (io, socket) => {
             title: data.title,
             type: data.type,
             pointMultiplier: data.pointMultiplier,
-            answers: data.type === 'text' ? data.answers : 
+            timer: data.timer,
+            answers: data.type === 'text' ? data.answers :
                      data.type === 'sequence' ? data.answers.length :
                      data.type === 'slider' ? data.answers :
                      stripAnswerContent(data.answers),

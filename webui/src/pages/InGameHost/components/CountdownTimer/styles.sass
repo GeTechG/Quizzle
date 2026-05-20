@@ -85,3 +85,37 @@
 
     .bar-number
       font-size: 0.95rem
+
+.countdown-bar.compact
+  .bar-track
+    height: 8px
+
+  .bar-fill
+    border-radius: 0
+
+  .bar-time
+    position: fixed
+    top: 0.5rem
+    right: 0.75rem
+    left: auto
+    transform: none
+    width: auto
+    min-width: 2.5rem
+    height: auto
+    padding: 0.25rem 0.7rem
+    border-radius: 10rem
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.18), 0 4px 12px rgba(0, 0, 0, 0.25)
+
+  .bar-number
+    font-size: 1rem
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2)
+
+@media screen and (max-width: 915px)
+  .countdown-bar.compact
+    .bar-time
+      left: auto
+      right: 0.75rem
+      padding: 0.25rem 0.6rem
+
+    .bar-number
+      font-size: 0.95rem

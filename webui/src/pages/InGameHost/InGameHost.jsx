@@ -33,6 +33,7 @@ export const InGameHost = () => {
     const [answerData, setAnswerData] = useState(null);
     const [questionAnimationState, setQuestionAnimationState] = useState('hidden');
     const [timerActive, setTimerActive] = useState(false);
+    const [answersReadyAt, setAnswersReadyAt] = useState(null);
     const [showDoublePointsAnimation, setShowDoublePointsAnimation] = useState(false);
     const [showQuestionCountdown, setShowQuestionCountdown] = useState(false);
     const [showTypeTeaser, setShowTypeTeaser] = useState(false);
@@ -81,6 +82,7 @@ export const InGameHost = () => {
             setAnswerData(null);
             setQuestionAnimationState('hidden');
             setTimerActive(false);
+            setAnswersReadyAt(null);
             setShowQuestionCountdown(false);
             setShowTypeTeaser(false);
             setAnswerProgress({answeredCount: 0, activePlayerCount: 0});
@@ -191,6 +193,10 @@ export const InGameHost = () => {
             soundManager.playTransition('RESULTS');
         });
 
+        socket.on("ANSWERS_READY", () => {
+            setAnswersReadyAt(Date.now());
+        });
+
         socket.on("ANSWER_PROGRESS", (data) => {
             const newCount = data.answeredCount || 0;
             if (newCount > lastAnsweredCountRef.current) {
@@ -208,6 +214,7 @@ export const InGameHost = () => {
         return () => {
             socket.off("PLAYER_LEFT");
             socket.off("ANSWERS_RECEIVED");
+            socket.off("ANSWERS_READY");
             socket.off("ANSWER_PROGRESS");
             clearTimeout(timeout);
 
@@ -237,8 +244,9 @@ export const InGameHost = () => {
 
             {gameState === 'question' && questionAnimationState === 'answers-ready' && currentQuestion && (
                 <CountdownTimer
-                    duration={currentQuestion.timer === undefined || currentQuestion.timer === null ? 60 : 
+                    duration={currentQuestion.timer === undefined || currentQuestion.timer === null ? 60 :
                              currentQuestion.timer === -1 ? 0 : currentQuestion.timer}
+                    startedAt={answersReadyAt}
                     onTimeUp={skipQuestion}
                     isActive={timerActive}
                 />

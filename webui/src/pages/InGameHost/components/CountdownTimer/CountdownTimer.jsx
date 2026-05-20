@@ -3,19 +3,32 @@ import {useState, useEffect, useRef} from "react";
 import {useSoundManager} from "@/common/utils/SoundManager.js";
 import {motion, AnimatePresence} from "framer-motion";
 
-export const CountdownTimer = ({duration, onTimeUp, isActive = true}) => {
-    const [timeLeft, setTimeLeft] = useState(duration);
-    const [phase, setPhase] = useState('normal');
+const computePhase = (timeLeft) => {
+    if (timeLeft <= 10 && timeLeft > 0) return 'critical';
+    if (timeLeft <= 30) return 'warning';
+    return 'normal';
+};
+
+export const CountdownTimer = ({duration, onTimeUp, isActive = true, compact = false, startedAt = null}) => {
+    const startRef = useRef(startedAt ?? Date.now());
+
+    const remaining = () => Math.max(0, duration - Math.floor((Date.now() - startRef.current) / 1000));
+
+    const [timeLeft, setTimeLeft] = useState(remaining);
+    const [phase, setPhase] = useState(() => computePhase(remaining()));
     const [isVisible, setIsVisible] = useState(false);
     const intervalRef = useRef(null);
+    const firstTickRef = useRef(null);
     const soundManager = useSoundManager();
     const lastTickRef = useRef(null);
 
     useEffect(() => {
-        setTimeLeft(duration);
-        setPhase('normal');
+        startRef.current = startedAt ?? Date.now();
+        const initial = remaining();
+        setTimeLeft(initial);
+        setPhase(computePhase(initial));
         setIsVisible(true);
-    }, [duration]);
+    }, [duration, startedAt]);
 
     useEffect(() => {
         if (!isActive || duration <= 0) {
@@ -23,48 +36,59 @@ export const CountdownTimer = ({duration, onTimeUp, isActive = true}) => {
                 clearInterval(intervalRef.current);
                 intervalRef.current = null;
             }
+            if (firstTickRef.current) {
+                clearTimeout(firstTickRef.current);
+                firstTickRef.current = null;
+            }
             setIsVisible(false);
             return;
         }
 
-        intervalRef.current = setInterval(() => {
-            setTimeLeft(prevTime => {
-                const newTime = prevTime - 1;
+        const tick = () => {
+            const newTime = remaining();
 
-                if (newTime <= 10 && newTime > 0) {
-                    if (newTime !== lastTickRef.current) {
-                        soundManager.playFeedback('TIMER_TICK');
-                        lastTickRef.current = newTime;
-                    }
-                }
+            if (newTime <= 10 && newTime > 0 && newTime !== lastTickRef.current) {
+                soundManager.playFeedback('TIMER_TICK');
+                lastTickRef.current = newTime;
+            }
 
-                if (newTime <= 10 && newTime > 0) {
-                    setPhase('critical');
-                } else if (newTime <= 30) {
-                    setPhase('warning');
-                } else {
-                    setPhase('normal');
-                }
+            setPhase(computePhase(newTime));
 
-                if (newTime <= 0) {
+            if (newTime <= 0) {
+                if (intervalRef.current) {
                     clearInterval(intervalRef.current);
                     intervalRef.current = null;
-                    soundManager.playFeedback('ANSWER_REVEALED');
-                    setIsVisible(false);
-                    onTimeUp();
-                    return 0;
                 }
+                soundManager.playFeedback('ANSWER_REVEALED');
+                setIsVisible(false);
+                if (typeof onTimeUp === 'function') onTimeUp();
+                setTimeLeft(0);
+                return;
+            }
 
-                return newTime;
-            });
-        }, 1000);
+            setTimeLeft(newTime);
+        };
+
+        const elapsedMs = Math.max(0, Date.now() - startRef.current);
+        const msUntilNextSecond = 1000 - (elapsedMs % 1000);
+
+        firstTickRef.current = setTimeout(() => {
+            firstTickRef.current = null;
+            tick();
+            intervalRef.current = setInterval(tick, 1000);
+        }, msUntilNextSecond);
 
         return () => {
             if (intervalRef.current) {
                 clearInterval(intervalRef.current);
+                intervalRef.current = null;
+            }
+            if (firstTickRef.current) {
+                clearTimeout(firstTickRef.current);
+                firstTickRef.current = null;
             }
         };
-    }, [isActive, duration, onTimeUp, soundManager]);
+    }, [isActive, duration, onTimeUp, soundManager, startedAt]);
 
     const formatTime = (seconds) => {
         const mins = Math.floor(seconds / 60);
@@ -84,7 +108,7 @@ export const CountdownTimer = ({duration, onTimeUp, isActive = true}) => {
     return (
         <AnimatePresence>
             <motion.div
-                className={`countdown-bar ${phase}`}
+                className={`countdown-bar ${phase}${compact ? ' compact' : ''}`}
                 initial={{opacity: 0, y: -8}}
                 animate={{opacity: 1, y: 0}}
                 exit={{opacity: 0, y: -8}}
