@@ -379,7 +379,12 @@ module.exports = (io, socket) => {
             if (room.state === 'ingame' && room.currentQuestion && !room.currentQuestion.isCompleted) {
                 const questionData = buildQuestionPayload(room.currentQuestion, room);
                 socket.emit('QUESTION_RECEIVED', questionData);
-                if (room.currentQuestion.answersReady) socket.emit('ANSWERS_READY', true);
+                if (room.currentQuestion.answersReady) {
+                    const elapsedMs = room.currentQuestion.answersReadyAt
+                        ? Date.now() - room.currentQuestion.answersReadyAt
+                        : 0;
+                    socket.emit('ANSWERS_READY', {elapsedMs});
+                }
             }
 
             socket.emit('GAME_STATE_RESTORED', gameState);
@@ -462,7 +467,8 @@ module.exports = (io, socket) => {
         setTimeout(() => {
             if (rooms[currentRoomCode]?.currentQuestion) {
                 rooms[currentRoomCode].currentQuestion.answersReady = true;
-                io.to(currentRoomCode.toString()).emit('ANSWERS_READY', true);
+                rooms[currentRoomCode].currentQuestion.answersReadyAt = Date.now();
+                io.to(currentRoomCode.toString()).emit('ANSWERS_READY', {elapsedMs: 0});
             }
         }, 5000);
         

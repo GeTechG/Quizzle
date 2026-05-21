@@ -144,9 +144,12 @@ export const InGameClient = () => {
             setCurrentQuestion(null);
         }
 
-        const onAnswersReady = () => {
+        const onAnswersReady = (payload) => {
             setAnswersReady(true);
-            setAnswersReadyAt(Date.now());
+            const elapsedMs = payload && typeof payload === 'object' && typeof payload.elapsedMs === 'number'
+                ? payload.elapsedMs
+                : 0;
+            setAnswersReadyAt(Date.now() - elapsedMs);
         }
 
         const gameEnded = () => {
