@@ -112,7 +112,8 @@ export const CodeWrapper = ({onChange, resetCode, errorClass}) => {
                 <input
                     key={index}
                     type="text"
-                    inputMode="text"
+                    inputMode="numeric"
+                    pattern="\d*"
                     maxLength="4"
                     placeholder="0"
                     onKeyDown={handleKeyDown}
