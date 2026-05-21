@@ -218,6 +218,12 @@ module.exports = (io, socket) => {
                 name: data.name,
                 playerId: playerId
             });
+
+            if (room.state === 'ingame' && room.currentQuestion && !room.currentQuestion.isCompleted) {
+                emitActivePlayerCount(io, room);
+                handleAllAnswered(io, currentRoomCode, room);
+            }
+
             callback({success: true, message: `Spieler ${data.name} wurde entfernt`});
         } else {
             callback({success: false, error: 'Spieler nicht gefunden'});
@@ -597,7 +603,6 @@ module.exports = (io, socket) => {
             
             if (room.state === 'ingame' && room.currentQuestion && !room.currentQuestion.isCompleted) {
                 emitActivePlayerCount(io, room);
-                handleAllAnswered(io, currentRoomCode, room);
             }
         }
     });
