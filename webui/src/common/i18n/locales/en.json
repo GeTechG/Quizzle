@@ -263,6 +263,8 @@
     "defaultTimerPlaceholder": "Choose time limit...",
     "scoringLabel": "Point distribution",
     "scoringPlaceholder": "Choose scoring...",
+    "instantStartLabel": "Instant start",
+    "instantStartDesc": "Skip the countdown and start the timer immediately",
     "difficulties": {
       "none": "Not specified",
       "noneDesc": "No difficulty set",

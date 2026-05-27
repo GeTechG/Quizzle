@@ -464,13 +464,14 @@ module.exports = (io, socket) => {
 
         emitActivePlayerCount(io, room);
 
+        const answersReadyDelay = room.settings?.instantStart ? 0 : 5000;
         setTimeout(() => {
             if (rooms[currentRoomCode]?.currentQuestion) {
                 rooms[currentRoomCode].currentQuestion.answersReady = true;
                 rooms[currentRoomCode].currentQuestion.answersReadyAt = Date.now();
                 io.to(currentRoomCode.toString()).emit('ANSWERS_READY', {elapsedMs: 0});
             }
-        }, 5000);
+        }, answersReadyDelay);
         
         room.startTime = Date.now();
         callback({success: true});

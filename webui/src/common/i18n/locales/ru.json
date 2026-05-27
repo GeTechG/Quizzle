@@ -267,6 +267,8 @@
     "defaultTimerPlaceholder": "Выберите лимит времени...",
     "scoringLabel": "Начисление очков",
     "scoringPlaceholder": "Выберите начисление очков...",
+    "instantStartLabel": "Мгновенный старт",
+    "instantStartDesc": "Пропустить обратный отсчёт и сразу запустить таймер",
     "difficulties": {
       "none": "Не указано",
       "noneDesc": "Сложность не задана",

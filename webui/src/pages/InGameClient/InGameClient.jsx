@@ -106,6 +106,11 @@ export const InGameClient = () => {
                 timerValue === -1 ? 0 : timerValue
             );
 
+            if (question?.instantStart) {
+                setClientCountdown(0);
+                return;
+            }
+
             const countdownInterval = setInterval(() => {
                 setClientCountdown(prev => {
                     const newValue = prev - 1;
@@ -688,7 +693,7 @@ export const InGameClient = () => {
                 </div>
             )}
 
-            {!isPracticeMode && currentQuestion && !answersReady && (
+            {!isPracticeMode && currentQuestion && !answersReady && !currentQuestion.instantStart && (
                 <div className="answers-not-ready-overlay">
                     <div className="countdown-message">
                         <div className="countdown-spinner">

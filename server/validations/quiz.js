@@ -115,7 +115,8 @@ module.exports.settingsValidation = Joi.object({
     shuffleQuestions: Joi.boolean().optional(),
     shuffleAnswers: Joi.boolean().optional(),
     defaultTimer: Joi.number().integer().min(-1).max(3600).optional(),
-    scoringMode: Joi.string().valid('time-based', 'flat').optional()
+    scoringMode: Joi.string().valid('time-based', 'flat').optional(),
+    instantStart: Joi.boolean().optional()
 });
 
 module.exports.quizUpload = Joi.object({

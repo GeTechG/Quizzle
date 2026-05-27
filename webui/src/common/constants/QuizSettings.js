@@ -5,5 +5,6 @@ export const DEFAULT_QUIZ_SETTINGS = {
     shuffleQuestions: true,
     shuffleAnswers: false,
     defaultTimer: 60,
-    scoringMode: "time-based"
+    scoringMode: "time-based",
+    instantStart: false
 };

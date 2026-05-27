@@ -263,6 +263,8 @@
     "defaultTimerPlaceholder": "Zeitlimit auswählen...",
     "scoringLabel": "Punktevergabe",
     "scoringPlaceholder": "Punktevergabe auswählen...",
+    "instantStartLabel": "Sofortstart",
+    "instantStartDesc": "Countdown überspringen und Timer sofort starten",
     "difficulties": {
       "none": "Keine Angabe",
       "noneDesc": "Keine Schwierigkeit angegeben",

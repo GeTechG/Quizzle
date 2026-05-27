@@ -7,6 +7,7 @@ import {
     faCoins,
     faAlignLeft,
     faSignal,
+    faBolt,
 } from "@fortawesome/free-solid-svg-icons";
 import {useTranslation} from "react-i18next";
 import {motion} from "framer-motion";
@@ -137,6 +138,20 @@ export const QuizSettingsPanel = ({settings, onChange}) => {
                         options={scoringOptions}
                         placeholder={t("quizSettings.scoringPlaceholder")}
                     />
+                </div>
+
+                <div className="setting-group">
+                    <div className="setting-label">
+                        <FontAwesomeIcon icon={faBolt}/>
+                        <span>{t("quizSettings.instantStartLabel")}</span>
+                    </div>
+                    <div className="toggle-row" onClick={() => update("instantStart", !s.instantStart)}>
+                        <div className={`toggle ${s.instantStart ? "active" : ""}`}>
+                            <div className="toggle-knob"/>
+                        </div>
+                        <span className="toggle-text">{s.instantStart ? t("common.on") : t("common.off")}</span>
+                    </div>
+                    <div className="setting-hint">{t("quizSettings.instantStartDesc")}</div>
                 </div>
             </div>
         </motion.div>

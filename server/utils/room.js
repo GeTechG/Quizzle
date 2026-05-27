@@ -13,7 +13,8 @@ const buildQuestionPayload = (question, room) => {
     const questionData = {
         type: resolveQuestionType(question.type, question.answers || []),
         title: question.title,
-        timer: question.timer
+        timer: question.timer,
+        instantStart: !!room?.settings?.instantStart
     };
 
     if (question.type === 'text') {

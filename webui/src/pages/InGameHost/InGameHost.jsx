@@ -24,7 +24,8 @@ import {useWakeLock} from "@/common/hooks/useWakeLock";
 export const InGameHost = () => {
     useWakeLock();
     const {t} = useTranslation();
-    const {isLoaded, pullNextQuestion, scoreboard, setScoreboard, playerCount, setPlayerCount} = useContext(QuizContext);
+    const {isLoaded, pullNextQuestion, scoreboard, setScoreboard, playerCount, setPlayerCount, quizRaw} = useContext(QuizContext);
+    const instantStart = quizRaw?.settings?.instantStart === true;
     const navigate = useNavigate();
     const soundManager = useSoundManager();
     const inGameMusicRef = useRef(null);
@@ -123,6 +124,16 @@ export const InGameHost = () => {
             }
 
             function startQuestionSequence() {
+                if (instantStart) {
+                    setTimeout(() => {
+                        setQuestionAnimationState('answers-ready');
+                        if (newQuestion.timer !== -1) {
+                            setTimerActive(true);
+                        }
+                    }, 100);
+                    return;
+                }
+
                 setTimeout(() => {
                     setQuestionAnimationState('question-appear');
                 }, 100);
