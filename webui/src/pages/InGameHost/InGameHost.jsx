@@ -19,8 +19,10 @@ import SoundRenderer from "@/common/components/SoundRenderer";
 import SoundControl from "@/common/components/SoundControl";
 import {QUESTION_TYPES} from "@/common/constants/QuestionTypes.js";
 import {useTranslation} from "react-i18next";
+import {useWakeLock} from "@/common/hooks/useWakeLock";
 
 export const InGameHost = () => {
+    useWakeLock();
     const {t} = useTranslation();
     const {isLoaded, pullNextQuestion, scoreboard, setScoreboard, playerCount, setPlayerCount} = useContext(QuizContext);
     const navigate = useNavigate();

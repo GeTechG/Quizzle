@@ -18,8 +18,10 @@ import {QUESTION_TYPES, SLIDER_MARGIN_CONFIG} from "@/common/constants/QuestionT
 import {useSoundManager} from "@/common/utils/SoundManager.js";
 import toast from "react-hot-toast";
 import {useTranslation} from "react-i18next";
+import {useWakeLock} from "@/common/hooks/useWakeLock";
 
 export const InGameClient = () => {
+    useWakeLock();
     const {t} = useTranslation();
     const navigate = useNavigate();
     const {username, roomCode, practiceUserData} = useContext(QuizContext);
