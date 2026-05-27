@@ -7,7 +7,7 @@ import Answer from "@/pages/InGameHost/components/Answer";
 import "./styles.sass";
 import Question from "@/pages/InGameHost/components/Question";
 import Button from "@/common/components/Button";
-import {faForward, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faForward, faUser, faRotateRight} from "@fortawesome/free-solid-svg-icons";
 import Scoreboard from "@/pages/InGameHost/components/Scoreboard";
 import AnswerResults from "@/pages/InGameHost/components/AnswerResults";
 import CountdownTimer from "@/pages/InGameHost/components/CountdownTimer";
@@ -28,8 +28,36 @@ export const InGameHost = () => {
     const instantStart = quizRaw?.settings?.instantStart === true;
     const navigate = useNavigate();
     const soundManager = useSoundManager();
-    const inGameMusicRef = useRef(null);
+    const questionAudioRef = useRef(null);
     const lastAnsweredCountRef = useRef(0);
+
+    const getAudioVolume = () => (soundManager.getSoundEnabled() ? soundManager.getMasterVolume() / 100 : 0);
+
+    const stopQuestionAudio = () => {
+        if (questionAudioRef.current) {
+            questionAudioRef.current.pause();
+            questionAudioRef.current = null;
+        }
+    };
+
+    const playQuestionAudio = (b64) => {
+        stopQuestionAudio();
+        if (!b64) return;
+        const audio = new Audio(b64);
+        audio.volume = getAudioVolume();
+        questionAudioRef.current = audio;
+        audio.play().catch((e) => console.error("Error playing question audio:", e));
+    };
+
+    const restartQuestionAudio = () => {
+        if (!questionAudioRef.current) {
+            playQuestionAudio(currentQuestion?.b64_audio);
+            return;
+        }
+        questionAudioRef.current.currentTime = 0;
+        questionAudioRef.current.volume = getAudioVolume();
+        questionAudioRef.current.play().catch((e) => console.error("Error replaying question audio:", e));
+    };
 
     const [currentQuestion, setCurrentQuestion] = useState({});
     const [gameState, setGameState] = useState('question');
@@ -57,10 +85,7 @@ export const InGameHost = () => {
                 setAnswerData(data.answerData);
                 setGameState('answer-results');
 
-                if (inGameMusicRef.current) {
-                    soundManager.stopSound(inGameMusicRef.current);
-                    inGameMusicRef.current = null;
-                }
+                stopQuestionAudio();
                 soundManager.playTransition('RESULTS');
             });
         } catch (e) {
@@ -70,10 +95,7 @@ export const InGameHost = () => {
 
     const showScoreboard = () => {
         setGameState('scoreboard');
-        if (inGameMusicRef.current) {
-            soundManager.stopSound(inGameMusicRef.current);
-            inGameMusicRef.current = null;
-        }
+        stopQuestionAudio();
         soundManager.playTransition('SCOREBOARD');
     }
 
@@ -91,13 +113,9 @@ export const InGameHost = () => {
             setAnswerProgress({answeredCount: 0, activePlayerCount: 0});
             lastAnsweredCountRef.current = 0;
 
-            if (!inGameMusicRef.current && (gameState === 'answer-results' || gameState === 'scoreboard')) {
-                inGameMusicRef.current = soundManager.playAmbient('INGAME');
-            }
-
             soundManager.playTransition('QUESTION');
-            
-            const newQuestionCopy = {...newQuestion, b64_image: undefined};
+
+            const newQuestionCopy = {...newQuestion, b64_image: undefined, b64_audio: undefined};
 
             for (let i = 0; i < newQuestion.answers.length; i++) {
                 delete newQuestion.answers[i].b64_image;
@@ -130,6 +148,7 @@ export const InGameHost = () => {
                         if (newQuestion.timer !== -1) {
                             setTimerActive(true);
                         }
+                        playQuestionAudio(newQuestion.b64_audio);
                     }, 100);
                     return;
                 }
@@ -153,6 +172,7 @@ export const InGameHost = () => {
                     if (newQuestion.timer !== -1) {
                         setTimerActive(true);
                     }
+                    playQuestionAudio(newQuestion.b64_audio);
                 }, 5600);
             }
         } catch (e) {
@@ -168,11 +188,8 @@ export const InGameHost = () => {
                     }
                 }
 
-                if (inGameMusicRef.current) {
-                    soundManager.stopSound(inGameMusicRef.current);
-                    inGameMusicRef.current = null;
-                }
-                
+                stopQuestionAudio();
+
                 navigate("/host/ending");
             });
         }
@@ -184,8 +201,6 @@ export const InGameHost = () => {
             navigate("/load");
             return;
         }
-
-        inGameMusicRef.current = soundManager.playAmbient('INGAME');
 
         socket.on("PLAYER_LEFT", (player) => {
             toast.error(t('inGameHost.playerLeft', {name: player.name}));
@@ -199,10 +214,7 @@ export const InGameHost = () => {
             setAnswerData(data.answerData);
             setGameState('answer-results');
 
-            if (inGameMusicRef.current) {
-                soundManager.stopSound(inGameMusicRef.current);
-                inGameMusicRef.current = null;
-            }
+            stopQuestionAudio();
             soundManager.playTransition('RESULTS');
         });
 
@@ -231,12 +243,17 @@ export const InGameHost = () => {
             socket.off("ANSWER_PROGRESS");
             clearTimeout(timeout);
 
-            if (inGameMusicRef.current) {
-                soundManager.stopSound(inGameMusicRef.current);
-                inGameMusicRef.current = null;
-            }
+            stopQuestionAudio();
         }
     }, [isLoaded]);
+
+    useEffect(() => {
+        const syncVolume = () => {
+            if (questionAudioRef.current) questionAudioRef.current.volume = getAudioVolume();
+        };
+        soundManager.addListener(syncVolume);
+        return () => soundManager.removeListener(syncVolume);
+    }, [soundManager]);
 
     return (
         <div>
@@ -284,6 +301,10 @@ export const InGameHost = () => {
                 <div className="ingame-question">
                     {Object.keys(currentQuestion).length !== 0 && <div className="question-content-container">
                         <div className="top-area">
+                            {currentQuestion.b64_audio && (
+                                <Button onClick={restartQuestionAudio} text={t('inGameHost.replayAudio')}
+                                        padding="1rem 1.5rem" icon={faRotateRight} />
+                            )}
                             <Button onClick={skipQuestion} text={t('inGameHost.skipQuestion')}
                                     padding="1rem 1.5rem" icon={faForward} />
                         </div>

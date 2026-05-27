@@ -18,6 +18,18 @@ export const prepareQuizData = async (questions, title, includeImageData = false
             delete cleanQuestion.imageId;
         }
 
+        if (cleanQuestion.audioId && includeImageData) {
+            try {
+                const audioData = await imageCache.getImage(cleanQuestion.audioId);
+                if (audioData) cleanQuestion.b64_audio = audioData;
+            } catch (error) {
+                console.error("Error loading audio for processing:", error);
+            }
+            delete cleanQuestion.audioId;
+        } else if (!includeImageData) {
+            delete cleanQuestion.audioId;
+        }
+
         if (cleanQuestion.type === QUESTION_TYPES.TEXT) {
             cleanQuestion.answers = rest.answers.map(a => ({content: a.content.trim()}));
         } else if (cleanQuestion.type === QUESTION_TYPES.SLIDER) {

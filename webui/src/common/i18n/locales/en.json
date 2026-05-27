@@ -94,6 +94,7 @@
     },
     "playerLeft": "{{name}} left the game",
     "skipQuestion": "Skip question",
+    "replayAudio": "Replay audio",
     "answers": "Answers",
     "playersSlider": "Players are moving the slider...",
     "playersTyping": "Players are entering their answers...",
@@ -203,6 +204,10 @@
     "questionTitlePlaceholder": "Enter question title",
     "answerN": "Answer {{n}}",
     "addNewAnswer": "Add new answer...",
+    "audio": {
+      "add": "Add audio",
+      "remove": "Remove audio"
+    },
     "tooltips": {
       "undo": "Undo (Ctrl+Z)",
       "redo": "Redo (Ctrl+Shift+Z)",

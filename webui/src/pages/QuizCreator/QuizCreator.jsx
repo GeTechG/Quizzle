@@ -56,7 +56,7 @@ export const QuizCreator = () => {
             try {
                 const parsed = JSON.parse(stored);
                 const questions = parsed.map(q => {
-                    const { b64_image, ...cleanQuestion } = q;
+                    const { b64_image, b64_audio, ...cleanQuestion } = q;
                     const questionType = cleanQuestion.type || DEFAULT_QUESTION_TYPE;
 
                     if (cleanQuestion.answers) {
@@ -199,7 +199,7 @@ export const QuizCreator = () => {
     const duplicateQuestion = (uuid) => {
         const question = questions.find(q => q.uuid === uuid);
         const newUuid = generateUuid();
-        const { imageId, b64_image, ...questionWithoutImage } = question;
+        const { imageId, b64_image, audioId, b64_audio, ...questionWithoutImage } = question;
 
         const cleanAnswers = questionWithoutImage.answers ? questionWithoutImage.answers.map(answer => {
             const { imageId, ...answerWithoutImage } = answer;

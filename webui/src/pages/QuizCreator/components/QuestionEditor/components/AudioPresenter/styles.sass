@@ -1,0 +1,72 @@
+@use "@/common/styles/colors" as *
+
+.audio-presenter-edit
+  display: flex
+  margin-top: 1rem
+  width: 100%
+  justify-content: center
+
+  .audio-dropzone
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 0.8rem
+    width: 30rem
+    padding: 0.9rem 1rem
+    border: 2px dashed $border
+    border-radius: 1rem
+    cursor: pointer
+    color: $gray
+    transition: all 0.2s ease-in-out
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04)
+
+    &:hover, &.dragging
+      filter: brightness(0.9)
+      transform: scale(1.02)
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08)
+
+    &:active
+      transform: scale(0.97)
+
+    svg
+      font-size: 1.4rem
+
+    span
+      font-size: 1rem
+
+  .audio-loaded
+    display: flex
+    align-items: center
+    gap: 0.8rem
+    width: 30rem
+    padding: 0.6rem 1rem
+    border: 2px solid $border
+    border-radius: 1rem
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04)
+
+    .audio-icon
+      font-size: 1.3rem
+      color: $gray
+      flex-shrink: 0
+
+    .audio-player
+      flex: 1
+      height: 2.5rem
+      min-width: 0
+
+    .audio-remove
+      display: flex
+      align-items: center
+      justify-content: center
+      border: none
+      background: transparent
+      color: $gray
+      cursor: pointer
+      padding: 0.5rem
+      border-radius: 0.5rem
+      transition: all 0.15s ease-in-out
+      flex-shrink: 0
+
+      &:hover
+        color: $red
+        background: rgba(0, 0, 0, 0.05)

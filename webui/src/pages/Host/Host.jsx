@@ -29,7 +29,6 @@ export const Host = () => {
 
     const [roomCode, setRoomCode] = useState("0000");
     const [players, setPlayers] = useState([]);
-    const [lobbyAmbientId, setLobbyAmbientId] = useState(null);
     const [roomLocked, setRoomLocked] = useState(false);
 
     useEffect(() => {
@@ -90,10 +89,6 @@ export const Host = () => {
             socket.off("PLAYER_LEFT");
             socket.off("PLAYER_DISCONNECTED");
             socket.off("PLAYER_RECONNECTED");
-
-            if (lobbyAmbientId) {
-                soundManager.stopSound(lobbyAmbientId);
-            }
         }
     }, [isLoaded]);
 
@@ -119,25 +114,11 @@ export const Host = () => {
     const startGame = () => {
         if (players.length === 0) return;
 
-        if (lobbyAmbientId) {
-            soundManager.stopSound(lobbyAmbientId);
-            setLobbyAmbientId(null);
-        }
-
         navigate("/host/ingame");
     }
 
     useEffect(() => {
         setCirclePosition(["-25rem 0 0 -25rem", "-8rem 0 0 -8rem"]);
-
-        const ambientId = soundManager.playAmbient('LOBBY');
-        setLobbyAmbientId(ambientId);
-
-        return () => {
-            if (ambientId) {
-                soundManager.stopSound(ambientId);
-            }
-        };
     }, []);
 
     if (!isLoaded) {

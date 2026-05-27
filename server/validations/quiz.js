@@ -24,6 +24,7 @@ module.exports.questionValidation = Joi.object({
             'any.only': 'Punktemultiplikator muss "none" oder "double" sein'
         }),
     b64_image: Joi.string().max(10000000),
+    b64_audio: Joi.string().max(60000000),
     answers: Joi.when('type', {
         is: 'slider',
         then: Joi.array().items(Joi.object({

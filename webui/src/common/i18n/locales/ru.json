@@ -94,6 +94,7 @@
     },
     "playerLeft": "{{name}} покинул игру",
     "skipQuestion": "Пропустить вопрос",
+    "replayAudio": "Воспроизвести аудио",
     "answers": "Ответов",
     "playersSlider": "Игроки двигают ползунок...",
     "playersTyping": "Игроки вводят ответы...",
@@ -207,6 +208,10 @@
     "questionTitlePlaceholder": "Введите текст вопроса",
     "answerN": "Ответ {{n}}",
     "addNewAnswer": "Добавить новый ответ...",
+    "audio": {
+      "add": "Добавить аудио",
+      "remove": "Удалить аудио"
+    },
     "tooltips": {
       "undo": "Отменить (Ctrl+Z)",
       "redo": "Повторить (Ctrl+Shift+Z)",

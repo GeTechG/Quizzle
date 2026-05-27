@@ -4,6 +4,7 @@ import Input from "@/common/components/Input";
 import Button from "@/common/components/Button";
 import {faClone, faTrash} from "@fortawesome/free-solid-svg-icons";
 import ImagePresenter from "@/pages/QuizCreator/components/QuestionEditor/components/ImagePresenter";
+import AudioPresenter from "@/pages/QuizCreator/components/QuestionEditor/components/AudioPresenter";
 import AnswerContainer from "@/pages/QuizCreator/components/QuestionEditor/components/AnswerContainer";
 import {motion, AnimatePresence} from "framer-motion";
 import {useState, useRef, useEffect} from "react";
@@ -95,6 +96,8 @@ export const QuestionEditor = ({question, onChange, onCommit, deleteQuestion, du
             </div>
 
             <ImagePresenter question={question} onChange={onChange}/>
+
+            <AudioPresenter question={question} onChange={onChange}/>
 
             <AnswerContainer question={question} onChange={onChange} />
         </motion.div>

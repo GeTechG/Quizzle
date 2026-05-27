@@ -41,6 +41,19 @@ export const importQuizzleFile = (file) => {
                         }
                     }
 
+                    if (q.b64_audio) {
+                        try {
+                            const response = await fetch(q.b64_audio);
+                            const blob = await response.blob();
+                            const file = new File([blob], 'imported-audio', { type: blob.type });
+                            const audioId = await imageCache.storeImage(newUuid, file, 'audio');
+                            newQuestion.audioId = audioId;
+                            delete newQuestion.b64_audio;
+                        } catch (error) {
+                            console.error("Error converting imported audio to IndexedDB:", error);
+                        }
+                    }
+
                     if (newQuestion.answers) {
                         newQuestion.answers = await Promise.all(newQuestion.answers.map(async (answer, index) => {
                             if (answer.type === "image" && answer.content) {

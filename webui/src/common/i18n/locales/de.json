@@ -94,6 +94,7 @@
     },
     "playerLeft": "{{name}} hat das Spiel verlassen",
     "skipQuestion": "Frage überspringen",
+    "replayAudio": "Audio erneut abspielen",
     "answers": "Antworten",
     "playersSlider": "Spieler bewegen den Schieberegler...",
     "playersTyping": "Spieler geben ihre Antworten ein...",
@@ -203,6 +204,10 @@
     "questionTitlePlaceholder": "Fragentitel eingeben",
     "answerN": "Antwort {{n}}",
     "addNewAnswer": "Neue Antwort hinzufügen...",
+    "audio": {
+      "add": "Audio hinzufügen",
+      "remove": "Audio entfernen"
+    },
     "tooltips": {
       "undo": "Rückgängig (Strg+Z)",
       "redo": "Wiederholen (Strg+Shift+Z)",
